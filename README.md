@@ -242,4 +242,22 @@ The Schedule Maintenance page also has a table with the schedule maintenance dat
 - Status(Pending or Confirmed)
 - Action(with the options of Schedule a New Service, Edit Record, Reschedule Appointment, Cancel Schedule and Delete Record)
 
-3. **Breakdown Incident;** 
+3. **Breakdown Incident;** It refers to an event where a vehicle becomes inoperable due to mechanical failure, technical issues, or other problems that prevent it from functioning properly.
+In the breakdown incident page, a Report Breakdown button is displayed at the top. It is used to report the breakdown incident of a vehicle. Clicking on the report breakdown button would display a form to report a new breakdown. The form contains the following inputs;
+- Incident ID
+- Enter Vehicle ID
+- Location
+- Select Date
+- Description/Notes/Comments
+
+After filling the form with all the necessary inputs, proceed to clicking on the report incident button. Clicking on this button would immeditely pop up a modal showing that the report breakdown has been succesfully saved and updated.
+
+The Breakdown Incident page has a tbale that contains recent breakdown reports.
+The table contains the following data;
+- S/N
+- Date & Time
+- Incident ID
+- Description(Description of the issue)
+- Location(Where the vehicle had the breakdown incident)
+- Status(Pending or Resolved)
+- Action(with the options of Report breakdown, Edit record and Delete record)
