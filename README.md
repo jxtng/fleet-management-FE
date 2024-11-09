@@ -144,6 +144,22 @@ The Assign Vehicle form consists of;
 
 After filling the form with all the necessary requirements, proceed to save and update.
 
+The Assign Vehicles also has a table showing all the the recent assignment. The table consists of;
+- S/N(Serial number)
+- Driver's Name 
+- Vehicle ID 
+- Vehicle Type
+- Vehicle Color
+- Make/Model
+- Engine Number
+- Action
+
+The Action button details of the recent assignment table consists of the following options;
+- View Vehicle Assignment Detail
+- Edit Vehicle Assignment Details
+- Share Vehicle Assignment Details
+- Delete Vehicle Assignment Info
+
 
 
 
