@@ -261,3 +261,57 @@ The table contains the following data;
 - Location(Where the vehicle had the breakdown incident)
 - Status(Pending or Resolved)
 - Action(with the options of Report breakdown, Edit record and Delete record)
+
+4. **Parts Replacement History;** The parts replacement history comprises of the replacement summary. The replacement summary consists of the following; 
+- Total Parts Replaced
+- Total Cost
+- Parts Under Warranty
+- Last Replacement
+
+There is also an Update Parts Replacement. Clicking on the Update Parts Replacement button would display a form. The form contains the following inputs;
+- Vehicle ID
+- Parts Name/Description
+- Replacement Date
+- Mileage/Odometer Reading(Km)
+- Part Number
+- Reason for Replacement
+- Supplier/Service Provider
+- Cost of Replacement
+- Select Date
+- Replaced By
+- Warranty Information
+- Next Replacement Due/Date
+- Description/Notes/Comments
+
+After filling the inputs with the necessary information, click on the save and update button. After clicking on the save and update button, a modal would appear displaying that the part replacement for the vehicle have been successfully saved and updated. 
+
+The table displayed in the parts replacement history contains the recent parts replacement data.
+The table contains the following data;
+- S/N
+- Part Name/Description
+- Replacement Date
+- Mileage/Odometer Reading
+- Part Number
+- Reason for Replacement
+- Action(with the options of View Report Details, Edit Report Details, Share Report Details and Delete Report Info)
+
+4. **Maintenance Cost Analytics;** It consists of the Maintenance Summary Card. The Maintenance Summary Card consists of the following;
+- Total Maintenance Cost
+- Average Cost per Service
+- Highest Maintenance Cost
+- Total Number of Services
+
+Below the Maintenance Summary Card shows the Cost Breakdown by Maintenance Category and Maintenance Cost Overtime.
+
+- **The Cost Breakdown by Maintenance Category** displays a piechart analysing the cost of Repairs, Part Replacement, Labor Costs and Routine Maintenance.
+- **The Maintenance Cost Overtime** displays a bar chart analysing the maintenance cost for each month.
+
+**A Detailed Cost Breakdown Table** is displayed showing the amount of money spent on a vehicle for maintenance . This table contains the following data;
+- S/N
+- Date & Time
+- Service Type
+- Cost
+- Service Center
+- Notes
+
+5. **Fuel and Oil Monitoring;** It displays 
