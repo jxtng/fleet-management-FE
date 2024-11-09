@@ -161,7 +161,7 @@ The Action button details of the recent assignment table consists of the followi
 - Delete Vehicle Assignment Info
 
 ## FLEET MAINTENANCE
-In the fleet maintenance, it has an Add New Maintenance Record button at the top. The button is for adding new maintenance record of any vehicle in the fleet management system. Clicking on the Add New Maintenance button will navigate you to the form that is supposed to be filled with the all necessary requirements for adding a new maintenance record.
+<!-- In the fleet maintenance, it has an Add New Maintenance Record button at the top. The button is for adding new maintenance record of any vehicle in the fleet management system. Clicking on the Add New Maintenance button will navigate you to the form that is supposed to be filled with the all necessary requirements for adding a new maintenance record.
 The necessary inputs in the form includes;
 - Enter Vehicle ID
 - Select Date
@@ -172,9 +172,57 @@ The necessary inputs in the form includes;
 - Maintenance Provider
 - Invoice
 
- After filling all the inputs with the right information, proceed to the save and update button to save and update the maintenance record of the vehicle. A modal will pop up showing that the maintenance record of a particular vehicle showing the vehicle ID has been saved and updated.
+ After filling all the inputs with the right information, proceed to the save and update button to save and update the maintenance record of the vehicle. A modal will pop up showing that the maintenance record of a particular vehicle showing the vehicle ID has been saved and updated. -->
 
+ The fleet maintenance table shows the vehicles and the last service date and the next date that the vehicle is due for servicing.
+The table consists of;
+- S/N(Serial Number)
+- Vehicle Image
+- Vehichle ID/Inventory ID
+- Vehicle Type
+- Liscense Plate
+- Last Service Date
+- Next Service Due
+- Status
 
+The Action button details in the maintenance table consists of the following options;
+- View Vehicle Maintenace History
+- Add New Maintenance History
+- Share Maintenance Details
+- Delete Maintenace Info
 
+ In the fleet maintenance table, they are two icons seen close to the 'filter by'  in which you can view the table data in a list format or in a card format.
 
+ In the Action button details, Clicking on the View Vehicle Maintenance History of any vehicle would navigate you to the maintenance log of that particular vehicle.
 
+ The View Vehicle Maintenance History page  contains a heading of  maintenance log with the Vehicle ID of a particular vehicle. It displays the vehicle overview which is typically referred to a summary  of important information and details about a specific vehicle in fleet management system. The Vehicle overview shows the Mileage, Vehicle Type, Current Status(Whether active or not active), Last maintenance date and Fuel efficiency.
+There are also buttons to click to view the details of a particular vehicle. They include;
+- Maintenance Log
+- Scheduled Maintenance
+- Breakdown Incident
+- Parts Replacement
+- Maintenace Cost Analytics
+- Fuel and Oil Monitoring
+
+**Maintenance Log;** At the top, it has a button to add maintenance record and clicking on it would display an add new maintenance record form. The inputs in the form includes;
+- Enter Vehicle ID
+- Select Date
+- Type of Maintenance with the options of Preventive Maintenance(PM), Corrective Maintenace and Scheduled Maintenance.
+- Description of Maintenance 
+- Maintenace Cost
+- Milage
+- Maintenance Provider
+- Invoice
+
+After filling all the inputs with the right information, proceed to the save and update button to save and update the maintenance record of the vehicle. A modal will pop up showing that the maintenance record of a particular vehicle showing the vehicle ID has been saved and updated.
+
+The Maintenance Log also displays a table that comprises of the maintenance data of the vehicle. The table comprises of;
+- S/N(Serial Number)
+- Date (the date of maintenance)
+- Type of Maintenace(Whether it was preventive, corrective or scheduled)
+- Description(the descrption of the maintenance that was done on the vehicle eg. Oil change or tire rotation)
+- Cost(cost of maintenance)
+- Mileage(refers to the distance that a vehicle has traveled, typically measured in miles or kilometers.)
+- Maintenace Provider(the workshop that rendered the maintenance services)
+- Invoice(refers to a detailed bill issued for services rendered related to the maintenance and repair of vehicles )
+- Action(consists of three action button details, which are; Add Maintenance Record, Edit Record and Delate Record.)
