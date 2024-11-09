@@ -204,7 +204,7 @@ There are also buttons to click to view the details of a particular vehicle. The
 - Maintenace Cost Analytics
 - Fuel and Oil Monitoring
 
-**Maintenance Log;** At the top, it has a button to add maintenance record and clicking on it would display an add new maintenance record form. The inputs in the form includes;
+1. **Maintenance Log;** At the top, it has a button to add maintenance record and clicking on it would display an add new maintenance record form. The inputs in the form includes;
 - Enter Vehicle ID
 - Select Date
 - Type of Maintenance with the options of Preventive Maintenance(PM), Corrective Maintenace and Scheduled Maintenance.
@@ -226,3 +226,20 @@ The Maintenance Log also displays a table that comprises of the maintenance data
 - Maintenace Provider(the workshop that rendered the maintenance services)
 - Invoice(refers to a detailed bill issued for services rendered related to the maintenance and repair of vehicles )
 - Action(consists of three action button details, which are; Add Maintenance Record, Edit Record and Delate Record.)
+
+2. **Scheduled Maintenance;** In the schedule maintenance page, there is a Schedule a New Service button at the top. Clicking on the button displays a Schedule a new service form. The form consists of the following inputs;
+- Enter Vehicle ID
+- Service Type
+- Select Date
+- Notes/Comments
+
+After filling the form with all the neccessary information, proceed to clicking on the Schdule service button. Clicking on the schedule service button would pop up a modal(notification) showing that your service schedule have been successfully saved and updated.
+
+The Schedule Maintenance page also has a table with the schedule maintenance data. The table comprises of the folllwing;
+- S/N
+- Date & Time
+- Service Name
+- Status(Pending or Confirmed)
+- Action(with the options of Schedule a New Service, Edit Record, Reschedule Appointment, Cancel Schedule and Delete Record)
+
+3. **Breakdown Incident;** 
