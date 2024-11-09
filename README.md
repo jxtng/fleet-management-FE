@@ -160,6 +160,19 @@ The Action button details of the recent assignment table consists of the followi
 - Share Vehicle Assignment Details
 - Delete Vehicle Assignment Info
 
+## FLEET MAINTENANCE
+In the fleet maintenance, it has an Add New Maintenance Record button at the top. The button is for adding new maintenance record of any vehicle in the fleet management system. Clicking on the Add New Maintenance button will navigate you to the form that is supposed to be filled with the all necessary requirements for adding a new maintenance record.
+The necessary inputs in the form includes;
+- Enter Vehicle ID
+- Select Date
+- Type of Maintenance with the options of Preventive Maintenance(PM), Corrective Maintenace and Scheduled Maintenance.
+- Description of Maintenance 
+- Maintenace Cost
+- Milage
+- Maintenance Provider
+- Invoice
+
+ After filling all the inputs with the right information, proceed to the save and update button to save and update the maintenance record of the vehicle. A modal will pop up showing that the maintenance record of a particular vehicle showing the vehicle ID has been saved and updated.
 
 
 
