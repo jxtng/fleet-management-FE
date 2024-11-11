@@ -324,3 +324,104 @@ Below the bar chart, a Fuel and Oil Detailed Log table is displayed. The table c
 - Local/Service Center
 - Notes
 - The Action button consist of View full report details and Share report details.
+
+## FLEET PROCUREMENT
+Fleet procurement refers to the process of acquiring vehicles for business purpose. In the fleet procurement section, there are two buttons at the top which are; Create New Request(to create new procurement request) and Create Procurement Category. Clicking on Create New Request would automatically display a form. The inputs of the form are as follows;
+- Order Number
+- Procurement Type (with the options of Vehicle Procurement, Vehicle Part Procurement and Service Procurement)
+- Vendor Selection
+- Item Description
+- Quantity
+- Expected Delivery Date
+- Budget Allocation
+- Priority Level (with the options of Low Priority, Medium Priority and High Priority)
+
+After filling the inputs with the neccessary information, proceed to click on the save & update button. Clicking on the save & update button would pop up a notification letting you know that your Procurement Request is Successful.
+
+Create Procurement Category button would also require you to fill a form. The inputs in the form are as follows;
+- New Category
+
+After typing the new category, proceed to save & update.
+
+Directly under the save and update button, other procurement categories available on the fleet management system are listed out. The other Procurement Categories includes;
+- Vehicle Procurement
+- Vehicle Part Procurement
+- Service Procurement
+
+The Action button details in this form are ;
+- Edit Procurement Category/Type
+- Delete Procurement Category/Type
+
+The Fleet Procurement Page also displayed a Procurement Overview and it consists of the following;
+- Total Orders
+- Pending Deliveries
+- Budget Utilised
+- Recent Acquisitions
+
+Below the Procurement Overview are three buttons namely;
+- Procurement History
+- Vendor Management
+- Alerts and Notiications
+
+**The Procurement History** displays a table of the list of successful created procurement requests.
+The table consists of the following;
+- S/N
+- Order Number
+- Procurement Type
+- Vendor
+- Item Description
+- Quantity
+- Total Cost
+- Delivery Status
+- Actions
+
+The Action button details consists of;
+- View Vehicle Procurement
+- Edit Procurement Details
+- Share Procurement Details
+- Delete Procurement info
+
+The 'filter By' in this section contains the following options;
+- Delivered
+- Order Number
+- Pending/Delayed
+- Vendor
+- Procurement Type
+
+**Vendor Management** has an Add New Venor button. Clicking on this button would display an Add New Vendor Record Form. The Form contains the following inputs;
+- Enter name of the Vendor Company
+- Enter name of the Vendor Category
+- Company Registration Number
+- Company Email Address
+- Company Phone Contact
+- Company Address
+- Company Website URL
+- Primary Contact Name
+- Quantity
+- Contract Start Date
+- Contract Expiry Date
+- Notes/Additional Information
+
+After filling out the input with the necessary information, proceed to the save & update button. Clicking on this save & update button would automatically pop up a notification showing that the vendor has been successfully onboarded.
+
+There is also a table in the Vendor Management section that shows the list of onboarded vendors.
+The table consists of the follwing;
+- S/N
+- Vendor Name
+- Contact Info
+- Contract Starts
+- Contract Expires
+- Vendor Category
+- Actions
+
+The Action button details for the Vendor Management consists of;
+- View Vendor Details
+- Edit Vendor Details
+- Share Vendor Details
+- Delete Vendor Info
+
+If you proceed to delete a vendor's info, a pop of notifictaion would display showing a warning text that you are about to delete a vendor's info and if you are sure that you want to proceed. You camn either click on cancel or click on sure, delete, that is if you are sure that you want to delete the vendor's info.
+
+**Alert and Notification** displays any notification if any.
+
+
