@@ -424,4 +424,32 @@ If you proceed to delete a vendor's info, a pop of notifictaion would display sh
 
 **Alert and Notification** displays any notification if any.
 
+## FLEET MANAGER SETTINGS
+The fleet manager settings consists of;
+- My Profile
+- Manage Access 
+- Logout
+
+**My Profile;** It consists of the manager's personal information. Personal Infomations like;
+- First Name
+- Email
+- Role
+- New Password
+- Confirm Password
+
+It has two options of Discard Changes or Save Changes.
+
+**Manage Access;** It displays the pages on the site that the Admin and Sub Admin has access to. The Admin has access to all the pages in the fleet management system and the Admin can decide which pages to grant the Sub Admin access to.
+
+There is also a form where the Admin can add new user. The form consists of the following inputs;
+- First Name
+- Email Address
+- Role
+- Password
+- Confirm Password
+
+The Add button below the form would proceed to add a new user.
+
+**Logout;** Clicking on the Logout button would display a pop up notification showing the text "Taking a break? Your session will time out after a while, but your account and info are always safe here. See you soon!" You can choose to cancel if you are not sure you want to logout or proceed to "Sure, Logout" which logs you out of the fleet management system.
+
 
