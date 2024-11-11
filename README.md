@@ -314,4 +314,13 @@ Below the Maintenance Summary Card shows the Cost Breakdown by Maintenance Categ
 - Service Center
 - Notes
 
-5. **Fuel and Oil Monitoring;** It displays 
+5. **Fuel and Oil Monitoring;** It displays the Fuel Efficiency Overview at the top. The Fuel Efficiency Overview consists of Average Fuel Consumption, Total Fuel Consumed, Oil Usage, Next Oil Change. Below the Fuel Efficiency Overview, a bar chart of the Fuel Consumption Overtime is displayed. The bar chart shows the Maintenance cost of fuel , the litres of fuel and the price for each month.
+Below the bar chart, a Fuel and Oil Detailed Log table is displayed. The table consists of the following;
+- S/N
+- Date
+- Fuel/Oil Type
+- Amount
+- Cost 
+- Local/Service Center
+- Notes
+- The Action button consist of View full report details and Share report details.
