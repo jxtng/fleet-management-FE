@@ -61,7 +61,7 @@ const MaintainanceTable = () => {
               <td className="text-center">{vehicle.nextServiceDate}</td>
               <td className="text-center">
                 {vehicle.status == "ok" ? (
-                  <IconShieldCheckFilled
+                  <ShieldCheck
                     size={18}
                     className="text-green-400"
                     title="OK"
@@ -77,7 +77,7 @@ const MaintainanceTable = () => {
               </td>
               <td>
                 <button className="flex text-green-400">
-                  <IconDotsVertical size={18} />
+                  <EllipsisVertical size={18} />
                 </button>
               </td>
             </tr>

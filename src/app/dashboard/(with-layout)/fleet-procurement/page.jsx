@@ -129,7 +129,7 @@ const FleetProcurement = () => {
           } w-full flex justify-center gap-4`}
           onClick={() => setViewMode("notification")}
         >
-          Alerts and Notifications <IconChevronDown />
+          Alerts and Notifications <ChevronDown />
         </Button>
       </div>
 

@@ -2,12 +2,13 @@
 import { useState } from "react";
 import Greeting from "../../../../components/dashboard/greeting";
 import RealTimeInfo from "../../../../components/dashboard/real-time-info";
-import Button from "@/components/button";
-import { ChevronDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ChevronDown, EllipsisVertical, ShieldCheck } from "lucide-react";
 import VehicleSummary from "../../../../components/dashboard/vehicle-summary";
 import TableFilter from "../../../../components/dashboard/table-filter";
-import AllocationTable from "./allocation-table";
 import AllocationCards from "./allocation-cards";
+import DataTable from "@/components/ui/data-table";
+import allocationMockData from "./allocationMockData";
 
 const FleetAllocation = () => {
   const [filterData, setFilterData] = useState({});
@@ -19,7 +20,7 @@ const FleetAllocation = () => {
       <div className="flex justify-between items-center flex-wrap gap-2 my-4">
         <RealTimeInfo title="Fleet Inventory" />
         <div className="btn-group flex gap-2">
-          <Button variant="primary">Allocate Vehicle</Button>
+          <Button>Allocate Vehicle</Button>
           <Button variant="outline">Export Logs (CSV, PDF)</Button>
         </div>
       </div>
@@ -56,7 +57,32 @@ const FleetAllocation = () => {
       {filterData.displayMode == "cards" ? (
         <AllocationCards />
       ) : (
-        <AllocationTable />
+        <DataTable
+          selectable
+          data={allocationMockData}
+          columnDefs={[
+            {
+              th: "SN",
+              thClassName: "w-10",
+              key: "id",
+            },
+            { th: "Recipient Name", key: "recipientName" },
+            { th: "Vehicle ID", key: "vehicleID" },
+            { th: "Type", key: "vehicleType" },
+            { th: "Color", key: "vehicleColor" },
+            { th: "Make/Model", key: "makeModel" },
+            { th: "Engine Number", key: "engineNumber" },
+            {
+              th: "Action",
+              td: () => (
+                <button className="flex text-green-400">
+                  <ShieldCheck size={18} />
+                  <EllipsisVertical size={18} />
+                </button>
+              ),
+            },
+          ]}
+        />
       )}
     </div>
   );
