@@ -1,6 +1,6 @@
 import React from "react";
 
-import maintainanceMockData from "./maintainanceMockData";
+import maintainanceMockData from "../../../../data/maintainanceMockData";
 import Image from "next/image";
 import { EllipsisVertical } from "lucide-react";
 

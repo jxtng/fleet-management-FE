@@ -8,7 +8,7 @@ import VehicleSummary from "../../../../components/dashboard/vehicle-summary";
 import TableFilter from "../../../../components/dashboard/table-filter";
 import AllocationCards from "./allocation-cards";
 import DataTable from "@/components/ui/data-table";
-import allocationMockData from "./allocationMockData";
+import allocationMockData from "../../../../data/allocationMockData";
 
 const FleetAllocation = () => {
   const [filterData, setFilterData] = useState({});

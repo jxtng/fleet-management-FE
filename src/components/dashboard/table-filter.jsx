@@ -1,6 +1,13 @@
-import Button from "@/components/button";
+import { Button } from "@/components/ui/button";
 import { Sliders, ChevronDown, Sheet, LayoutGrid, Search } from "lucide-react";
 import { useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const TableFilter = ({ onFilterChange, showDisplayToggle = true }) => {
   const [filterData, setFilterData] = useState({
@@ -19,11 +26,8 @@ const TableFilter = ({ onFilterChange, showDisplayToggle = true }) => {
 
   return (
     <div className="flex gap-4 mb-8">
-      <label
-        htmlFor="search"
-        className="search border-2 grow border-gray-300 rounded-md flex items-center gap-1 w-fit p-2 bg-gray-50 has-[:focus]:border-gray-500"
-      >
-        <Search size={20} className="text-gray-500" />
+      <label htmlFor="search" className="search relative w-full">
+        <Search className="absolute top-1/2 -translate-y-1/2 ml-2 w-4 h-4 text-muted-foreground" />
         <input
           type="search"
           name="search"
@@ -31,61 +35,63 @@ const TableFilter = ({ onFilterChange, showDisplayToggle = true }) => {
           placeholder="Search vehicle"
           value={filterData.search}
           onChange={handleFilterChange}
-          className="outline-0 bg-transparent"
+          className="outline-0 pl-8 h-full w-full text-sm rounded-md border border-input focus:border-gray-500"
         />
       </label>
 
-      <label
-        htmlFor="filter"
-        className="filter border-2 pl-2 border-gray-300 rounded-md flex items-center gap-1 w-fit bg-gray-50 has-[:focus]:border-gray-500"
+      <Select
+        value={filterData.filterBy}
+        onValueChange={(value) =>
+          handleFilterChange({ name: "filterBy", value })
+        }
       >
-        <Sliders />
-        <select
-          name="filterBy"
-          id="filter"
-          className="p-2 appearance-none bg-transparent outline-none cursor-pointer"
-          value={filterData.filterBy}
-          onChange={handleFilterChange}
-        >
-          <option value="none" disabled>
-            Filter by
-          </option>
-
-          <option value="Vehicle ID">Vehicle ID</option>
-          <option value="Vehicle Type">Vehicle Type</option>
-          <option value="Engine number">Engine number</option>
-          <option value="Make/Model">Make/Model</option>
-          <option value="Procurement source">Procurement source</option>
-          <option value="Responsible officer">Responsible officer</option>
-        </select>
-        <ChevronDown className="mr-2" />
-      </label>
+        <SelectTrigger>
+          <span className="pointer-events-none">
+            <Sliders className="inline mr-2 w-4" />
+            Filter By
+          </span>
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="vehicleID">Vehicle ID</SelectItem>
+          <SelectItem value="vehicleType">Vehicle Type</SelectItem>
+          <SelectItem value="engineNumber">Engine Number</SelectItem>
+          <SelectItem value="makeModel">Make/Model</SelectItem>
+          <SelectItem value="procurementSource">Procurement Source</SelectItem>
+          <SelectItem value="responsibleOfficer">
+            Responsible Officer
+          </SelectItem>
+        </SelectContent>
+      </Select>
 
       {showDisplayToggle && (
         <div className="radio-group flex items-center justify-around">
           <Button
-            className={`bg-white border p-2 rounded-e-none has-[:checked]:border-primary ${
+            variant="outline"
+            size="icon"
+            className={`rounded-e-none ${
               filterData.displayMode == "tabular"
                 ? "border-primary text-primary"
-                : "border-gray-300 text-gray-600"
+                : "border-input text-input-foreground "
             }`}
             onClick={() =>
               handleFilterChange({ name: "displayMode", value: "tabular" })
             }
           >
-            <Sheet className="peer-checked:text-primary" />
+            <Sheet />
           </Button>
           <Button
-            className={`bg-white border p-2 rounded-s-none has-[:checked]:border-primary ${
+            variant="outline"
+            size="icon"
+            className={`rounded-s-none ${
               filterData.displayMode == "cards"
                 ? "border-primary text-primary"
-                : "border-gray-300 text-gray-600"
+                : "border-input text-input-foreground"
             }`}
             onClick={() =>
               handleFilterChange({ name: "displayMode", value: "cards" })
             }
           >
-            <LayoutGrid className="peer-checked:text-primary" />
+            <LayoutGrid />
           </Button>
         </div>
       )}

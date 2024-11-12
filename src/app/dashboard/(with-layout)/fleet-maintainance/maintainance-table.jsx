@@ -2,7 +2,7 @@ import { AlertTriangle, EllipsisVertical, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
-import maintainanceMockData from "./maintainanceMockData";
+import maintainanceMockData from "../../../../data/maintainanceMockData";
 
 const MaintainanceTable = () => {
   return (

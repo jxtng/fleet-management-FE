@@ -23,7 +23,11 @@ const DataTable = ({
           })}
         </colgroup>
         <thead>
-          <tr className={`${!colorful && "border-b border-foreground"} `}>
+          <tr
+            className={`${
+              colorful ? "bg-primary" : "border-b border-foreground"
+            } `}
+          >
             {selectable && (
               <th
                 className={`w-10 text-center p-2 h-10 align-middle ${

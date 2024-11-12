@@ -2,7 +2,7 @@ import { EllipsisVertical, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
-import procurementMockData from "./procurementMockData";
+import procurementMockData from "../../../../data/procurementMockData";
 
 const ProcurementTable = () => {
   return (

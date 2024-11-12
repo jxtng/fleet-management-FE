@@ -1,6 +1,6 @@
 import React from "react";
 
-import vehicleMockData from "./vehicleMockData";
+import vehicleMockData from "../../../../data/inventoryMockData";
 import Image from "next/image";
 import { EllipsisVertical } from "lucide-react";
 

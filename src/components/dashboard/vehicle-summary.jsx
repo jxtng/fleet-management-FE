@@ -40,7 +40,7 @@ const VehicleSummary = () => {
       {vehicleSummaries.map(({ title, count, fg, bg }) => (
         <div
           key={title + count}
-          className={`flex items-center gap-6 p-6 rounded-md ${bg} ${fg}`}
+          className={`flex items-center gap-4 w-40 p-4 rounded-md ${bg} ${fg}`}
         >
           <FolderOpenIcon />
           <div className="info text-center text-sm">

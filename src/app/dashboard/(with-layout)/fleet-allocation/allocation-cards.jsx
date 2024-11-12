@@ -1,5 +1,5 @@
 import React from "react";
-import allocationMockData from "./allocationMockData";
+import allocationMockData from "../../../../data/allocationMockData";
 import Image from "next/image";
 import { EllipsisVertical, User } from "lucide-react";
 
