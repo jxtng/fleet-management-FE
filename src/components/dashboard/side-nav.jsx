@@ -62,14 +62,16 @@ const SideNav = ({ className }) => {
               href={href}
               className={`group relative flex items-center gap-2 px-3 py-2 my-1 rounded-s-3xl transition-colors ${
                 pathname == href
-                  ? "bg-foreground text-primary"
-                  : "hover:bg-foreground/80 hover:text-background"
+                  ? "bg-background text-primary"
+                  : "hover:bg-background/80 hover:text-background"
               }`}
             >
-              {icon}
-              {name}
+              <span className="z-20 flex items-center gap-2">
+                {icon}
+                {name}
+              </span>
               {pathname == href && (
-                <ActiveTrailIcon className="text-foreground w-auto h-[304%] absolute top-1/2 right-0 -translate-y-1/2 z-10" />
+                <ActiveTrailIcon className="text-background w-auto h-[304%] absolute top-1/2 right-0 -translate-y-1/2 z-10" />
               )}
             </Link>
           </li>

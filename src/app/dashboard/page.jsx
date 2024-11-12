@@ -39,13 +39,13 @@ const actions = [
 const DashboardActions = () => {
   return (
     <main className="min-h-screen flex justify-center items-center bg-gradient-to-b from-[#75FFD9] to-[#469982]">
-      <div className="py-40 px-4 rounded-md border border-white bg-gradient-to-br from-[#FFFFFF73] to-[#75FFD100]">
+      <div className="py-40 px-4 rounded-md border border-background bg-gradient-to-br from-background/90 to-background/10">
         <div className="action-wrapper flex flex-wrap gap-6">
           {actions.map(({ title, image, href }) => (
             <Link
               href={href}
               key={title + href}
-              className="action-card w-36 bg-white basis-0 grow p-4 flex flex-col gap-2 justify-between items-center rounded-md hover:scale-105 active:scale-100 transition-transform"
+              className="action-card w-36 bg-background text-foreground basis-0 grow p-4 flex flex-col gap-2 justify-between items-center rounded-md hover:scale-105 active:scale-100 transition-transform"
             >
               <Image
                 src={image}

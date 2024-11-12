@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
-import Greeting from "../_components/greeting";
-import RealTimeInfo from "../_components/real-time-info";
+import Greeting from "../../../../components/dashboard/greeting";
+import RealTimeInfo from "../../../../components/dashboard/real-time-info";
 import Button from "@/components/button";
 import { ChevronDown } from "lucide-react";
-import VehicleSummary from "../_components/vehicle-summary";
-import TableFilter from "../_components/table-filter";
+import VehicleSummary from "../../../../components/dashboard/vehicle-summary";
+import TableFilter from "../../../../components/dashboard/table-filter";
 import AllocationTable from "./allocation-table";
 import AllocationCards from "./allocation-cards";
 

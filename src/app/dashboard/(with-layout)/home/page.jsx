@@ -1,13 +1,13 @@
 import React from "react";
-import Button from "@/components/button";
+import { Button } from "@/components/ui/button";
 
-import Greeting from "../_components/greeting";
-import RealTimeInfo from "../_components/real-time-info";
-import VehicleSummary from "../_components/vehicle-summary";
-import LastTrips from "./last-trips";
-import TripExpenses from "./trip-expenses";
-import TopLocations from "./top-locations";
-import TripTable from "./trip-table";
+import Greeting from "@/components/dashboard/greeting";
+import RealTimeInfo from "@/components/dashboard/real-time-info";
+import VehicleSummary from "@/components/dashboard/vehicle-summary";
+import LastTrips from "@/components/dashboard/home/last-trips";
+import TripExpenses from "@/components/dashboard/home/trip-expenses";
+import TopLocations from "@/components/dashboard/home/top-locations";
+import TripTable from "@/components/dashboard/home/trip-table";
 
 const DashboardHome = () => {
   return (
@@ -15,7 +15,7 @@ const DashboardHome = () => {
       <Greeting />
       <div className="flex justify-between items-center flex-wrap gap-2 my-4">
         <RealTimeInfo />
-        <Button variant="outline">Add/Document New Vehicle</Button>
+        <Button variant="primaryoutline">Add/Document New Vehicle</Button>
       </div>
 
       <VehicleSummary />

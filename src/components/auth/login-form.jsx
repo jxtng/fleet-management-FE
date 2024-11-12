@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import Button from "@/components/button";
+import { Button } from "@/components/ui/button";
 import { redirect } from "next/navigation";
 
 const LoginForm = () => {
@@ -55,7 +55,10 @@ const LoginForm = () => {
         >
           Forgot password?
         </Link>
-        <Button type="submit" className="bg-[#115931] text-white">
+        <Button
+          type="submit"
+          className="bg-[#115931] text-white hover:bg-[#004820]"
+        >
           Sign In
         </Button>
       </div>

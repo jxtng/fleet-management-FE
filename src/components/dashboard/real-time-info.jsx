@@ -7,7 +7,17 @@ const RealTimeInfo = ({ title = "Real Time Data" }) => {
   const [date, setDate] = useState(new Date());
 
   useEffect(() => {
-    const timerId = setTimeout(() => setDate(new Date()), 30 * 1000);
+    let timerId = setTimeout(function updateTime() {
+      const latestTime = new Date();
+
+      if (latestTime.getMinutes() == date.getMinutes()) {
+        clearTimeout(timerId);
+        timerId = setTimeout(updateTime, 10 * 1000);
+        return;
+      }
+
+      setDate(latestTime);
+    }, 10 * 1000);
 
     return () => clearTimeout(timerId);
   });

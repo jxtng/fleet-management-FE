@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import Greeting from "../_components/greeting";
+import Greeting from "../../../../components/dashboard/greeting";
 import { Logout, Settings, User } from "lucide-react";
 import MyProfile from "./my-profile";
 import ManageAccess from "./manage-access";

@@ -1,6 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
-import LoginForm from "../_components/login-form";
+import LoginForm from "@/components/auth/login-form";
 
 const Login = () => {
   return (

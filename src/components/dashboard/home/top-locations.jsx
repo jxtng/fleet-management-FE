@@ -1,9 +1,7 @@
 import React from "react";
-import CarIcon from "@/icons/car";
-import RepairToolIcon from "@/icons/repair-tool";
-import FuelPumpIcon from "@/icons/fuel-pump";
 import Link from "next/link";
 import ChevronRightIcon from "@/icons/chevron-right";
+import { Card, CardTitle } from "@/components/ui/card";
 
 const locationMockData = [
   {
@@ -30,14 +28,16 @@ const locationMockData = [
 
 const TopLocations = ({ className }) => {
   return (
-    <div className={"p-4 rounded-xl bg-neutral-100 flex flex-col " + className}>
-      <h3 className="text-lg mb-2">Top Locations</h3>
+    <Card className={"p-4 " + className}>
+      <CardTitle>
+        <h3 className="text-lg mb-2">Top Locations</h3>
+      </CardTitle>
 
       {locationMockData.map((location, index) => {
         return (
           <div
             key={location + index}
-            className="trip flex items-center gap-2 text-xs whitespace-nowrap py-4 border-t-2 border-black"
+            className="trip flex items-center gap-2 text-xs whitespace-nowrap py-4 border-t-2 border-card-foreground"
           >
             <div className="rank flex items-center justify-center bg-primary text-foreground w-8 h-8 rounded-full">
               {location.rank}
@@ -47,15 +47,15 @@ const TopLocations = ({ className }) => {
         );
       })}
 
-      <hr className="bg-black h-[3px] mb-4" />
+      <hr className="bg-card-foreground h-[3px] mb-4" />
       <Link
         href="#"
         className="mt-auto font-bold text-xs text-orange-400 hover:underline"
       >
         Show all location{" "}
-        <ChevronRightIcon className="inline-block ml-2 text-black" />{" "}
+        <ChevronRightIcon className="inline-block ml-2 text-card-foreground" />{" "}
       </Link>
-    </div>
+    </Card>
   );
 };
 

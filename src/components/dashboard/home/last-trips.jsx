@@ -1,8 +1,8 @@
 import React from "react";
-import CarIcon from "@/icons/car";
-import SCurveIcon from "@/icons/s-curve";
+import { Route, Car } from "lucide-react";
 import Link from "next/link";
 import ChevronRightIcon from "@/icons/chevron-right";
+import { Card, CardTitle } from "@/components/ui/card";
 
 const tripMockData = [
   {
@@ -37,8 +37,10 @@ const LastTrips = ({ className }) => {
   const padDate = (num) => (String(num).length < 2 ? "0" + num : num);
 
   return (
-    <div className={"p-4 rounded-xl bg-neutral-100 flex flex-col " + className}>
-      <h3 className="text-lg mb-2">Last Trips</h3>
+    <Card className={"p-4 " + className}>
+      <CardTitle>
+        <h3 className="text-lg mb-2">Last Trips</h3>
+      </CardTitle>
 
       {tripMockData.map((trip, index) => {
         const fromTime = new Date(trip.fromDate);
@@ -47,7 +49,7 @@ const LastTrips = ({ className }) => {
         return (
           <div
             key={trip.fromAddress + trip.toAddress + index}
-            className="trip pl-4 mb-2 border-t-2 border-black"
+            className="trip pl-4 mb-2 border-t-2 border-foreground"
           >
             <div
               className={`tag w-fit py-1 px-2 mb-4 text-xs text-white capitalize ml-auto rounded-b-lg ${
@@ -113,8 +115,8 @@ const LastTrips = ({ className }) => {
                 <address>{trip.toAddress}</address>
               </div>
               <div className="icons ml-auto">
-                <CarIcon className="w-4 h-4 text-gray-500" />
-                <SCurveIcon className="w-4 h-4 text-gray-500 mb-1" />
+                <Car className="w-4 h-4 text-muted-foreground" />
+                <Route className="w-4 h-4 text-muted-foreground" />
               </div>
               <div className="travel-detail">
                 <p className="car-name">{trip.carName}</p>
@@ -125,7 +127,7 @@ const LastTrips = ({ className }) => {
         );
       })}
 
-      <hr className="bg-black h-[3px] mb-4" />
+      <hr className="bg-foreground h-[3px] mb-4" />
       <Link
         href="#"
         className="mt-auto font-bold text-xs text-orange-400 hover:underline"
@@ -133,7 +135,7 @@ const LastTrips = ({ className }) => {
         Show all trips{" "}
         <ChevronRightIcon className="inline-block ml-2 text-black" />{" "}
       </Link>
-    </div>
+    </Card>
   );
 };
 

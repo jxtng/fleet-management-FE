@@ -1,9 +1,8 @@
 import React from "react";
-import CarIcon from "@/icons/car";
-import RepairToolIcon from "@/icons/repair-tool";
-import FuelPumpIcon from "@/icons/fuel-pump";
+import { Car, Wrench, Fuel } from "lucide-react";
 import Link from "next/link";
 import ChevronRightIcon from "@/icons/chevron-right";
+import { Card } from "@/components/ui/card";
 
 const tripMockData = [
   {
@@ -44,14 +43,14 @@ const tripMockData = [
 
 const TripExpenses = ({ className }) => {
   return (
-    <div className={"p-4 rounded-xl bg-neutral-100 flex flex-col " + className}>
+    <Card className={"p-4 rounded-xl " + className}>
       <h3 className="text-lg mb-2">Trip Expenses</h3>
 
       {tripMockData.map((trip, index) => {
         return (
           <div
             key={trip.title + index}
-            className="trip pl-4 mb-2 border-t-2 border-black"
+            className="trip pl-4 mb-2 border-t-2 border-card-foreground"
           >
             <div
               className={`tag w-fit py-1 px-2 mb-4 text-xs text-white capitalize ml-auto rounded-b-lg ${
@@ -65,30 +64,30 @@ const TripExpenses = ({ className }) => {
 
             <div className="trip-info flex items-start gap-2 text-xs whitespace-nowrap">
               {trip.status == "repair" ? (
-                <RepairToolIcon className="w-4 h-4 text-gray-500" />
+                <Wrench className="w-4 h-4 text-muted-foreground" />
               ) : (
-                <FuelPumpIcon className="w-4 h-4 text-gray-500" />
+                <Fuel className="w-4 h-4 text-muted-foreground" />
               )}
               <span className="price font-bold whitespace-nowrap">
                 &#x20A6; {trip.price.toLocaleString()}
               </span>
               <p className="title mr-4">{trip.title}</p>
-              <CarIcon className="w-4 h-4 text-gray-500 ml-auto" />
+              <Car className="w-4 h-4 text-muted-foreground ml-auto" />
               <span className="car-name">{trip.carName}</span>
             </div>
           </div>
         );
       })}
 
-      <hr className="bg-black h-[3px] mb-4" />
+      <hr className="bg-card-foreground h-[3px] mb-4" />
       <Link
         href="#"
         className="mt-auto font-bold text-xs text-orange-400 hover:underline"
       >
         Show all expenses{" "}
-        <ChevronRightIcon className="inline-block ml-2 text-black" />{" "}
+        <ChevronRightIcon className="inline-block ml-2 text-card-foreground" />{" "}
       </Link>
-    </div>
+    </Card>
   );
 };
 
