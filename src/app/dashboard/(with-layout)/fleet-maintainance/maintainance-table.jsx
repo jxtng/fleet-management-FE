@@ -12,7 +12,7 @@ const MaintainanceTable = () => {
   return (
     <table className="table-fixed w-full rounded-xl text-sm">
       <thead>
-        <tr className="ring-2 ring-primary ring-offset-4 ring-offset-primary rounded-t-xl *:py-1 bg-primary text-foreground">
+        <tr className="*:py-3 bg-primary text-foreground">
           <th className="w-fit pl-1">
             <input
               type="checkbox"

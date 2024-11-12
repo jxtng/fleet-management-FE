@@ -45,10 +45,10 @@ const ManageAccess = () => {
   return (
     <div className="card rounded-md bg-gray-100 border p-8">
       {userPermissionsMockData.map((user) => (
-        <>
-          <AccessCard key={user.id} {...user} />
+        <div key={user.id}>
+          <AccessCard {...user} />
           <hr className="bg-gray-500 h-[3px] my-4" />
-        </>
+        </div>
       ))}
       <Button className="ml-auto">
         <IconPlus />
