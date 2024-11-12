@@ -1,5 +1,5 @@
 import Button from "@/components/button";
-import { IconLogout } from "@tabler/icons-react";
+import { LogOut } from "lucide-react";
 import React from "react";
 
 const LogoutCard = () => {
@@ -17,7 +17,7 @@ const LogoutCard = () => {
         <Button variant="outline">Cancel</Button>
         <Button variant="primary">
           Log Out
-          <IconLogout />
+          <LogOut />
         </Button>
       </div>
     </div>

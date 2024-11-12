@@ -1,4 +1,4 @@
-import { IconDotsVertical, IconShieldCheckFilled } from "@tabler/icons-react";
+import { EllipsisVertical, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
@@ -56,8 +56,8 @@ const ProcurementTable = () => {
               <td className="text-center">{procurement.deliveryStatus}</td>
               <td className="text-right">
                 <button className="flex justify-center text-green-400 w-full">
-                  <IconShieldCheckFilled size={18} />
-                  <IconDotsVertical size={18} />
+                  <ShieldCheck size={18} />
+                  <EllipsisVertical size={18} />
                 </button>
               </td>
             </tr>

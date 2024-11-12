@@ -1,8 +1,4 @@
-import {
-  IconAlertTriangle,
-  IconDotsVertical,
-  IconShieldCheckFilled,
-} from "@tabler/icons-react";
+import { AlertTriangle, EllipsisVertical, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
@@ -71,9 +67,10 @@ const MaintainanceTable = () => {
                     title="OK"
                   />
                 ) : (
-                  <IconAlertTriangle
+                  <AlertTriangle
                     size={18}
-                    className="text-amber-400"
+                    EllipsisVertical
+                    className="text-amber-ShieldCheck"
                     title="This vehicle has an issue"
                   />
                 )}

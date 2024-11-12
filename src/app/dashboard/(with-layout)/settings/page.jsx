@@ -1,22 +1,22 @@
 "use client";
 import { useState } from "react";
 import Greeting from "../_components/greeting";
-import { IconLogout, IconSettings, IconUser } from "@tabler/icons-react";
+import { Logout, Settings, User } from "lucide-react";
 import MyProfile from "./my-profile";
 import ManageAccess from "./manage-access";
 import LogoutCard from "./logout-card";
 import Button from "@/components/button";
 
 const navLinks = [
-  { name: "My profile", icon: <IconUser />, component: <MyProfile /> },
+  { name: "My profile", icon: <User />, component: <MyProfile /> },
   {
     name: "Manage access",
-    icon: <IconSettings />,
+    icon: <Settings />,
     component: <ManageAccess />,
   },
   {
     name: "Logout",
-    icon: <IconLogout />,
+    icon: <Logout />,
     component: <LogoutCard />,
   },
 ];

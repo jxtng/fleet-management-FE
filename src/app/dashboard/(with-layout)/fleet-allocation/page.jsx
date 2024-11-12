@@ -3,7 +3,7 @@ import { useState } from "react";
 import Greeting from "../_components/greeting";
 import RealTimeInfo from "../_components/real-time-info";
 import Button from "@/components/button";
-import { IconChevronDown } from "@tabler/icons-react";
+import { ChevronDown } from "lucide-react";
 import VehicleSummary from "../_components/vehicle-summary";
 import TableFilter from "../_components/table-filter";
 import AllocationTable from "./allocation-table";
@@ -34,7 +34,7 @@ const FleetAllocation = () => {
           } w-full flex justify-center gap-4`}
           onClick={() => setAllocateMode(true)}
         >
-          Allocate Vehicle <IconChevronDown />
+          Allocate Vehicle <ChevronDown />
         </Button>
 
         <Button
@@ -44,7 +44,7 @@ const FleetAllocation = () => {
           } w-full flex justify-center gap-4`}
           onClick={() => setAllocateMode(false)}
         >
-          Assign Vehicle <IconChevronDown />
+          Assign Vehicle <ChevronDown />
         </Button>
       </div>
 

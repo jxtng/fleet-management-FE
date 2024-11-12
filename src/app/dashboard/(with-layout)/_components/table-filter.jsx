@@ -1,11 +1,5 @@
 import Button from "@/components/button";
-import {
-  IconAdjustments,
-  IconChevronDown,
-  IconColumns,
-  IconLayoutGrid,
-  IconSearch,
-} from "@tabler/icons-react";
+import { Sliders, ChevronDown, Sheet, LayoutGrid, Search } from "lucide-react";
 import { useState } from "react";
 
 const TableFilter = ({ onFilterChange, showDisplayToggle = true }) => {
@@ -29,7 +23,7 @@ const TableFilter = ({ onFilterChange, showDisplayToggle = true }) => {
         htmlFor="search"
         className="search border-2 grow border-gray-300 rounded-md flex items-center gap-1 w-fit p-2 bg-gray-50 has-[:focus]:border-gray-500"
       >
-        <IconSearch size={20} className="text-gray-500" />
+        <Search size={20} className="text-gray-500" />
         <input
           type="search"
           name="search"
@@ -45,7 +39,7 @@ const TableFilter = ({ onFilterChange, showDisplayToggle = true }) => {
         htmlFor="filter"
         className="filter border-2 pl-2 border-gray-300 rounded-md flex items-center gap-1 w-fit bg-gray-50 has-[:focus]:border-gray-500"
       >
-        <IconAdjustments />
+        <Sliders />
         <select
           name="filterBy"
           id="filter"
@@ -64,7 +58,7 @@ const TableFilter = ({ onFilterChange, showDisplayToggle = true }) => {
           <option value="Procurement source">Procurement source</option>
           <option value="Responsible officer">Responsible officer</option>
         </select>
-        <IconChevronDown className="mr-2" />
+        <ChevronDown className="mr-2" />
       </label>
 
       {showDisplayToggle && (
@@ -79,7 +73,7 @@ const TableFilter = ({ onFilterChange, showDisplayToggle = true }) => {
               handleFilterChange({ name: "displayMode", value: "tabular" })
             }
           >
-            <IconColumns className="peer-checked:text-primary" />
+            <Sheet className="peer-checked:text-primary" />
           </Button>
           <Button
             className={`bg-white border p-2 rounded-s-none has-[:checked]:border-primary ${
@@ -91,7 +85,7 @@ const TableFilter = ({ onFilterChange, showDisplayToggle = true }) => {
               handleFilterChange({ name: "displayMode", value: "cards" })
             }
           >
-            <IconLayoutGrid className="peer-checked:text-primary" />
+            <LayoutGrid className="peer-checked:text-primary" />
           </Button>
         </div>
       )}

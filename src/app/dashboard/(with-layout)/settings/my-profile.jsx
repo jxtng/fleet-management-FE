@@ -1,5 +1,5 @@
 import Button from "@/components/button";
-import { IconEdit, IconUser } from "@tabler/icons-react";
+import { Edit, User } from "lucide-react";
 import React from "react";
 
 const MyProfile = () => {
@@ -41,7 +41,7 @@ const MyProfile = () => {
         />
       </div>
       <Button className="ml-auto">
-        <IconEdit />
+        <Edit />
         Edit Details
       </Button>
     </div>
@@ -52,7 +52,7 @@ const ProfilePreview = () => {
   return (
     <div className="profile-preview flex gap-4 items-center my-4">
       <div className="img-wrapper">
-        <IconUser className="w-24 h-24 border-2 border-black rounded-full p-1" />
+        <User className="w-24 h-24 border-2 border-black rounded-full p-1" />
       </div>
       <div className="profile-info">
         <p className="text-lg">John Doe</p>

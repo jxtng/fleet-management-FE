@@ -1,7 +1,7 @@
 import React from "react";
 import allocationMockData from "./allocationMockData";
 import Image from "next/image";
-import { IconDotsVertical, IconUser } from "@tabler/icons-react";
+import { EllipsisVertical, User } from "lucide-react";
 
 const AllocationCards = () => {
   return (
@@ -9,9 +9,9 @@ const AllocationCards = () => {
       {allocationMockData.map((allocation) => (
         <div key={allocation.id} className="vehicle-card w-fit group">
           <div className="img-container flex items-center justify-center relative rounded-t-md border-gray-200 border-x-8 border-t-8 h-[100px] overflow-hidden">
-            <IconUser className="w-20 h-auto p-2 border-2 border-current rounded-full" />
+            <User className="w-20 h-auto p-2 border-2 border-current rounded-full" />
             <button>
-              <IconDotsVertical className="absolute top-1 right-1 text-white" />
+              <EllipsisVertical className="absolute top-1 right-1 text-white" />
             </button>
           </div>
           <div className="info text-xs text-foreground/80 bg-primary p-2 rounded-b-md">

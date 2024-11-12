@@ -1,5 +1,5 @@
 import Button from "@/components/button";
-import { IconEdit, IconPlus, IconTrash } from "@tabler/icons-react";
+import { Edit, Plus, Trash2 } from "lucide-react";
 import React from "react";
 
 const userPermissionsMockData = [
@@ -51,7 +51,7 @@ const ManageAccess = () => {
         </div>
       ))}
       <Button className="ml-auto">
-        <IconPlus />
+        <Plus />
         Add New User
       </Button>
     </div>
@@ -69,8 +69,8 @@ const AccessCard = ({ name, email, role, permissions }) => {
         <div className="role mx-auto px-2 py-1 rounded-md bg-green-600 text-white">
           {role}
         </div>
-        <IconEdit size={16} className="ml-auto" />
-        <IconTrash size={16} className="text-red-500" />
+        <Edit size={16} className="ml-auto" />
+        <Trash2 size={16} className="text-red-500" />
       </div>
 
       <div className="permissions flex gap-2 my-4">

@@ -3,7 +3,7 @@ import { useState } from "react";
 import Greeting from "../_components/greeting";
 import RealTimeInfo from "../_components/real-time-info";
 import Button from "@/components/button";
-import { IconChevronDown } from "@tabler/icons-react";
+import { ChevronDown } from "lucide-react";
 import TableFilter from "../_components/table-filter";
 import ProcurementTable from "./procurement-table";
 
@@ -41,7 +41,7 @@ const FleetProcurement = () => {
       <div className="main-card bg-primary/20 rounded-3xl p-6 mb-4">
         <div className="month absolute px-4 py-2 mr-auto font-medium text-primary border-primary border-2 w-fit rounded-md">
           {months[date.getMonth()]} {date.getFullYear()}
-          <IconChevronDown className="inline-block ml-2" />
+          <ChevronDown className="inline-block ml-2" />
         </div>
         <h1 className=" flex gap-2 items-center justify-center font-extrabold text-xl text-secondary mb-4">
           <svg
@@ -110,7 +110,7 @@ const FleetProcurement = () => {
           } w-full flex justify-center gap-4`}
           onClick={() => setViewMode("history")}
         >
-          Procurement History <IconChevronDown />
+          Procurement History <ChevronDown />
         </Button>
 
         <Button
@@ -120,7 +120,7 @@ const FleetProcurement = () => {
           } w-full flex justify-center gap-4`}
           onClick={() => setViewMode("management")}
         >
-          Vendor Management <IconChevronDown />
+          Vendor Management <ChevronDown />
         </Button>
         <Button
           variant="outline"

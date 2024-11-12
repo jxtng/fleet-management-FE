@@ -1,4 +1,4 @@
-import { IconDotsVertical, IconShieldCheckFilled } from "@tabler/icons-react";
+import { EllipsisVertical, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
@@ -58,8 +58,8 @@ const VehicleTable = () => {
               <td className="text-center">{vehicle.engineNumber}</td>
               <td className="text-center">
                 <button className="flex text-green-400">
-                  <IconShieldCheckFilled size={18} />
-                  <IconDotsVertical size={18} />
+                  <ShieldCheck size={18} />
+                  <EllipsisVertical size={18} />
                 </button>
               </td>
             </tr>

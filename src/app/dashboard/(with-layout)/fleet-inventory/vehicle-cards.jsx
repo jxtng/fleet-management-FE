@@ -2,7 +2,7 @@ import React from "react";
 
 import vehicleMockData from "./vehicleMockData";
 import Image from "next/image";
-import { IconDotsVertical } from "@tabler/icons-react";
+import { EllipsisVertical } from "lucide-react";
 
 const VehicleCards = () => {
   return (
@@ -19,7 +19,7 @@ const VehicleCards = () => {
             />
             <div className="overlay absolute top-0 left-0 w-full h-full bg-black/40"></div>
             <button>
-              <IconDotsVertical className="absolute top-1 right-1 text-white" />
+              <EllipsisVertical className="absolute top-1 right-1 text-white" />
             </button>
           </div>
           <div className="info text-xs text-foreground/80 bg-primary p-2 rounded-b-md">
