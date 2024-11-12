@@ -4,45 +4,47 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import WindowIcon from "@/icons/window";
-import BookIcon from "@/icons/book";
 import ActiveTrailIcon from "@/icons/active-trail";
-import UsersIcon from "@/icons/users";
-import UserIcon from "@/icons/user";
-import TruckDriverIcon from "@/icons/truck-driver";
-import DollarCoinIcon from "@/icons/dollar-coin";
-import SettingsIcon from "@/icons/settings";
+import {
+  UserCircle,
+  LayoutDashboard,
+  BookUp2,
+  Users,
+  Construction,
+  CircleDollarSign,
+  Settings,
+} from "lucide-react";
 
 const links = [
   {
     name: "Dashboard",
     href: "/dashboard/home",
-    icon: <WindowIcon className="" />,
+    icon: <LayoutDashboard className="w-5 h-5 fill-current" />,
   },
   {
     name: "Fleet Inventory",
     href: "/dashboard/fleet-inventory",
-    icon: <BookIcon className="" />,
+    icon: <BookUp2 className="w-5 h-5" />,
   },
   {
     name: "Fleet Allocation",
     href: "/dashboard/fleet-allocation",
-    icon: <UsersIcon className="" />,
+    icon: <Users className="w-5 h-5" />,
   },
   {
     name: "Fleet Maintainance",
     href: "/dashboard/fleet-maintainance",
-    icon: <TruckDriverIcon className="" />,
+    icon: <Construction className="w-5 h-5" />,
   },
   {
     name: "Fleet Procurement",
     href: "/dashboard/fleet-procurement",
-    icon: <DollarCoinIcon className="" />,
+    icon: <CircleDollarSign className="w-5 h-5" />,
   },
   {
     name: "Settings",
     href: "/dashboard/settings",
-    icon: <SettingsIcon className="" />,
+    icon: <Settings className="w-5 h-5" />,
   },
 ];
 
@@ -63,7 +65,7 @@ const SideNav = ({ className }) => {
               className={`group relative flex items-center gap-2 px-3 py-2 my-1 rounded-s-3xl transition-colors ${
                 pathname == href
                   ? "bg-background text-primary"
-                  : "hover:bg-background/80 hover:text-background"
+                  : "hover:bg-muted-foreground hover:text-muted"
               }`}
             >
               <span className="z-20 flex items-center gap-2">
@@ -84,7 +86,7 @@ const SideNav = ({ className }) => {
 const ProfileCard = () => {
   return (
     <div className="profile-card flex items-center gap-3 m-5 ml-0">
-      <UserIcon className="default-avatar w-12 h-12 rounded-full border-2 border-foreground p-0.5" />
+      <UserCircle className="default-avatar  w-12 h-12 rounded-full border-2 border-foreground p-0.5" />
       <div className="profile-text">
         <p className="name">John Doe</p>
         <p className="role opacity-70">Resident Transport Officer</p>
