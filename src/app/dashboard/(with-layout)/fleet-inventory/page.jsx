@@ -5,11 +5,26 @@ import RealTimeInfo from "@/components/dashboard/real-time-info";
 import { Button } from "@/components/ui/button";
 import VehicleSummary from "@/components/dashboard/vehicle-summary";
 import TableFilter from "@/components/dashboard/table-filter";
-import VehicleCards from "./vehicle-cards";
 import DataTable from "@/components/ui/data-table";
 import inventoryMockData from "@/data/inventoryMockData";
 import Image from "next/image";
-import { EllipsisVertical, ShieldCheck } from "lucide-react";
+import {
+  Edit,
+  EllipsisVertical,
+  Eye,
+  History,
+  Share,
+  ShieldCheck,
+  Trash2,
+} from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import Link from "next/link";
+import InfoCard from "@/components/dashboard/info-card";
 
 const FleetInventory = () => {
   const [filterData, setFilterData] = useState({});
@@ -31,7 +46,17 @@ const FleetInventory = () => {
       <TableFilter onFilterChange={setFilterData} />
 
       {filterData.displayMode == "cards" ? (
-        <VehicleCards />
+        <div className="cards flex justify-between flex-wrap gap-2">
+          {inventoryMockData.map((vehicle) => (
+            <InfoCard
+              key={vehicle.id}
+              details={vehicle}
+              include={["vehicleType", "makeModel", "engineNumber"]}
+              className="grow"
+              action={<Action row={vehicle} />}
+            />
+          ))}
+        </div>
       ) : (
         <DataTable
           data={inventoryMockData}
@@ -54,18 +79,46 @@ const FleetInventory = () => {
             { th: "Make/Model", key: "makeModel" },
             { th: "Engine Number", key: "engineNumber" },
             {
+              th: "",
+              td: () => <ShieldCheck className="text-green-400" size={18} />,
+            },
+            {
               th: "Actions",
-              td: () => (
-                <button className="flex text-green-400">
-                  <ShieldCheck size={18} />
-                  <EllipsisVertical size={18} />
-                </button>
-              ),
+              td: Action,
             },
           ]}
         />
       )}
     </div>
+  );
+};
+
+const Action = ({ row }) => {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger className="flex text-green-400">
+        <EllipsisVertical size={18} />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem asChild>
+          <Link href={`/dashboard/fleet-inventory/vehicle/${row.id}`}>
+            <Eye /> View vehicle details
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <History /> View vehicle history
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Edit /> Edit vehicle details
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Share /> Share vehicle details
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Trash2 className="text-red-400" /> Delete vehicle
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 

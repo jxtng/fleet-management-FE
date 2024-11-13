@@ -63,7 +63,7 @@ const SideNav = ({ className }) => {
             <Link
               href={href}
               className={`group relative flex items-center gap-2 px-3 py-2 my-1 rounded-s-3xl transition-colors ${
-                pathname == href
+                pathname.startsWith(href)
                   ? "bg-background text-primary"
                   : "hover:bg-muted-foreground hover:text-muted"
               }`}
@@ -72,8 +72,8 @@ const SideNav = ({ className }) => {
                 {icon}
                 {name}
               </span>
-              {pathname == href && (
-                <ActiveTrailIcon className="text-background w-auto h-[304%] absolute top-1/2 right-0 -translate-y-1/2 z-10" />
+              {pathname.startsWith(href) && (
+                <ActiveTrailIcon className="text-background w-auto h-[304%] absolute top-1/2 -right-px -translate-y-1/2 z-10" />
               )}
             </Link>
           </li>

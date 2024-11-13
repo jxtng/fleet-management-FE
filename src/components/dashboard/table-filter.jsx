@@ -12,7 +12,7 @@ import {
 const TableFilter = ({ onFilterChange, showDisplayToggle = true }) => {
   const [filterData, setFilterData] = useState({
     search: "",
-    filterBy: "none",
+    filterBy: "",
     displayMode: "tabular",
   });
 
@@ -48,7 +48,7 @@ const TableFilter = ({ onFilterChange, showDisplayToggle = true }) => {
         <SelectTrigger>
           <span className="pointer-events-none">
             <Sliders className="inline mr-2 w-4" />
-            Filter By
+            <SelectValue placeholder="Filter By" />
           </span>
         </SelectTrigger>
         <SelectContent>
