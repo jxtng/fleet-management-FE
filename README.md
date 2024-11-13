@@ -314,4 +314,142 @@ Below the Maintenance Summary Card shows the Cost Breakdown by Maintenance Categ
 - Service Center
 - Notes
 
-5. **Fuel and Oil Monitoring;** It displays 
+5. **Fuel and Oil Monitoring;** It displays the Fuel Efficiency Overview at the top. The Fuel Efficiency Overview consists of Average Fuel Consumption, Total Fuel Consumed, Oil Usage, Next Oil Change. Below the Fuel Efficiency Overview, a bar chart of the Fuel Consumption Overtime is displayed. The bar chart shows the Maintenance cost of fuel , the litres of fuel and the price for each month.
+Below the bar chart, a Fuel and Oil Detailed Log table is displayed. The table consists of the following;
+- S/N
+- Date
+- Fuel/Oil Type
+- Amount
+- Cost 
+- Local/Service Center
+- Notes
+- The Action button consist of View full report details and Share report details.
+
+## FLEET PROCUREMENT
+Fleet procurement refers to the process of acquiring vehicles for business purpose. In the fleet procurement section, there are two buttons at the top which are; Create New Request(to create new procurement request) and Create Procurement Category. Clicking on Create New Request would automatically display a form. The inputs of the form are as follows;
+- Order Number
+- Procurement Type (with the options of Vehicle Procurement, Vehicle Part Procurement and Service Procurement)
+- Vendor Selection
+- Item Description
+- Quantity
+- Expected Delivery Date
+- Budget Allocation
+- Priority Level (with the options of Low Priority, Medium Priority and High Priority)
+
+After filling the inputs with the neccessary information, proceed to click on the save & update button. Clicking on the save & update button would pop up a notification letting you know that your Procurement Request is Successful.
+
+Create Procurement Category button would also require you to fill a form. The inputs in the form are as follows;
+- New Category
+
+After typing the new category, proceed to save & update.
+
+Directly under the save and update button, other procurement categories available on the fleet management system are listed out. The other Procurement Categories includes;
+- Vehicle Procurement
+- Vehicle Part Procurement
+- Service Procurement
+
+The Action button details in this form are ;
+- Edit Procurement Category/Type
+- Delete Procurement Category/Type
+
+The Fleet Procurement Page also displayed a Procurement Overview and it consists of the following;
+- Total Orders
+- Pending Deliveries
+- Budget Utilised
+- Recent Acquisitions
+
+Below the Procurement Overview are three buttons namely;
+- Procurement History
+- Vendor Management
+- Alerts and Notiications
+
+**The Procurement History** displays a table of the list of successful created procurement requests.
+The table consists of the following;
+- S/N
+- Order Number
+- Procurement Type
+- Vendor
+- Item Description
+- Quantity
+- Total Cost
+- Delivery Status
+- Actions
+
+The Action button details consists of;
+- View Vehicle Procurement
+- Edit Procurement Details
+- Share Procurement Details
+- Delete Procurement info
+
+The 'filter By' in this section contains the following options;
+- Delivered
+- Order Number
+- Pending/Delayed
+- Vendor
+- Procurement Type
+
+**Vendor Management** has an Add New Venor button. Clicking on this button would display an Add New Vendor Record Form. The Form contains the following inputs;
+- Enter name of the Vendor Company
+- Enter name of the Vendor Category
+- Company Registration Number
+- Company Email Address
+- Company Phone Contact
+- Company Address
+- Company Website URL
+- Primary Contact Name
+- Quantity
+- Contract Start Date
+- Contract Expiry Date
+- Notes/Additional Information
+
+After filling out the input with the necessary information, proceed to the save & update button. Clicking on this save & update button would automatically pop up a notification showing that the vendor has been successfully onboarded.
+
+There is also a table in the Vendor Management section that shows the list of onboarded vendors.
+The table consists of the follwing;
+- S/N
+- Vendor Name
+- Contact Info
+- Contract Starts
+- Contract Expires
+- Vendor Category
+- Actions
+
+The Action button details for the Vendor Management consists of;
+- View Vendor Details
+- Edit Vendor Details
+- Share Vendor Details
+- Delete Vendor Info
+
+If you proceed to delete a vendor's info, a pop of notifictaion would display showing a warning text that you are about to delete a vendor's info and if you are sure that you want to proceed. You camn either click on cancel or click on sure, delete, that is if you are sure that you want to delete the vendor's info.
+
+**Alert and Notification** displays any notification if any.
+
+## FLEET MANAGER SETTINGS
+The fleet manager settings consists of;
+- My Profile
+- Manage Access 
+- Logout
+
+**My Profile;** It consists of the manager's personal information. Personal Infomations like;
+- First Name
+- Email
+- Role
+- New Password
+- Confirm Password
+
+It has two options of Discard Changes or Save Changes.
+
+**Manage Access;** It displays the pages on the site that the Admin and Sub Admin has access to. The Admin has access to all the pages in the fleet management system and the Admin can decide which pages to grant the Sub Admin access to.
+
+There is also a form where the Admin can add new user. The form consists of the following inputs;
+- First Name
+- Email Address
+- Role
+- Password
+- Confirm Password
+
+The Add button below the form would proceed to add a new user.
+
+**Logout;** Clicking on the Logout button would display a pop up notification showing the text "Taking a break? Your session will time out after a while, but your account and info are always safe here. See you soon!" You can choose to cancel if you are not sure you want to logout or proceed to "Sure, Logout" which logs you out of the fleet management system.
+
+
