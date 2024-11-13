@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
-import Greeting from "../../../../components/dashboard/greeting";
-import RealTimeInfo from "../../../../components/dashboard/real-time-info";
+import Greeting from "@/components/dashboard/greeting";
+import RealTimeInfo from "@/components/dashboard/real-time-info";
 import Button from "@/components/button";
-import VehicleSummary from "../../../../components/dashboard/vehicle-summary";
-import TableFilter from "../../../../components/dashboard/table-filter";
+import VehicleSummary from "@/components/dashboard/vehicle-summary";
+import TableFilter from "@/components/dashboard/table-filter";
 import MaintainanceTable from "./maintainance-table";
 import MaintainanceCards from "./maintainance-cards";
 

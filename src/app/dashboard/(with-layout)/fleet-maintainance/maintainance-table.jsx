@@ -69,7 +69,6 @@ const MaintainanceTable = () => {
                 ) : (
                   <AlertTriangle
                     size={18}
-                    EllipsisVertical
                     className="text-amber-ShieldCheck"
                     title="This vehicle has an issue"
                   />

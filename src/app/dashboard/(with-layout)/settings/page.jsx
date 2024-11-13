@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import Greeting from "../../../../components/dashboard/greeting";
-import { Logout, Settings, User } from "lucide-react";
+import Greeting from "@/components/dashboard/greeting";
+import { LogOut, SettingsIcon, User } from "lucide-react";
 import MyProfile from "./my-profile";
 import ManageAccess from "./manage-access";
 import LogoutCard from "./logout-card";
@@ -11,18 +11,19 @@ const navLinks = [
   { name: "My profile", icon: <User />, component: <MyProfile /> },
   {
     name: "Manage access",
-    icon: <Settings />,
+    icon: <SettingsIcon />,
     component: <ManageAccess />,
   },
   {
     name: "Logout",
-    icon: <Logout />,
+    icon: <LogOut />,
     component: <LogoutCard />,
   },
 ];
 
 const Settings = () => {
   const [activeLinkIndex, setActiveLink] = useState(0);
+  // return <p>Hey</p>;
   return (
     <div>
       <Greeting />

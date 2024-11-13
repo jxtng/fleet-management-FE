@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
-import Greeting from "../../../../components/dashboard/greeting";
-import RealTimeInfo from "../../../../components/dashboard/real-time-info";
+import Greeting from "@/components/dashboard/greeting";
+import RealTimeInfo from "@/components/dashboard/real-time-info";
 import Button from "@/components/button";
 import { ChevronDown } from "lucide-react";
-import TableFilter from "../../../../components/dashboard/table-filter";
+import TableFilter from "@/components/dashboard/table-filter";
 import ProcurementTable from "./procurement-table";
 
 const months = [
@@ -38,7 +38,7 @@ const FleetProcurement = () => {
         </div>
       </div>
 
-      <div className="main-card bg-primary/20 rounded-3xl p-6 mb-4">
+      <div className="main-card relative bg-primary/20 rounded-3xl p-6 mb-4">
         <div className="month absolute px-4 py-2 mr-auto font-medium text-primary border-primary border-2 w-fit rounded-md">
           {months[date.getMonth()]} {date.getFullYear()}
           <ChevronDown className="inline-block ml-2" />
