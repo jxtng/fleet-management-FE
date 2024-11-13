@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 const DataTable = ({
   data = {},
@@ -12,7 +13,7 @@ const DataTable = ({
   const [selectedRows, setSelectedRows] = useState(new Set());
 
   return (
-    <div className="border rounded-lg">
+    <ScrollArea type="auto" className="border rounded-lg">
       <table className="w-full text-sm">
         <caption>{caption}</caption>
         <colgroup>
@@ -114,7 +115,8 @@ const DataTable = ({
           })}
         </tbody>
       </table>
-    </div>
+      <ScrollBar orientation="horizontal" />
+    </ScrollArea>
   );
 };
 
