@@ -3,12 +3,17 @@ import { useState } from "react";
 import Greeting from "@/components/dashboard/greeting";
 import RealTimeInfo from "@/components/dashboard/real-time-info";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, EllipsisVertical, ShieldCheck } from "lucide-react";
+import {
+  ChevronDown,
+  EllipsisVertical,
+  ShieldCheck,
+  UserCircle,
+} from "lucide-react";
 import VehicleSummary from "@/components/dashboard/vehicle-summary";
 import TableFilter from "@/components/dashboard/table-filter";
-import AllocationCards from "./allocation-cards";
 import DataTable from "@/components/ui/data-table";
 import allocationMockData from "@/data/allocationMockData";
+import InfoCard from "@/components/dashboard/info-card";
 
 const FleetAllocation = () => {
   const [filterData, setFilterData] = useState({});
@@ -55,7 +60,19 @@ const FleetAllocation = () => {
         Recent Allocation
       </h2>
       {filterData.displayMode == "cards" ? (
-        <AllocationCards />
+        <div className="cards flex justify-center flex-wrap gap-4">
+          {allocationMockData.map((allocation, index) => (
+            <InfoCard
+              key={allocation.vehicleID + index}
+              details={allocation}
+              include={["vehicleID", "vehicleMake", "engineNumber"]}
+              title={`Receipient Name: ${allocation.recipientName}`}
+              image={
+                <UserCircle className="w-full h-full p-2 text-muted-foreground" />
+              }
+            />
+          ))}
+        </div>
       ) : (
         <DataTable
           selectable

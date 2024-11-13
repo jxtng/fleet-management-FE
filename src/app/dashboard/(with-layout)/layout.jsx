@@ -10,7 +10,7 @@ const DashboardLayout = ({ children }) => {
         type="auto"
         className="h-[calc(100vh-2rem)] w-screen rounded-3xl border-none"
       >
-        <main className="p-8 basis-4/5 grow bg-background text-foreground overflow-auto">
+        <main className="p-8 basis-4/5 min-h-[calc(100vh-2rem)] grow bg-background text-foreground overflow-auto">
           {children}
         </main>
         <ScrollBar orientation="vertical" />

@@ -2,8 +2,6 @@
 import { useEffect, useState } from "react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import { CloudUpload, Plus } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -11,18 +9,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+
 import { DialogDescription } from "@radix-ui/react-dialog";
 import Image from "next/image";
 import Link from "next/link";
+import { FileInput } from "../form-elements";
+import { Plus } from "lucide-react";
+import SuccessDialog from "../success-dialog";
 
 const typeInputs = [
   { label: "Vehicle ID", name: "vehicleID", placeholder: "Enter Vehicle ID" },
@@ -82,49 +75,41 @@ const vehicleStatuses = [
 
 const NewVehicleForm = ({ value, onValueChange }) => {
   const [formData, setFormData] = useState({});
-  const [formImages, setFormImages] = useState({});
   const [errors, setErrors] = useState({});
-
-  useEffect(() => {
-    for (const image in formImages) {
-      if (image) window.URL.revokeObjectURL(image);
-    }
-  }, [formImages]);
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-
-    if (!["image/png", "image/jpeg", "image/jpg"].includes(file.type)) {
-      return setErrors((previousError) => ({
-        ...previousError,
-        [e.target.name]: "Invalid image type. Image must be png, jpg or jpeg",
-      }));
-    }
-
-    setFormImages((fi) => ({
-      ...fi,
-      [e.target.name]: window.URL.createObjectURL(file),
-    }));
-  };
 
   return (
     <form className="flex flex-col gap-4">
-      <ImageInput
+      <FileInput
         label="Upload Vehicle Image"
         name="vehicleImage"
-        onChange={handleImageChange}
-        error={errors.vehicleImage}
-        value={formImages.vehicleImage}
+        onChange={(file) =>
+          setFormData((fd) => ({ ...fd, vehicleImage: file }))
+        }
+        fileTypes={["image/png", "image/jpg", "image/jpeg"]}
+      />
+      <FileInput
+        label="Upload of procurement documents, such as invoices, approval letters, and delivery receipts.(Organize Them in one File)"
+        name="procurementDocument"
+        onChange={(file) =>
+          setFormData((fd) => ({ ...fd, procurementDocument: file }))
+        }
+        fileTypes={["application/pdf"]}
       />
       {typeInputs.map((props) => (
-        <TypeInput
-          key={props.label}
-          {...props}
-          onChange={(e) =>
-            setFormData({ ...formData, [props.name]: e.target.value })
-          }
-          value={formData[props.name] ?? ""}
-        />
+        <div key={props.label} className="relative flex flex-col gap-2">
+          <label htmlFor={props.name} className="text-sm">
+            {props.label}
+          </label>
+          <Input
+            type={props.type ?? "text"}
+            id={props.name}
+            onChange={(e) =>
+              setFormData({ ...formData, [props.name]: e.target.value })
+            }
+            value={formData[props.name] ?? ""}
+            className=""
+          />
+        </div>
       ))}
       <label htmlFor="vehicleStatus">Vehicle Status</label>
       <Select id="vehicleStatus" name="vehicleStatus">
@@ -140,90 +125,20 @@ const NewVehicleForm = ({ value, onValueChange }) => {
         </SelectContent>
       </Select>
 
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button onClick={() => setFormData({})}>Add Vehicle</Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <Image
-              src="/images/success.svg"
-              width={167}
-              height={135}
-              alt="Operation successful image"
-              className="block mx-auto"
-            />
-
-            <DialogTitle className="text-secondary text-xl text-center">
-              Vehicle Successfully added to Fleet inventory
-            </DialogTitle>
-            <DialogDescription className="text-center">
-              Fleet Inventory of Vehicle{" "}
-              <strong>[Vehicle ID: {formData.vehicleID}]</strong> have been
-              saved and updated
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button>
-                <Plus />
-                Add Another Vehicle
-              </Button>
-            </DialogClose>
-            <Button variant="outline">
-              <Link href="/dashboard/fleet-inventory">Back to Inventory</Link>
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <SuccessDialog
+        title="Vehicle Successfully added to Fleet inventory"
+        description={
+          <>
+            {" "}
+            Fleet Inventory of Vehicle{" "}
+            <strong>[Vehicle ID: {formData.vehicleID}]</strong> have been saved
+            and updated
+          </>
+        }
+      >
+        <Button onClick={() => setFormData({})}>Add Vehicle</Button>
+      </SuccessDialog>
     </form>
-  );
-};
-
-const TypeInput = ({ label, type = "text", name, ...props }) => {
-  return (
-    <div className="relative flex flex-col gap-2">
-      <label htmlFor={name} className="text-sm">
-        {label}
-      </label>
-      <Input type={type} id={name} {...props} className="" />
-    </div>
-  );
-};
-
-const ImageInput = ({ label, name, value, onChange, error }) => {
-  return (
-    <div className="img-upload relative">
-      <label htmlFor="vehicleImage">
-        <span className={buttonVariants({ variant: "outline" })}>{label}</span>
-        <VisuallyHidden.Root>
-          <input
-            type="file"
-            name={name}
-            id={name}
-            accept="image/*"
-            onChange={onChange}
-            className="appearance-none"
-          />
-        </VisuallyHidden.Root>
-        <div className="h-48 mt-2 rounded-lg flex flex-col justify-center items-center border border-input">
-          {}
-          {value ? (
-            <img
-              src={value}
-              alt="Your uploaded image should appear here"
-              className="h-full"
-            />
-          ) : (
-            <>
-              <CloudUpload size={32} />
-              Click to upload image
-            </>
-          )}
-        </div>
-      </label>
-      <div className="error text-red-500 text-xs">{error}</div>
-    </div>
   );
 };
 
