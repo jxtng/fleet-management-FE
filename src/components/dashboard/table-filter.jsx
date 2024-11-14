@@ -1,6 +1,7 @@
+"use client";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sliders, ChevronDown, Sheet, LayoutGrid, Search } from "lucide-react";
-import { useState } from "react";
 import {
   Select,
   SelectContent,

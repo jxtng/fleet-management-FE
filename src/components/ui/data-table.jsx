@@ -1,9 +1,10 @@
-import { cn } from "@/lib/utils";
+"use client";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 const DataTable = ({
-  data = {},
+  data = [],
   columnDefs = [],
   selectable,
   colorful = true,
@@ -15,9 +16,11 @@ const DataTable = ({
   return (
     <ScrollArea type="auto" className="rounded-lg w-full">
       <table className="w-full text-sm">
-        <caption className="py-4 text-xl text-secondary text-left font-extrabold">
-          {caption}
-        </caption>
+        {caption && (
+          <caption className="py-4 text-xl text-secondary text-left font-extrabold">
+            {caption}
+          </caption>
+        )}
         <colgroup>
           {columnDefs.map((col, index) => {
             return (
