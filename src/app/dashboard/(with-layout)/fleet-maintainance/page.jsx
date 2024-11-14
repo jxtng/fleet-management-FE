@@ -11,6 +11,7 @@ import InfoCard from "@/components/dashboard/info-card";
 import DataTable from "@/components/ui/data-table";
 import TableAction from "@/components/dashboard/table-action";
 import Image from "next/image";
+import Link from "next/link";
 
 const FleetMaintainance = () => {
   const [filterData, setFilterData] = useState({});
@@ -21,7 +22,9 @@ const FleetMaintainance = () => {
       <div className="flex justify-between items-center flex-wrap gap-2 my-4">
         <RealTimeInfo title="Fleet Maintainance" />
         <div className="btn-group flex gap-2">
-          <Button>Add New Maintainance Record</Button>
+          <Link href="/dashboard/fleet-maintainance/new">
+            <Button>Add New Maintainance Record</Button>
+          </Link>
           <Button variant="outline">Export Logs (CSV, PDF)</Button>
         </div>
       </div>
