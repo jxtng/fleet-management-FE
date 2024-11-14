@@ -45,7 +45,7 @@ const FleetInventory = () => {
               details={vehicle}
               include={["vehicleType", "makeModel", "engineNumber"]}
               className="grow"
-              action={<Action row={vehicle} />}
+              action={<TableAction row={vehicle} />}
             />
           ))}
         </div>

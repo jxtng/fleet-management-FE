@@ -34,7 +34,7 @@ const InfoCard = ({
         )}
       </div>
       <ul className="info-area flex flex-col p-4 bg-primary text-background">
-        <li className="text-lg mb-2">{title}</li>
+        <li className="mb-2">{title}</li>
         {infoList.map(([key, value], index) => (
           <li className="text-sm" key={key + index}>
             <span className="opacity-70 capitalize leading-6">

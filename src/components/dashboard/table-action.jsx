@@ -23,20 +23,20 @@ const TableAction = ({ row }) => {
       <DropdownMenuContent>
         <DropdownMenuItem asChild>
           <Link href={`/dashboard/fleet-inventory/vehicle/${row.id}`}>
-            <Eye /> View vehicle details
+            <Eye /> View details
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <History /> View vehicle history
+          <History /> View history
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Edit /> Edit vehicle details
+          <Edit /> Edit details
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Share /> Share vehicle details
+          <Share /> Share details
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Trash2 className="text-red-400" /> Delete vehicle
+          <Trash2 className="text-red-400" /> Delete
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
