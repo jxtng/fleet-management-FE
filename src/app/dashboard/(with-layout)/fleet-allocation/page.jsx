@@ -14,6 +14,7 @@ import TableFilter from "@/components/dashboard/table-filter";
 import DataTable from "@/components/ui/data-table";
 import allocationMockData from "@/data/allocationMockData";
 import InfoCard from "@/components/dashboard/info-card";
+import Link from "next/link";
 
 const FleetAllocation = () => {
   const [filterData, setFilterData] = useState({});
@@ -25,7 +26,9 @@ const FleetAllocation = () => {
       <div className="flex justify-between items-center flex-wrap gap-2 my-4">
         <RealTimeInfo title="Fleet Inventory" />
         <div className="btn-group flex gap-2">
-          <Button>Allocate Vehicle</Button>
+          <Link href="/dashboard/fleet-allocation/new">
+            <Button>Allocate Vehicle</Button>
+          </Link>
           <Button variant="outline">Export Logs (CSV, PDF)</Button>
         </div>
       </div>
