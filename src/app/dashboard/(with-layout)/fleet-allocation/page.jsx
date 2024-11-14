@@ -16,6 +16,7 @@ import InfoCard from "@/components/dashboard/info-card";
 import Link from "next/link";
 import allocationMockData from "@/data/allocationMockData";
 import assignmentMockData from "@/data/assignmentMockData";
+import TableAction from "@/components/dashboard/table-action";
 
 const allocationColumnDef = [
   {
@@ -31,12 +32,7 @@ const allocationColumnDef = [
   { th: "Engine Number", key: "engineNumber" },
   {
     th: "Action",
-    td: () => (
-      <button className="flex text-green-400">
-        <ShieldCheck size={18} />
-        <EllipsisVertical size={18} />
-      </button>
-    ),
+    td: TableAction,
   },
 ];
 
@@ -117,7 +113,7 @@ const FleetAllocation = () => {
         <DataTable
           selectable
           data={mockData}
-          caption="Recent Allocation"
+          caption={`Recent ${allocateMode ? "Allocation" : "Assignment"}`}
           columnDefs={allocateMode ? allocationColumnDef : assignmentColumnDef}
         />
       )}
