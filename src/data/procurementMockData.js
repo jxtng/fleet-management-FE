@@ -1,4 +1,4 @@
-export default [
+const procurementMockData = [
   {
     id: 1,
     sn: "01",
@@ -66,3 +66,5 @@ export default [
     deliveryStatus: "Backordered",
   },
 ];
+
+export default procurementMockData;

@@ -1,4 +1,4 @@
-export default [
+const assignmentMockData = [
   {
     id: 1,
     sn: "01",
@@ -66,3 +66,5 @@ export default [
     action: "View Details",
   },
 ];
+
+export default assignmentMockData;

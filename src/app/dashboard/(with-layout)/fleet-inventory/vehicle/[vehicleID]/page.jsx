@@ -40,7 +40,11 @@ const VehicleDetails = async ({ params }) => {
           <InfoCard
             title="Procurement Document"
             details={[
-              <Link href="#" className="underline underline-offset-4">
+              <Link
+                key="viewLink"
+                href="#"
+                className="underline underline-offset-4"
+              >
                 View
               </Link>,
             ]}
@@ -50,7 +54,10 @@ const VehicleDetails = async ({ params }) => {
           {Object.entries(vehicle)
             .filter(([key, _]) => !["id", "vehicleImage"].includes(key))
             .map(([key, value]) => (
-              <li className="p-3 border-b even:bg-green-100 even:border-green-500 odd:bg-red-100 odd:border-red-500">
+              <li
+                key={key + value}
+                className="p-3 border-b even:bg-green-100 even:border-green-500 odd:bg-red-100 odd:border-red-500"
+              >
                 <span className="capitalize text-muted-foreground">
                   {key.replace(/((?<=[^A-Z])[A-Z])/g, " $1")}
                 </span>

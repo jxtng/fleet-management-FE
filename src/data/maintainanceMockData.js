@@ -1,4 +1,4 @@
-export default [
+const maintainanceMockData = [
   {
     id: 1,
     sn: "01",
@@ -55,3 +55,5 @@ export default [
     status: "issue",
   },
 ];
+
+export default maintainanceMockData;

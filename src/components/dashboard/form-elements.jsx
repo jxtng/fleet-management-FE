@@ -20,36 +20,44 @@ export const FileInput = ({
   uploadLabel = "Click to Upload File",
 }) => {
   const [imagePreview, setImagePreview] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (imagePreview) {
-      window.URL.revokeObjectURL(imagePreview);
+    if (!selectedFile?.type?.startsWith("image")) {
+      setImagePreview(null);
+      return;
     }
-  }, []);
+
+    const imagePreviewURL = window.URL.createObjectURL(selectedFile);
+    setImagePreview(imagePreviewURL);
+
+    return () => window.URL.revokeObjectURL(imagePreviewURL);
+  }, [selectedFile]);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
+    let validationSuccess = true;
 
-    if (fileTypes.length && !fileTypes.includes(file.type)) {
-      return setError(
+    if (
+      fileTypes.length &&
+      !fileTypes.some((type) => type.startsWith(file?.type.split("/")[0]))
+    ) {
+      validationSuccess = false;
+      setError(
         `Invalid file type. File must be of type: ${fileTypes.join(" or ")}`
       );
     }
 
     if (file.size > maxSize) {
-      return setError(
+      validationSuccess = false;
+      setError(
         `File size exceeds the maximum allowed size of ${maxSize / 1024} KB`
       );
     }
 
-    if (imagePreview) window.URL.revokeObjectURL(imagePreview);
-    setImagePreview(
-      file.type.startsWith("image/")
-        ? window.URL.createObjectURL(file)
-        : file.name
-    );
-    onChange?.(file);
+    setSelectedFile(validationSuccess ? file : null);
+    onChange?.(validationSuccess ? file : null);
   };
 
   return (
@@ -67,14 +75,14 @@ export const FileInput = ({
           />
         </VisuallyHidden.Root>
         <div className="h-20 mt-2 rounded-lg flex flex-col justify-center items-center border border-input">
-          {imagePreview?.includes("://") ? (
+          {imagePreview ? (
             <img
               src={imagePreview}
               alt="Your uploaded image should appear here"
               className="h-full"
             />
-          ) : imagePreview ? (
-            <p className="text-center">{imagePreview}</p>
+          ) : selectedFile ? (
+            <p className="text-center">{selectedFile.name}</p>
           ) : (
             <>
               <CloudUpload size={32} />

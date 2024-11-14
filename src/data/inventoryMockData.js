@@ -1,4 +1,4 @@
-export default [
+const inventoryMockData = [
   {
     id: 1,
     vehicleID: "FMS-EN-00123",
@@ -96,3 +96,5 @@ export default [
     status: "Inactive",
   },
 ];
+
+export default inventoryMockData;
