@@ -25,22 +25,34 @@ const VehicleMaintainanceView = async ({ params }) => {
         ]}
       />
 
-      <p className="text-lg font-bold text-secondary">
+      <p className="text-lg font-bold text-secondary my-8">
         Click to view the details related to Vehicle ID: {vehicleID}.
       </p>
-      <div className="flex">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         {[
           {
             name: "Maintainance Log",
-            colors: ["bg-green-100", "bg-green-500", "text-green-500"],
+            colors: ["bg-pink-100", "bg-pink-500", "text-pink-500"],
           },
           {
             name: "Scheduled Maintainance",
-            colors: ["bg-green-100", "bg-green-500", "text-green-500"],
+            colors: ["bg-yellow-100", "bg-yellow-500", "text-yellow-500"],
           },
           {
             name: "Breakdown Incident",
-            colors: ["bg-green-100", "bg-green-500", "text-green-500"],
+            colors: ["bg-red-100", "bg-red-500", "text-red-500"],
+          },
+          {
+            name: "Parts Replacement History",
+            colors: ["bg-slate-100", "bg-slate-500", "text-slate-500"],
+          },
+          {
+            name: "Maintenance Cost Analytics",
+            colors: ["bg-teal-100", "bg-teal-500", "text-teal-500"],
+          },
+          {
+            name: "Fuel & Oil Monitoring",
+            colors: ["bg-zinc-100", "bg-zinc-500", "text-zinc-500"],
           },
         ].map(({ name, colors }) => (
           <MaintainanceCard key={name} name={name} colors={colors} />
@@ -54,17 +66,21 @@ const MaintainanceCard = ({
   name,
   colors: [background, btnColor, textColor] = [
     "bg-primary/20",
-    "text-primary",
+    "bg-primary",
     "text-primary",
   ],
 }) => {
   return (
-    <div className={`maintainance-card p-4 rounded-lg ${background}`}>
-      <div className="flex gap-8">
-        <FileClock className={`w-20 h-20 ${textColor}`} />
-        <span className="font-bold text-secondary">{name}</span>
+    <div
+      className={`maintainance-card p-4 flex flex-col gap-4 rounded-lg ${background}`}
+    >
+      <div className="flex items-center justify-center gap-4">
+        <FileClock className={`w-16 h-16 ${textColor}`} />
+        <span className="font-bold text-lg text-secondary">{name}</span>
       </div>
-      <Button className={btnColor}>View</Button>
+      <Button className={` ${btnColor} hover:opacity-85 hover:${btnColor}`}>
+        View
+      </Button>
     </div>
   );
 };
