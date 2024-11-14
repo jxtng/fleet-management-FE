@@ -12,13 +12,45 @@ import {
 import VehicleSummary from "@/components/dashboard/vehicle-summary";
 import TableFilter from "@/components/dashboard/table-filter";
 import DataTable from "@/components/ui/data-table";
-import allocationMockData from "@/data/allocationMockData";
 import InfoCard from "@/components/dashboard/info-card";
 import Link from "next/link";
+import allocationMockData from "@/data/allocationMockData";
+import assignmentMockData from "@/data/assignmentMockData";
+
+const allocationColumnDef = [
+  {
+    th: "SN",
+    thClassName: "w-10",
+    key: "id",
+  },
+  { th: "Recipient Name", key: "recipientName" },
+  { th: "Vehicle ID", key: "vehicleID" },
+  { th: "Type", key: "vehicleType" },
+  { th: "Color", key: "vehicleColor" },
+  { th: "Make/Model", key: "makeModel" },
+  { th: "Engine Number", key: "engineNumber" },
+  {
+    th: "Action",
+    td: () => (
+      <button className="flex text-green-400">
+        <ShieldCheck size={18} />
+        <EllipsisVertical size={18} />
+      </button>
+    ),
+  },
+];
+
+const assignmentColumnDef = allocationColumnDef.map((col) => {
+  if (col.key === "recipientName")
+    return { th: "Driver Name", key: "driverName" };
+  return col;
+});
 
 const FleetAllocation = () => {
   const [filterData, setFilterData] = useState({});
   const [allocateMode, setAllocateMode] = useState(true);
+
+  const mockData = allocateMode ? allocationMockData : assignmentMockData;
 
   return (
     <div>
@@ -26,8 +58,12 @@ const FleetAllocation = () => {
       <div className="flex justify-between items-center flex-wrap gap-2 my-4">
         <RealTimeInfo title="Fleet Inventory" />
         <div className="btn-group flex gap-2">
-          <Link href="/dashboard/fleet-allocation/new">
-            <Button>Allocate Vehicle</Button>
+          <Link
+            href={`/dashboard/fleet-allocation/new${
+              allocateMode ? "" : "-assignment"
+            }`}
+          >
+            <Button>{allocateMode ? "Allocate" : "Assign"} Vehicle</Button>
           </Link>
           <Button variant="outline">Export Logs (CSV, PDF)</Button>
         </div>
@@ -59,17 +95,18 @@ const FleetAllocation = () => {
 
       <TableFilter onFilterChange={setFilterData} />
 
-      <h2 className="capitalize font-extrabold text-xl text-secondary whitespace-nowrap mb-6">
-        Recent Allocation
-      </h2>
       {filterData.displayMode == "cards" ? (
         <div className="cards flex justify-center flex-wrap gap-4">
-          {allocationMockData.map((allocation, index) => (
+          {mockData.map((record, index) => (
             <InfoCard
-              key={allocation.vehicleID + index}
-              details={allocation}
+              key={record.vehicleID + index}
+              details={record}
               include={["vehicleID", "vehicleMake", "engineNumber"]}
-              title={`Receipient Name: ${allocation.recipientName}`}
+              title={
+                allocateMode
+                  ? `Recipient Name: ${record.recipientName}`
+                  : `Driver Name: ${record.driverName}`
+              }
               image={
                 <UserCircle className="w-full h-full p-2 text-muted-foreground" />
               }
@@ -79,29 +116,9 @@ const FleetAllocation = () => {
       ) : (
         <DataTable
           selectable
-          data={allocationMockData}
-          columnDefs={[
-            {
-              th: "SN",
-              thClassName: "w-10",
-              key: "id",
-            },
-            { th: "Recipient Name", key: "recipientName" },
-            { th: "Vehicle ID", key: "vehicleID" },
-            { th: "Type", key: "vehicleType" },
-            { th: "Color", key: "vehicleColor" },
-            { th: "Make/Model", key: "makeModel" },
-            { th: "Engine Number", key: "engineNumber" },
-            {
-              th: "Action",
-              td: () => (
-                <button className="flex text-green-400">
-                  <ShieldCheck size={18} />
-                  <EllipsisVertical size={18} />
-                </button>
-              ),
-            },
-          ]}
+          data={mockData}
+          caption="Recent Allocation"
+          columnDefs={allocateMode ? allocationColumnDef : assignmentColumnDef}
         />
       )}
     </div>

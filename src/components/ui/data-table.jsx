@@ -13,9 +13,11 @@ const DataTable = ({
   const [selectedRows, setSelectedRows] = useState(new Set());
 
   return (
-    <ScrollArea type="auto" className="border rounded-lg">
+    <ScrollArea type="auto" className="rounded-lg w-full">
       <table className="w-full text-sm">
-        <caption>{caption}</caption>
+        <caption className="py-4 text-xl text-secondary text-left font-extrabold">
+          {caption}
+        </caption>
         <colgroup>
           {columnDefs.map((col, index) => {
             return (

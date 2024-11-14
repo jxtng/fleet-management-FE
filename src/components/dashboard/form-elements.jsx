@@ -96,6 +96,7 @@ export const TypeInput = ({
   value,
   className,
   placeholder,
+  icon,
   ...props
 }) => {
   return (
@@ -103,16 +104,23 @@ export const TypeInput = ({
       <label htmlFor={name} className="text-sm">
         {label}
       </label>
-      <Input
-        type={type}
-        id={name}
-        name={name}
-        placeholder={placeholder ?? label}
-        onChange={(e) => onChange?.(e.target.value)}
-        value={value}
-        className={`input ${className}`}
-        {...props}
-      />
+      <div className="relative">
+        {icon && (
+          <div className="icon text-muted-foreground absolute bottom-1/2 translate-y-1/2 ml-2 *:w-6 [&+input]:pl-9">
+            {icon}
+          </div>
+        )}
+        <Input
+          type={type}
+          id={name}
+          name={name}
+          placeholder={placeholder ?? label}
+          onChange={(e) => onChange?.(e.target.value)}
+          value={value ?? ""}
+          className={`input ${className}`}
+          {...props}
+        />
+      </div>
     </div>
   );
 };
@@ -124,15 +132,19 @@ export const SelectInput = ({
   value,
   options = [],
   placeholder,
+  icon,
 }) => {
   return (
     <div className="relative flex flex-col gap-2">
       <label htmlFor={name} className="text-sm">
         {label}
       </label>
-      <Select id={name} name={name} onChange={onChange} value={value}>
+      <Select id={name} name={name} onValueChange={onChange} value={value}>
         <SelectTrigger>
-          <SelectValue placeholder={placeholder} />
+          <div className="value flex gap-2 items-end">
+            {icon}
+            <SelectValue placeholder={placeholder} />
+          </div>
         </SelectTrigger>
         <SelectContent>
           {options.map((option) => {
@@ -146,12 +158,13 @@ export const SelectInput = ({
                         i > 0
                           ? s[0].toUpperCase() + s.slice(1).toLowerCase()
                           : s.toLowerCase()
-                      ),
+                      )
+                      .join(""),
                   }
                 : option;
 
             return (
-              <SelectItem key={label + value} value={value}>
+              <SelectItem key={value} value={value}>
                 {label}
               </SelectItem>
             );
@@ -165,17 +178,26 @@ export const SelectInput = ({
 export const AllInput = ({ inputs, formData, setFormData }) => {
   return (
     <>
-      {inputs.map((input) => {
+      {inputs.map((input, index) => {
         let InputElement = TypeInput;
         if (input.type == "file") InputElement = FileInput;
         if (input.type == "select") InputElement = SelectInput;
+        if (input.type == "flex") {
+          return (
+            <div key={"flex" + index} className="flex gap-4 *:basis-0 *:grow">
+              {input.items.map((item) => (
+                <InputElement key={item.name + "flex-item"} {...item} />
+              ))}
+            </div>
+          );
+        }
         return (
           <InputElement
             {...input}
             key={input.name + input.label}
-            onChange={(value) =>
-              setFormData((fd) => ({ ...fd, [input.name]: value }))
-            }
+            onChange={(value) => {
+              setFormData((fd) => ({ ...fd, [input.name]: value }));
+            }}
             value={formData[input.name]}
           />
         );
