@@ -49,6 +49,7 @@ const VehicleMaintenanceView = async ({ params }) => {
           {
             name: "Parts Replacement History",
             colors: ["bg-slate-100", "bg-slate-500", "text-slate-500"],
+            href: `parts-replacement/${vehicleID}`,
           },
           {
             name: "Maintenance Cost Analytics",
