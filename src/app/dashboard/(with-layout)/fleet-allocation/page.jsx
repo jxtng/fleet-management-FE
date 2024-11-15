@@ -5,8 +5,11 @@ import RealTimeInfo from "@/components/dashboard/real-time-info";
 import { Button } from "@/components/ui/button";
 import {
   ChevronDown,
-  EllipsisVertical,
-  ShieldCheck,
+  Edit,
+  Eye,
+  History,
+  Share,
+  Trash2,
   UserCircle,
 } from "lucide-react";
 import VehicleSummary from "@/components/dashboard/vehicle-summary";
@@ -17,6 +20,19 @@ import Link from "next/link";
 import allocationMockData from "@/data/allocationMockData";
 import assignmentMockData from "@/data/assignmentMockData";
 import TableAction from "@/components/dashboard/table-action";
+
+const allocationActions = [
+  { label: "View recipient details", icon: <Eye /> },
+  { label: "View recipient history", icon: <History /> },
+  { label: "Edit recipient details", icon: <Edit /> },
+  { label: "Share recipient details", icon: <Share /> },
+  { label: "Delete recipient", icon: <Trash2 className="text-red-400" /> },
+];
+
+const assignmentActions = allocationActions.map((action) => ({
+  ...action,
+  label: action.label.replace("recipient", "driver"),
+}));
 
 const allocationColumnDef = [
   {
@@ -32,13 +48,21 @@ const allocationColumnDef = [
   { th: "Engine Number", key: "engineNumber" },
   {
     th: "Action",
-    td: TableAction,
+    td: ({ row }) => <TableAction row={row} actions={allocationActions} />,
   },
 ];
 
 const assignmentColumnDef = allocationColumnDef.map((col) => {
-  if (col.key === "recipientName")
+  if (col.key === "recipientName") {
     return { th: "Driver Name", key: "driverName" };
+  }
+
+  if (col.th === "Action") {
+    return {
+      th: "Action",
+      td: ({ row }) => <TableAction row={row} actions={assignmentActions} />,
+    };
+  }
   return col;
 });
 

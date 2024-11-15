@@ -4,40 +4,37 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Edit,
-  EllipsisVertical,
-  Eye,
-  History,
-  Share,
-  Trash2,
-} from "lucide-react";
+import { EllipsisVertical } from "lucide-react";
 import Link from "next/link";
 
-const TableAction = ({ row }) => {
+const TableAction = ({
+  row,
+  trigger = <EllipsisVertical size={18} />,
+  actions = [],
+}) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex text-green-400">
-        <EllipsisVertical size={18} />
-      </DropdownMenuTrigger>
+      <DropdownMenuTrigger className="flex">{trigger}</DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuItem asChild>
-          <Link href={`/dashboard/fleet-inventory/vehicle/${row.id}`}>
-            <Eye /> View details
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <History /> View history
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Edit /> Edit details
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Share /> Share details
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Trash2 className="text-red-400" /> Delete
-        </DropdownMenuItem>
+        {actions.map((action) => (
+          <DropdownMenuItem key={action.label} asChild>
+            {action.href ? (
+              <Link
+                href={
+                  typeof action.href === "function"
+                    ? action.href(row)
+                    : action.href
+                }
+              >
+                {action.icon} {action.label}
+              </Link>
+            ) : (
+              <button className="w-full" onClick={() => action.onClick?.(row)}>
+                {action.icon} {action.label}
+              </button>
+            )}
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );

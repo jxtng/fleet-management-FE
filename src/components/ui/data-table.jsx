@@ -36,7 +36,7 @@ const DataTable = ({
           >
             {selectable && (
               <th
-                className={`w-10 text-center p-2 h-10 align-middle ${
+                className={`w-10 text-center p-2 py-5 h-10 align-middle ${
                   colorful ? "bg-primary" : "bg-muted"
                 } text-background first:rounded-tl-lg last:rounded-tr-lg`}
               >

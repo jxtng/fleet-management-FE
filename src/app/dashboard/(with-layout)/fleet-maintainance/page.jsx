@@ -6,13 +6,37 @@ import { Button } from "@/components/ui/button";
 import VehicleSummary from "@/components/dashboard/vehicle-summary";
 import TableFilter from "@/components/dashboard/table-filter";
 import maintainanceMockData from "@/data/maintainanceMockData";
-import { AlertTriangle, Car, ShieldCheck } from "lucide-react";
+import {
+  AlertTriangle,
+  Car,
+  Eye,
+  Plus,
+  Share,
+  ShieldCheck,
+  Trash2,
+} from "lucide-react";
 import InfoCard from "@/components/dashboard/info-card";
 import DataTable from "@/components/ui/data-table";
 import TableAction from "@/components/dashboard/table-action";
 import Image from "next/image";
 import Link from "next/link";
 
+const actions = [
+  {
+    label: "View vehicle maintenance history",
+    icon: <Eye className="text-green-400" />,
+  },
+  {
+    label: "Add new maintenance history",
+    icon: <Plus className="text-blue-400" />,
+    href: "/dashboard/fleet-maintainance/new",
+  },
+  { label: "Share maintenance details", icon: <Share /> },
+  {
+    label: "Delete maintenance info",
+    icon: <Trash2 className="text-red-400" />,
+  },
+];
 const FleetMaintainance = () => {
   const [filterData, setFilterData] = useState({});
 
@@ -41,7 +65,7 @@ const FleetMaintainance = () => {
               details={vehicle}
               include={["vehicleType", "lastServiceDate", "nextServiceDate"]}
               className="grow"
-              action={<TableAction row={vehicle} />}
+              action={<TableAction row={vehicle} actions={actions} />}
               image={
                 <Car
                   className={`w-full h-full p-2 ${
@@ -79,16 +103,19 @@ const FleetMaintainance = () => {
               td: ({ row }) => (
                 <>
                   {row.status == "ok" ? (
-                    <ShieldCheck className="text-green-400" size={18} />
+                    <ShieldCheck className="text-green-400 mx-auto" size={18} />
                   ) : (
-                    <AlertTriangle className="text-amber-400" size={18} />
+                    <AlertTriangle
+                      className="text-amber-400 mx-auto"
+                      size={18}
+                    />
                   )}
                 </>
               ),
             },
             {
               th: "",
-              td: TableAction,
+              td: ({ row }) => <TableAction row={row} actions={actions} />,
             },
           ]}
         />
