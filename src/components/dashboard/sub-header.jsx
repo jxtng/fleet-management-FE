@@ -24,7 +24,7 @@ const SubHeader = ({ title, description, previousLink }) => {
       </div>
 
       {description && (
-        <div className="p-4 my-4 rounded border border-green-500 bg-green-200">
+        <div className="p-4 my-4 rounded border border-green-500 bg-green-100">
           {description}
         </div>
       )}

@@ -10,6 +10,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
 export const FileInput = ({
   label,
@@ -183,6 +184,31 @@ export const SelectInput = ({
   );
 };
 
+export const TextareaInput = ({
+  name,
+  label,
+  placeholder,
+  onChange,
+  value,
+  ...props
+}) => {
+  return (
+    <div className="relative flex flex-col gap-2">
+      <label htmlFor={name} className="text-sm">
+        {label}
+      </label>
+      <Textarea
+        id={name}
+        name={name}
+        placeholder={placeholder ?? label}
+        onChange={(e) => onChange?.(e.target.value)}
+        value={value ?? ""}
+        {...props}
+      />
+    </div>
+  );
+};
+
 export const AllInput = ({ inputs, formData, setFormData }) => {
   return (
     <>
@@ -190,6 +216,7 @@ export const AllInput = ({ inputs, formData, setFormData }) => {
         let InputElement = TypeInput;
         if (input.type == "file") InputElement = FileInput;
         if (input.type == "select") InputElement = SelectInput;
+        if (input.type == "textarea") InputElement = TextareaInput;
         if (input.type == "flex") {
           return (
             <div key={"flex" + index} className="flex gap-4 *:basis-0 *:grow">

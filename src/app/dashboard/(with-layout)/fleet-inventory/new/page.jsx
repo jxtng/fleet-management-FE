@@ -1,4 +1,4 @@
-import NewVehicleForm from "@/components/dashboard/new-vehicle-form";
+import NewVehicleForm from "@/components/dashboard/forms/new-vehicle-form";
 import SubHeader from "@/components/dashboard/sub-header";
 import React from "react";
 

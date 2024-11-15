@@ -1,4 +1,4 @@
-import NewAllocationForm from "@/components/dashboard/new-allocation-form";
+import NewAllocationForm from "@/components/dashboard/forms/new-allocation-form";
 import SubHeader from "@/components/dashboard/sub-header";
 import React from "react";
 

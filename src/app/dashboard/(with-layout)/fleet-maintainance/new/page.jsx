@@ -1,4 +1,4 @@
-import NewMaintainanceRecordForm from "@/components/dashboard/new-maintainance-record-form";
+import NewMaintainanceRecordForm from "@/components/dashboard/forms/new-maintainance-record-form";
 import SubHeader from "@/components/dashboard/sub-header";
 import React from "react";
 

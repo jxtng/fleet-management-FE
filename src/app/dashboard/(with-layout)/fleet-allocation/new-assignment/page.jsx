@@ -1,4 +1,4 @@
-import NewAssignmentForm from "@/components/dashboard/new-assignment-form";
+import NewAssignmentForm from "@/components/dashboard/forms/new-assignment-form";
 import SubHeader from "@/components/dashboard/sub-header";
 import React from "react";
 

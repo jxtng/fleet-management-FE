@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
-import SuccessDialog from "./success-dialog";
-import { Button } from "../ui/button";
-import { AllInput } from "./form-elements";
+import SuccessDialog from "@/components/dashboard/success-dialog";
+import { Button } from "@/components/ui/button";
+import { AllInput } from "@/components/dashboard/forms/form-elements";
 import { Banknote } from "lucide-react";
 
 const inputs = [
