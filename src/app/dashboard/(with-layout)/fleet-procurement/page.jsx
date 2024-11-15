@@ -2,11 +2,14 @@
 import { useState } from "react";
 import Greeting from "@/components/dashboard/greeting";
 import RealTimeInfo from "@/components/dashboard/real-time-info";
-import Button from "@/components/button";
-import { ChevronDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ChevronDown, Edit, Eye, Share } from "lucide-react";
 import TableFilter from "@/components/dashboard/table-filter";
 import ProcurementTable from "./procurement-table";
 import OverviewCard from "@/components/dashboard/overview-card";
+import DataTable from "@/components/ui/data-table";
+import procurementMockData from "@/data/procurementMockData";
+import TableAction from "@/components/dashboard/table-action";
 
 const months = [
   "January",
@@ -34,7 +37,7 @@ const FleetProcurement = () => {
       <div className="flex justify-between items-center flex-wrap gap-2 my-4">
         <RealTimeInfo title="Fleet Inventory" />
         <div className="btn-group flex gap-2">
-          <Button variant="primary">Create New Request</Button>
+          <Button>Create New Request</Button>
           <Button variant="outline">Create Procurement Category</Button>
         </div>
       </div>
@@ -87,7 +90,37 @@ const FleetProcurement = () => {
       </div>
 
       <TableFilter onFilterChange={setFilterData} showDisplayToggle={false} />
-      <ProcurementTable />
+      <DataTable
+        data={procurementMockData}
+        columnDefs={[
+          { th: "Order Number", key: "orderNumber" },
+          { th: "Type", key: "procurementType" },
+          { th: "Vendor", key: "vendor" },
+          { th: "Description", key: "itemDescription" },
+          { th: "Quantity", key: "quantity" },
+          { th: "Total Cost", key: "totalCost" },
+          { th: "Delivery Status", key: "deliveryStatus" },
+          {
+            th: "Actions",
+            td: ({ row }) => (
+              <TableAction
+                actions={[
+                  {
+                    label: "View Vehicle Procurement ",
+                    icon: <Eye className="text-green-400" />,
+                  },
+                  { label: "Edit Procurement  Details", icon: <Edit /> },
+                  { label: "Share Procurement Details", icon: <Share /> },
+                  {
+                    label: "Delete Procurement Info ",
+                    icon: <Eye className="text-red-400" />,
+                  },
+                ]}
+              />
+            ),
+          },
+        ]}
+      />
     </div>
   );
 };
