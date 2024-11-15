@@ -4,10 +4,10 @@ import TableFilter from "@/components/dashboard/table-filter";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import Link from "next/link";
-import maintainanceLog from "@/data/maintainanceLogMockData";
-import MaintainanceLogTable from "./table";
+import maintenanceLog from "@/data/maintenanceLogMockData";
+import MaintenanceLogTable from "./table";
 
-const MaintainanceLog = async ({ params }) => {
+const MaintenanceLog = async ({ params }) => {
   const { vehicleID } = await params;
 
   return (
@@ -18,20 +18,20 @@ const MaintainanceLog = async ({ params }) => {
 
       <Link href="#" className="flex flex-col my-4">
         <Button>
-          <Plus /> Add Maintainance Record
+          <Plus /> Add Maintenance Record
         </Button>
       </Link>
 
       <TableFilter showDisplayToggle={false} />
 
-      <MaintainanceLogTable
+      <MaintenanceLogTable
         data={
-          maintainanceLog.find((log) => log.vehicleID == vehicleID)
-            ?.maintainanceLog ?? []
+          maintenanceLog.find((log) => log.vehicleID == vehicleID)
+            ?.maintenanceLog ?? []
         }
       />
     </>
   );
 };
 
-export default MaintainanceLog;
+export default MaintenanceLog;

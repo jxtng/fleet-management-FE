@@ -6,12 +6,22 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 const DataTable = ({
   data = [],
   columnDefs = [],
-  selectable,
+  selectable = true,
+  serialNumber = true,
   colorful = true,
   caption = "",
   verticalBorder = false,
 }) => {
   const [selectedRows, setSelectedRows] = useState(new Set());
+
+  const columns = [...columnDefs];
+  if (serialNumber) {
+    columns.unshift({
+      th: "SN",
+      thClassName: "w-2",
+      td: ({ index }) => (index > 9 ? "" : "0") + (index + 1),
+    });
+  }
 
   return (
     <ScrollArea type="auto" className="rounded-lg w-full">
@@ -22,7 +32,7 @@ const DataTable = ({
           </caption>
         )}
         <colgroup>
-          {columnDefs.map((col, index) => {
+          {columns.map((col, index) => {
             return (
               <col key={index} className={cn(verticalBorder && "border")} />
             );
@@ -56,7 +66,7 @@ const DataTable = ({
                 />
               </th>
             )}
-            {columnDefs.map((col) => {
+            {columns.map((col) => {
               return (
                 <th
                   key={col.th}
@@ -104,7 +114,7 @@ const DataTable = ({
                     />
                   </th>
                 )}
-                {columnDefs.map((col) => {
+                {columns.map((col) => {
                   let element = row[col.key];
                   if (col.td && typeof col.td === "function") {
                     element = <col.td row={row} col={col} index={rowIndex} />;

@@ -6,13 +6,13 @@ import { FileClock } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-const VehicleMaintainanceView = async ({ params }) => {
+const VehicleMaintenanceView = async ({ params }) => {
   const { vehicleID } = await params;
 
   return (
     <>
       <SubHeader
-        title={`Maintainance Overview for Vehicle [Vehicle ID: ${vehicleID}]`}
+        title={`Maintenance Overview for Vehicle [Vehicle ID: ${vehicleID}]`}
       />
 
       <OverviewCard
@@ -32,18 +32,19 @@ const VehicleMaintainanceView = async ({ params }) => {
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         {[
           {
-            name: "Maintainance Log",
+            name: "Maintenance Log",
             colors: ["bg-pink-100", "bg-pink-500", "text-pink-500"],
             href: `log/${vehicleID}`,
           },
           {
-            name: "Scheduled Maintainance",
+            name: "Scheduled Maintenance",
             colors: ["bg-yellow-100", "bg-yellow-500", "text-yellow-500"],
             href: `schedule/${vehicleID}`,
           },
           {
             name: "Breakdown Incident",
             colors: ["bg-red-100", "bg-red-500", "text-red-500"],
+            href: `breakdown/${vehicleID}`,
           },
           {
             name: "Parts Replacement History",
@@ -58,14 +59,14 @@ const VehicleMaintainanceView = async ({ params }) => {
             colors: ["bg-zinc-100", "bg-zinc-500", "text-zinc-500"],
           },
         ].map((props) => (
-          <MaintainanceCard key={props.name} {...props} />
+          <MaintenanceCard key={props.name} {...props} />
         ))}
       </div>
     </>
   );
 };
 
-const MaintainanceCard = ({
+const MaintenanceCard = ({
   name,
   colors: [background, btnColor, textColor] = [
     "bg-primary/20",
@@ -76,7 +77,7 @@ const MaintainanceCard = ({
 }) => {
   return (
     <div
-      className={`maintainance-card p-4 flex flex-col gap-4 rounded-lg ${background}`}
+      className={`maintenance-card p-4 flex flex-col gap-4 rounded-lg ${background}`}
     >
       <div className="flex items-center justify-center gap-4">
         <FileClock className={`w-16 h-16 ${textColor}`} />
@@ -95,4 +96,4 @@ const MaintainanceCard = ({
     </div>
   );
 };
-export default VehicleMaintainanceView;
+export default VehicleMaintenanceView;

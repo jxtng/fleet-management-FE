@@ -4,22 +4,17 @@ import DataTable from "@/components/ui/data-table";
 import { Edit, Plus } from "lucide-react";
 import Link from "next/link";
 
-const MaintainanceLogTable = ({ data }) => {
+const MaintenanceLogTable = ({ data }) => {
   return (
     <DataTable
-      selectable
       data={data}
       columnDefs={[
-        {
-          th: "SN",
-          td: ({ index }) => <>{(index > 9 ? "" : "0") + (index + 1)}</>,
-        },
         { th: "Date", key: "date" },
-        { th: "Type of Maintainance", key: "typeOfMaintainance" },
+        { th: "Type of Maintenance", key: "typeOfMaintenance" },
         { th: "Description", key: "description" },
         { th: "Cost", key: "cost" },
         { th: "Mileage", key: "mileage" },
-        { th: "Maintainance Provider", key: "maintainanceProvider" },
+        { th: "Maintenance Provider", key: "maintenanceProvider" },
         {
           th: "Invoice",
           td: () => <Link href="#">View Invoice</Link>,
@@ -33,7 +28,7 @@ const MaintainanceLogTable = ({ data }) => {
                 {
                   label: "Add Maintenance Record",
                   icon: <Plus className="text-green-400" />,
-                  href: "/dashboard/fleet-maintainance/new",
+                  href: "/dashboard/fleet-maintenance/new",
                 },
                 {
                   label: "Edit Record",
@@ -52,4 +47,4 @@ const MaintainanceLogTable = ({ data }) => {
   );
 };
 
-export default MaintainanceLogTable;
+export default MaintenanceLogTable;

@@ -20,9 +20,9 @@ const actions = [
     href: "/dashboard/fleet-allocation",
   },
   {
-    title: "Fleet Maintainance",
-    image: "/images/dashboard-actions/fleet-maintainance-card.png",
-    href: "/dashboard/fleet-maintainance",
+    title: "Fleet Maintenance",
+    image: "/images/dashboard-actions/fleet-maintenance-card.png",
+    href: "/dashboard/fleet-maintenance",
   },
   {
     title: "Fleet Procurement",

@@ -5,7 +5,7 @@ import RealTimeInfo from "@/components/dashboard/real-time-info";
 import { Button } from "@/components/ui/button";
 import VehicleSummary from "@/components/dashboard/vehicle-summary";
 import TableFilter from "@/components/dashboard/table-filter";
-import maintainanceMockData from "@/data/maintainanceMockData";
+import maintenanceMockData from "@/data/maintenanceMockData";
 import {
   AlertTriangle,
   Car,
@@ -25,12 +25,12 @@ const actions = [
   {
     label: "View maintenance",
     icon: <Eye className="text-green-400" />,
-    href: (row) => `/dashboard/fleet-maintainance/${row.vehicleID}`,
+    href: (row) => `/dashboard/fleet-maintenance/${row.vehicleID}`,
   },
   {
     label: "Add new maintenance history",
     icon: <Plus className="text-blue-400" />,
-    href: "/dashboard/fleet-maintainance/new",
+    href: "/dashboard/fleet-maintenance/new",
   },
   { label: "Share maintenance details", icon: <Share /> },
   {
@@ -38,17 +38,17 @@ const actions = [
     icon: <Trash2 className="text-red-400" />,
   },
 ];
-const FleetMaintainance = () => {
+const FleetMaintenance = () => {
   const [filterData, setFilterData] = useState({});
 
   return (
     <div>
       <Greeting />
       <div className="flex justify-between items-center flex-wrap gap-2 my-4">
-        <RealTimeInfo title="Fleet Maintainance" />
+        <RealTimeInfo title="Fleet Maintenance" />
         <div className="btn-group flex gap-2">
-          <Link href="/dashboard/fleet-maintainance/new">
-            <Button>Add New Maintainance Record</Button>
+          <Link href="/dashboard/fleet-maintenance/new">
+            <Button>Add New Maintenance Record</Button>
           </Link>
           <Button variant="outline">Export Logs (CSV, PDF)</Button>
         </div>
@@ -59,7 +59,7 @@ const FleetMaintainance = () => {
 
       {filterData.displayMode == "cards" ? (
         <div className="cards flex justify-between flex-wrap gap-2">
-          {maintainanceMockData.map((vehicle) => (
+          {maintenanceMockData.map((vehicle) => (
             <InfoCard
               key={vehicle.id}
               title={`Vehicle ID: ${vehicle.vehicleID}`}
@@ -79,10 +79,8 @@ const FleetMaintainance = () => {
         </div>
       ) : (
         <DataTable
-          data={maintainanceMockData}
-          selectable
+          data={maintenanceMockData}
           columnDefs={[
-            { th: "SN", key: "id" },
             {
               th: "Vehicle Image",
               td: ({ row }) => (
@@ -125,4 +123,4 @@ const FleetMaintainance = () => {
   );
 };
 
-export default FleetMaintainance;
+export default FleetMaintenance;

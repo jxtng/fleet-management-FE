@@ -67,9 +67,7 @@ const FleetInventory = () => {
       ) : (
         <DataTable
           data={inventoryMockData}
-          selectable
           columnDefs={[
-            { th: "SN", key: "id" },
             {
               th: "Vehicle Image",
               td: ({ row }) => (

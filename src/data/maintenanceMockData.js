@@ -1,4 +1,4 @@
-const maintainanceMockData = [
+const maintenanceMockData = [
   {
     id: 1,
     sn: "01",
@@ -14,7 +14,7 @@ const maintainanceMockData = [
     id: 2,
     sn: "01",
     vehicleImage: "https://example.com/images/vehicle1.png",
-    vehicleID: "FMS-EN-00123",
+    vehicleID: "FMS-EN-00124",
     vehicleType: "SUV",
     plateNumber: "EN1234NG",
     lastServiceDate: "30th January 2023",
@@ -25,7 +25,7 @@ const maintainanceMockData = [
     id: 3,
     sn: "01",
     vehicleImage: "https://example.com/images/vehicle1.png",
-    vehicleID: "FMS-EN-00123",
+    vehicleID: "FMS-EN-00125",
     vehicleType: "SUV",
     plateNumber: "EN1234NG",
     lastServiceDate: "30th January 2023",
@@ -36,7 +36,7 @@ const maintainanceMockData = [
     id: 4,
     sn: "01",
     vehicleImage: "https://example.com/images/vehicle1.png",
-    vehicleID: "FMS-EN-00123",
+    vehicleID: "FMS-EN-00126",
     vehicleType: "SUV",
     plateNumber: "EN1234NG",
     lastServiceDate: "30th January 2023",
@@ -47,7 +47,7 @@ const maintainanceMockData = [
     id: 5,
     sn: "01",
     vehicleImage: "https://example.com/images/vehicle1.png",
-    vehicleID: "FMS-EN-00123",
+    vehicleID: "FMS-EN-00127",
     vehicleType: "SUV",
     plateNumber: "EN1234NG",
     lastServiceDate: "30th January 2023",
@@ -56,4 +56,4 @@ const maintainanceMockData = [
   },
 ];
 
-export default maintainanceMockData;
+export default maintenanceMockData;

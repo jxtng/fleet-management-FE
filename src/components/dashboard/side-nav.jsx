@@ -32,8 +32,8 @@ const links = [
     icon: <Users className="w-5 h-5" />,
   },
   {
-    name: "Fleet Maintainance",
-    href: "/dashboard/fleet-maintainance",
+    name: "Fleet Maintenance",
+    href: "/dashboard/fleet-maintenance",
     icon: <Construction className="w-5 h-5" />,
   },
   {

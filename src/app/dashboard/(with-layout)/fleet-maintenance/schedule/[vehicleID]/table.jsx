@@ -12,12 +12,11 @@ import {
 } from "lucide-react";
 import TableAction from "@/components/dashboard/table-action";
 
-const MaintainanceScheduleTable = ({ data }) => {
+const MaintenanceScheduleTable = ({ data }) => {
   return (
     <DataTable
       data={data}
       columnDefs={[
-        { th: "SN", td: ({ index }) => (index > 9 ? "" : "0") + (index + 1) },
         {
           th: "Date & Time",
           key: "dateTime",
@@ -78,4 +77,4 @@ const MaintainanceScheduleTable = ({ data }) => {
   );
 };
 
-export default MaintainanceScheduleTable;
+export default MaintenanceScheduleTable;

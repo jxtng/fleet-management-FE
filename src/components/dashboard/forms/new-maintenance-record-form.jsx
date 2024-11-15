@@ -58,7 +58,7 @@ const inputs = [
   },
 ];
 
-const NewMaintainanceRecordForm = () => {
+const NewMaintenanceRecordForm = () => {
   const [formData, setFormData] = useState({});
 
   return (
@@ -69,16 +69,16 @@ const NewMaintainanceRecordForm = () => {
         title="Vehicle Successfully added to Fleet inventory"
         description={
           <>
-            Maintainance Record of Vehicle{" "}
+            Maintenance Record of Vehicle{" "}
             <strong>[Vehicle ID: {formData.vehicleID}]</strong> have been saved
             and updated
           </>
         }
       >
-        <Button onClick={() => setFormData({})}>Add Maintainance Record</Button>
+        <Button onClick={() => setFormData({})}>Add Maintenance Record</Button>
       </SuccessDialog>
     </form>
   );
 };
 
-export default NewMaintainanceRecordForm;
+export default NewMaintenanceRecordForm;

@@ -1,4 +1,4 @@
-import NewMaintainanceRecordForm from "@/components/dashboard/forms/new-maintainance-record-form";
+import NewMaintenanceRecordForm from "@/components/dashboard/forms/new-maintenance-record-form";
 import SubHeader from "@/components/dashboard/sub-header";
 import React from "react";
 
@@ -6,11 +6,11 @@ const NewMaintainRecord = () => {
   return (
     <>
       <SubHeader
-        title="Add Maintainance Record"
-        description="Add Maintainance Record"
+        title="Add Maintenance Record"
+        description="Add Maintenance Record"
       />
 
-      <NewMaintainanceRecordForm />
+      <NewMaintenanceRecordForm />
     </>
   );
 };

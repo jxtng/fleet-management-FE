@@ -35,11 +35,6 @@ const assignmentActions = allocationActions.map((action) => ({
 }));
 
 const allocationColumnDef = [
-  {
-    th: "SN",
-    thClassName: "w-10",
-    key: "id",
-  },
   { th: "Recipient Name", key: "recipientName" },
   { th: "Vehicle ID", key: "vehicleID" },
   { th: "Type", key: "vehicleType" },
@@ -135,7 +130,6 @@ const FleetAllocation = () => {
         </div>
       ) : (
         <DataTable
-          selectable
           data={mockData}
           caption={`Recent ${allocateMode ? "Allocation" : "Assignment"}`}
           columnDefs={allocateMode ? allocationColumnDef : assignmentColumnDef}

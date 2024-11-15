@@ -1,139 +1,139 @@
-const maintainanceLog = [
+const maintenanceLog = [
   {
     vehicleID: "FMS-EN-00123",
-    maintainanceLog: [
+    maintenanceLog: [
       {
         id: 1,
         date: "2024-09-10",
-        typeOfMaintainance: "Preventive",
+        typeOfMaintenance: "Preventive",
         description: "Oil Change, Tire Rotation",
         cost: "₦25,000",
         mileage: "45,000",
-        maintainanceProvider: "PineAuto Services",
+        maintenanceProvider: "PineAuto Services",
         invoice: "View Invoice",
       },
       {
         id: 2,
         date: "2024-08-05",
-        typeOfMaintainance: "Corrective",
+        typeOfMaintenance: "Corrective",
         description: "Brake Pad Replacement",
         cost: "₦35,000",
         mileage: "43,500",
-        maintainanceProvider: "EnuguAuto Repair Shop",
+        maintenanceProvider: "EnuguAuto Repair Shop",
         invoice: "View Invoice",
       },
     ],
   },
   {
     vehicleID: "FMS-EN-00124",
-    maintainanceLog: [
+    maintenanceLog: [
       {
         id: 3,
         date: "2024-09-10",
-        typeOfMaintainance: "Preventive",
+        typeOfMaintenance: "Preventive",
         description: "Battery Replacement",
         cost: "₦40,000",
         mileage: "50,000",
-        maintainanceProvider: "PineAuto Services",
+        maintenanceProvider: "PineAuto Services",
         invoice: "View Invoice",
       },
       {
         id: 4,
         date: "2024-08-15",
-        typeOfMaintainance: "Corrective",
+        typeOfMaintenance: "Corrective",
         description: "Engine Tune-Up",
         cost: "₦30,000",
         mileage: "48,000",
-        maintainanceProvider: "EnuguAuto Repair Shop",
+        maintenanceProvider: "EnuguAuto Repair Shop",
         invoice: "View Invoice",
       },
       {
         id: 5,
         date: "2024-07-20",
-        typeOfMaintainance: "Preventive",
+        typeOfMaintenance: "Preventive",
         description: "Transmission Fluid Change",
         cost: "₦50,000",
         mileage: "47,000",
-        maintainanceProvider: "PineAuto Services",
+        maintenanceProvider: "PineAuto Services",
         invoice: "View Invoice",
       },
       {
         id: 6,
         date: "2024-06-25",
-        typeOfMaintainance: "Corrective",
+        typeOfMaintenance: "Corrective",
         description: "Air Filter Replacement",
         cost: "₦10,000",
         mileage: "46,000",
-        maintainanceProvider: "EnuguAuto Repair Shop",
+        maintenanceProvider: "EnuguAuto Repair Shop",
         invoice: "View Invoice",
       },
       {
         id: 7,
         date: "2024-05-30",
-        typeOfMaintainance: "Preventive",
+        typeOfMaintenance: "Preventive",
         description: "Wheel Alignment",
         cost: "₦20,000",
         mileage: "45,500",
-        maintainanceProvider: "PineAuto Services",
+        maintenanceProvider: "PineAuto Services",
         invoice: "View Invoice",
       },
       {
         id: 8,
         date: "2024-05-01",
-        typeOfMaintainance: "Corrective",
+        typeOfMaintenance: "Corrective",
         description: "Coolant Replacement",
         cost: "₦15,000",
         mileage: "45,000",
-        maintainanceProvider: "EnuguAuto Repair Shop",
+        maintenanceProvider: "EnuguAuto Repair Shop",
         invoice: "View Invoice",
       },
     ],
   },
   {
     vehicleID: "FMS-EN-00125",
-    maintainanceLog: [
+    maintenanceLog: [
       {
         id: 9,
         date: "2024-07-15",
-        typeOfMaintainance: "Corrective",
+        typeOfMaintenance: "Corrective",
         description: "Engine Oil Top-up",
         cost: "₦10,000",
         mileage: "38,000",
-        maintainanceProvider: "EnuguAuto Repair Shop",
+        maintenanceProvider: "EnuguAuto Repair Shop",
         invoice: "View Invoice",
       },
     ],
   },
   {
     vehicleID: "FMS-EN-00126",
-    maintainanceLog: [
+    maintenanceLog: [
       {
         id: 10,
         date: "2024-06-10",
-        typeOfMaintainance: "Preventive",
+        typeOfMaintenance: "Preventive",
         description: "Tire Rotation",
         cost: "₦15,000",
         mileage: "47,000",
-        maintainanceProvider: "PineAuto Services",
+        maintenanceProvider: "PineAuto Services",
         invoice: "View Invoice",
       },
     ],
   },
   {
     vehicleID: "FMS-EN-00127",
-    maintainanceLog: [
+    maintenanceLog: [
       {
         id: 11,
         date: "2024-05-05",
-        typeOfMaintainance: "Corrective",
+        typeOfMaintenance: "Corrective",
         description: "Suspension Repair",
         cost: "₦60,000",
         mileage: "44,000",
-        maintainanceProvider: "EnuguAuto Repair Shop",
+        maintenanceProvider: "EnuguAuto Repair Shop",
         invoice: "View Invoice",
       },
     ],
   },
 ];
 
-export default maintainanceLog;
+export default maintenanceLog;
