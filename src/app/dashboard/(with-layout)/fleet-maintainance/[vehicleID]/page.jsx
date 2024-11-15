@@ -1,7 +1,9 @@
 import OverviewCard from "@/components/dashboard/overview-card";
 import SubHeader from "@/components/dashboard/sub-header";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { FileClock } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
 const VehicleMaintainanceView = async ({ params }) => {
@@ -10,7 +12,7 @@ const VehicleMaintainanceView = async ({ params }) => {
   return (
     <>
       <SubHeader
-        title={`Maintainance Log for Vehicle [Vehicle ID: ${vehicleID}]`}
+        title={`Maintainance Overview for Vehicle [Vehicle ID: ${vehicleID}]`}
       />
 
       <OverviewCard
@@ -32,10 +34,12 @@ const VehicleMaintainanceView = async ({ params }) => {
           {
             name: "Maintainance Log",
             colors: ["bg-pink-100", "bg-pink-500", "text-pink-500"],
+            href: `log/${vehicleID}`,
           },
           {
             name: "Scheduled Maintainance",
             colors: ["bg-yellow-100", "bg-yellow-500", "text-yellow-500"],
+            href: `schedule/${vehicleID}`,
           },
           {
             name: "Breakdown Incident",
@@ -53,8 +57,8 @@ const VehicleMaintainanceView = async ({ params }) => {
             name: "Fuel & Oil Monitoring",
             colors: ["bg-zinc-100", "bg-zinc-500", "text-zinc-500"],
           },
-        ].map(({ name, colors }) => (
-          <MaintainanceCard key={name} name={name} colors={colors} />
+        ].map((props) => (
+          <MaintainanceCard key={props.name} {...props} />
         ))}
       </div>
     </>
@@ -68,6 +72,7 @@ const MaintainanceCard = ({
     "bg-primary",
     "text-primary",
   ],
+  href = "#",
 }) => {
   return (
     <div
@@ -77,9 +82,16 @@ const MaintainanceCard = ({
         <FileClock className={`w-16 h-16 ${textColor}`} />
         <span className="font-bold text-lg text-secondary">{name}</span>
       </div>
-      <Button className={` ${btnColor} hover:opacity-85 hover:${btnColor}`}>
+      <Link
+        href={href}
+        className={cn(
+          buttonVariants(),
+          btnColor,
+          `hover:opacity-85 hover:${btnColor}`
+        )}
+      >
         View
-      </Button>
+      </Link>
     </div>
   );
 };

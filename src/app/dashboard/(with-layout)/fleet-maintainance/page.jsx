@@ -23,8 +23,9 @@ import Link from "next/link";
 
 const actions = [
   {
-    label: "View vehicle maintenance history",
+    label: "View maintenance",
     icon: <Eye className="text-green-400" />,
+    href: (row) => `/dashboard/fleet-maintainance/${row.vehicleID}`,
   },
   {
     label: "Add new maintenance history",
