@@ -231,9 +231,9 @@ export const AllInput = ({ inputs, formData, setFormData }) => {
             {...input}
             key={input.name + input.label}
             onChange={(value) => {
-              setFormData((fd) => ({ ...fd, [input.name]: value }));
+              setFormData?.((fd) => ({ ...fd, [input.name]: value }));
             }}
-            value={formData[input.name]}
+            value={formData?.[input.name]}
           />
         );
       })}

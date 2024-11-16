@@ -19,7 +19,7 @@ const DataTable = ({
     columns.unshift({
       th: "SN",
       thClassName: "w-2",
-      td: ({ index }) => (index > 9 ? "" : "0") + (index + 1),
+      td: ({ index }) => (index < 9 ? "0" : "") + (index + 1),
     });
   }
 
