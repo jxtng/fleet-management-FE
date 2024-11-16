@@ -1,50 +1,58 @@
-import Button from "@/components/button";
+"use client";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { AllInput } from "@/components/dashboard/forms/form-elements";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 import { Edit, User } from "lucide-react";
-import React from "react";
 
 const MyProfile = () => {
+  const [profileData, setprofileData] = useState({});
+
   return (
-    <div className="card rounded-md bg-gray-100 border p-8">
-      <h1 className="text-lg mb-4">Personal Information</h1>
-      <ProfilePreview />
-      <div className="form-group flex flex-col gap-1 my-4">
-        <label htmlFor="name">Name: </label>
-        <input
-          className="p-2 border border-gray-700 rounded-md w-full bg-grap-50"
-          type="text"
-          name="name"
-          id="name"
-          value="John Doe"
-          disabled
-        />
-      </div>
-      <div className="form-group flex flex-col gap-1 my-4">
-        <label htmlFor="email">Email: </label>
-        <input
-          className="p-2 border border-gray-700 rounded-md w-full bg-grap-50"
-          type="text"
-          name="email"
-          id="email"
-          value="johndoe@gmail.com"
-          disabled
-        />
-      </div>
-      <div className="form-group flex flex-col gap-1 my-4">
-        <label htmlFor="role">Role: </label>
-        <input
-          className="p-2 border border-gray-700 rounded-md w-full bg-grap-50"
-          type="text"
-          name="role"
-          id="role"
-          value="Resident Transport Officer"
-          disabled
-        />
-      </div>
-      <Button className="ml-auto">
-        <Edit />
-        Edit Details
-      </Button>
-    </div>
+    <Card className="">
+      <CardHeader>
+        <h1 className="text-secondary text-xl mb-2">Personal Information</h1>
+        <ProfilePreview />
+      </CardHeader>
+      <CardContent>
+        <div className="profile-form flex flex-col gap-4">
+          <AllInput
+            inputs={[
+              {
+                label: "Name",
+                name: "name",
+                value: "John Doe",
+                disabled: true,
+              },
+              {
+                label: "Email",
+                type: "email",
+                name: "email",
+                value: "johndoe@gmail.com",
+                disabled: true,
+              },
+              {
+                label: "Role",
+                name: "role",
+                value: "Resident Transport Officer",
+                disabled: true,
+              },
+            ]}
+          />
+        </div>
+      </CardContent>
+      <CardFooter>
+        <Button className="ml-auto">
+          <Edit />
+          Edit Details
+        </Button>
+      </CardFooter>
+    </Card>
   );
 };
 
@@ -52,11 +60,11 @@ const ProfilePreview = () => {
   return (
     <div className="profile-preview flex gap-4 items-center my-4">
       <div className="img-wrapper">
-        <User className="w-24 h-24 border-2 border-black rounded-full p-1" />
+        <User size={48} className="border-2 border-black rounded-full p-1" />
       </div>
-      <div className="profile-info">
-        <p className="text-lg">John Doe</p>
-        <p className="text-gray-700">Resident Transport Officer</p>
+      <div className="profile-info text-secondary">
+        <p>John Doe</p>
+        <p className="text-sm opacity-70">Resident Transport Officer</p>
       </div>
     </div>
   );

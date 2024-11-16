@@ -233,7 +233,7 @@ export const AllInput = ({ inputs, formData, setFormData }) => {
             onChange={(value) => {
               setFormData?.((fd) => ({ ...fd, [input.name]: value }));
             }}
-            value={formData?.[input.name]}
+            value={input.value ? input.value : formData?.[input.name]}
           />
         );
       })}

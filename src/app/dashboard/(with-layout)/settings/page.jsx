@@ -5,7 +5,7 @@ import { LogOut, SettingsIcon, User } from "lucide-react";
 import MyProfile from "./my-profile";
 import ManageAccess from "./manage-access";
 import LogoutCard from "./logout-card";
-import Button from "@/components/button";
+import { Button } from "@/components/ui/button";
 
 const navLinks = [
   { name: "My profile", icon: <User />, component: <MyProfile /> },
@@ -23,7 +23,6 @@ const navLinks = [
 
 const Settings = () => {
   const [activeLinkIndex, setActiveLink] = useState(0);
-  // return <p>Hey</p>;
   return (
     <div>
       <Greeting />
@@ -34,7 +33,7 @@ const Settings = () => {
             {navLinks.map(({ name, icon }, index) => (
               <Button
                 key={name + index}
-                variant={activeLinkIndex == index ? "primary" : "outline"}
+                variant={activeLinkIndex == index ? "default" : "outline"}
                 className={`justify-start`}
                 onClick={() => setActiveLink(index)}
               >
