@@ -1,5 +1,5 @@
+import { UserCircle } from "lucide-react";
 import React from "react";
-import UserIcon from "@/icons/user";
 
 const tripsMockData = [
   {
@@ -98,7 +98,7 @@ const TripTable = () => {
                 />
               </td>
               <td className="text-center flex justify-center items-center flex-wrap">
-                <UserIcon className="border-2 border-black rounded-full w-8 h-8 m-2" />
+                <UserCircle className="border-2 border-black rounded-full w-8 h-8 m-2" />
                 <div className="info">
                   <div className="driver-name font-bold">{trip.driver}</div>
                   <div className="phone-number text-gray-500">{trip.phone}</div>

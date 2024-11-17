@@ -1,7 +1,6 @@
 import React from "react";
-import { Route, Car } from "lucide-react";
+import { Route, Car, ChevronRight } from "lucide-react";
 import Link from "next/link";
-import ChevronRightIcon from "@/icons/chevron-right";
 import { Card, CardTitle } from "@/components/ui/card";
 
 const tripMockData = [
@@ -132,8 +131,7 @@ const LastTrips = ({ className }) => {
         href="#"
         className="mt-auto font-bold text-xs text-orange-400 hover:underline"
       >
-        Show all trips{" "}
-        <ChevronRightIcon className="inline-block ml-2 text-black" />{" "}
+        Show all trips <ChevronRight className="inline-block ml-2 text-black" />{" "}
       </Link>
     </Card>
   );

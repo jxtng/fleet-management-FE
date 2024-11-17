@@ -104,14 +104,13 @@ export const TypeInput = ({
   onChange,
   value,
   className,
-  placeholder,
   icon,
   ...props
 }) => {
   return (
     <div className="relative flex flex-col gap-2">
       <label htmlFor={name} className="text-sm">
-        {label}
+        {label} {props.required && <span className="text-red-400">{"*"}</span>}
       </label>
       <div className="relative">
         {icon && (
@@ -123,7 +122,6 @@ export const TypeInput = ({
           type={type}
           id={name}
           name={name}
-          placeholder={placeholder ?? label}
           onChange={(e) => onChange?.(e.target.value)}
           value={value ?? ""}
           className={`input ${className}`}

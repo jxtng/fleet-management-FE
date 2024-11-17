@@ -1,5 +1,4 @@
-import DoorExitIcon from "@/icons/door-exit";
-import { LayoutDashboard } from "lucide-react";
+import { DoorOpen, LayoutDashboard, LogOut } from "lucide-react";
 import React from "react";
 
 const Greeting = () => {
@@ -10,7 +9,7 @@ const Greeting = () => {
         Good moring, <span className="italic">John Doe</span>
         👋
       </h2>
-      <DoorExitIcon />
+      <DoorOpen size={32} />
     </div>
   );
 };

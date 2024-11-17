@@ -1,5 +1,4 @@
-import FolderOpenIcon from "@/icons/folder-open";
-import ChevronRightIcon from "@/icons/chevron-right";
+import { ChevronRight, FolderOpenDot } from "lucide-react";
 
 const vehicleSummaries = [
   {
@@ -40,14 +39,14 @@ const VehicleSummary = () => {
       {vehicleSummaries.map(({ title, count, fg, bg }) => (
         <div
           key={title + count}
-          className={`flex items-center gap-4 w-40 p-4 rounded-md ${bg} ${fg}`}
+          className={`grid grid-cols-6 items-center w-48 gap-4 p-4 rounded-md ${bg} ${fg}`}
         >
-          <FolderOpenIcon />
-          <div className="info text-center text-sm">
+          <FolderOpenDot size={24} />
+          <div className="info text-center text-sm col-span-4">
             <p className="count font-bold mb-1">{count}</p>
             <p className="title">{title}</p>
           </div>
-          <ChevronRightIcon className="text-black" />
+          <ChevronRight className="text-neutral-500 w-6 h-6" />
         </div>
       ))}
     </div>

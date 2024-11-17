@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import ChevronRightIcon from "@/icons/chevron-right";
+import { ChevronRight } from "lucide-react";
 import { Card, CardTitle } from "@/components/ui/card";
 
 const locationMockData = [
@@ -53,7 +53,7 @@ const TopLocations = ({ className }) => {
         className="mt-auto font-bold text-xs text-orange-400 hover:underline"
       >
         Show all location{" "}
-        <ChevronRightIcon className="inline-block ml-2 text-card-foreground" />{" "}
+        <ChevronRight className="inline-block ml-2 text-card-foreground" />{" "}
       </Link>
     </Card>
   );

@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import ActiveTrailIcon from "@/icons/active-trail";
+import ActiveTrailIcon from "@/components/dashboard/active-trail";
 import {
   UserCircle,
   LayoutDashboard,
@@ -73,7 +73,7 @@ const SideNav = ({ className }) => {
                 {name}
               </span>
               {pathname.startsWith(href) && (
-                <ActiveTrailIcon className="text-background w-auto h-[304%] absolute top-1/2 -right-px -translate-y-1/2 z-10" />
+                <ActiveTrailIcon className="pointer-events-none text-background w-auto h-[300%] absolute top-1/2 -right-px -translate-y-1/2 z-10" />
               )}
             </Link>
           </li>

@@ -1,7 +1,6 @@
 import React from "react";
-import { Car, Wrench, Fuel } from "lucide-react";
+import { Car, Wrench, Fuel, ChevronRight } from "lucide-react";
 import Link from "next/link";
-import ChevronRightIcon from "@/icons/chevron-right";
 import { Card } from "@/components/ui/card";
 
 const tripMockData = [
@@ -85,7 +84,7 @@ const TripExpenses = ({ className }) => {
         className="mt-auto font-bold text-xs text-orange-400 hover:underline"
       >
         Show all expenses{" "}
-        <ChevronRightIcon className="inline-block ml-2 text-card-foreground" />{" "}
+        <ChevronRight className="inline-block ml-2 text-card-foreground" />{" "}
       </Link>
     </Card>
   );

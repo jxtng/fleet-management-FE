@@ -1,6 +1,5 @@
 "use client";
-import CalendarIcon from "@/icons/calendar";
-import ClockIcon from "@/icons/clock";
+import { Calendar, Clock } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const RealTimeInfo = ({ title = "Real Time Data" }) => {
@@ -30,14 +29,14 @@ const RealTimeInfo = ({ title = "Real Time Data" }) => {
         {title}
       </h2>
       <div className="date flex items-start gap-1.5">
-        <CalendarIcon />
+        <Calendar size={18} />
         <span>
           {padDate(date.getDate())}.{padDate(date.getMonth() + 1)}.
           {date.getFullYear()}
         </span>
       </div>
       <div className="date flex items-start gap-1.5">
-        <ClockIcon />
+        <Clock size={18} />
         <span>
           {padDate(date.getHours())}:{padDate(date.getMinutes())}
         </span>
