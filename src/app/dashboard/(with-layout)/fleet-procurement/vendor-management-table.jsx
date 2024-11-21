@@ -1,4 +1,4 @@
-import { TypeInput } from "@/components/dashboard/forms/form-elements";
+import { TypeInput } from "@/components/ui/form-elements";
 import TableAction from "@/components/dashboard/table-action";
 import { Button } from "@/components/ui/button";
 import DataTable from "@/components/ui/data-table";

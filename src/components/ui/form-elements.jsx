@@ -11,6 +11,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 
 export const FileInput = ({
   label,
@@ -18,6 +19,8 @@ export const FileInput = ({
   onChange,
   fileTypes = [],
   maxSize = Infinity,
+  className,
+  previewClassName,
   uploadLabel = "Click to Upload File",
 }) => {
   const [imagePreview, setImagePreview] = useState(null);
@@ -40,10 +43,7 @@ export const FileInput = ({
     const file = e.target.files[0];
     let validationSuccess = true;
 
-    if (
-      fileTypes.length &&
-      !fileTypes.some((type) => type.startsWith(file?.type.split("/")[0]))
-    ) {
+    if (fileTypes.length && !fileTypes.includes(file?.type)) {
       validationSuccess = false;
       setError(
         `Invalid file type. File must be of type: ${fileTypes.join(" or ")}`
@@ -62,7 +62,7 @@ export const FileInput = ({
   };
 
   return (
-    <div className="img-upload relative">
+    <div className={cn("img-upload relative", className)}>
       <label htmlFor={name}>
         <span className="text-sm">{label}</span>
         <VisuallyHidden.Root>
@@ -75,7 +75,12 @@ export const FileInput = ({
             className="appearance-none"
           />
         </VisuallyHidden.Root>
-        <div className="h-20 mt-2 rounded-lg flex flex-col justify-center items-center border border-input">
+        <div
+          className={cn(
+            "input-area file-preview h-20 mt-2 rounded-lg text-sm flex flex-col justify-center items-center border border-input",
+            previewClassName
+          )}
+        >
           {imagePreview ? (
             <img
               src={imagePreview}
@@ -102,19 +107,20 @@ export const TypeInput = ({
   label,
   name,
   onChange,
-  value,
   className,
+  inputClassName,
+  containerClassName,
   icon,
   ...props
 }) => {
   return (
-    <div className="relative flex flex-col gap-2">
+    <div className={cn("relative flex flex-col gap-2", className)}>
       <label htmlFor={name} className="text-sm">
         {label} {props.required && <span className="text-red-400">{"*"}</span>}
       </label>
-      <div className="relative">
+      <div className={cn("relative", containerClassName)}>
         {icon && (
-          <div className="icon text-muted-foreground absolute bottom-1/2 translate-y-1/2 ml-2 *:w-6 [&+input]:pl-9">
+          <div className="icon text-muted-foreground absolute bottom-1/2 translate-y-1/2 ml-2 *:w-6">
             {icon}
           </div>
         )}
@@ -123,8 +129,7 @@ export const TypeInput = ({
           id={name}
           name={name}
           onChange={(e) => onChange?.(e.target.value)}
-          value={value ?? ""}
-          className={`input ${className}`}
+          className={cn("input-area", icon && "pl-9", inputClassName)}
           {...props}
         />
       </div>
@@ -139,15 +144,17 @@ export const SelectInput = ({
   value,
   options = [],
   placeholder,
+  className,
+  triggerClassName,
   icon,
 }) => {
   return (
-    <div className="relative flex flex-col gap-2">
+    <div className={cn("relative flex flex-col gap-2", className)}>
       <label htmlFor={name} className="text-sm">
         {label}
       </label>
       <Select id={name} name={name} onValueChange={onChange} value={value}>
-        <SelectTrigger>
+        <SelectTrigger className={cn("input-area", triggerClassName)}>
           <div className="value flex gap-2 items-end">
             {icon}
             <SelectValue placeholder={placeholder} />
@@ -187,11 +194,12 @@ export const TextareaInput = ({
   label,
   placeholder,
   onChange,
-  value,
+  className,
+  inputClassName,
   ...props
 }) => {
   return (
-    <div className="relative flex flex-col gap-2">
+    <div className={cn("relative flex flex-col gap-2", className)}>
       <label htmlFor={name} className="text-sm">
         {label}
       </label>
@@ -200,14 +208,14 @@ export const TextareaInput = ({
         name={name}
         placeholder={placeholder ?? label}
         onChange={(e) => onChange?.(e.target.value)}
-        value={value ?? ""}
+        className={cn("input-area", inputClassName)}
         {...props}
       />
     </div>
   );
 };
 
-export const AllInput = ({ inputs, formData, setFormData }) => {
+export const AllInput = ({ inputs, formData, setFormData, ...props }) => {
   return (
     <>
       {inputs.map((input, index) => {
@@ -218,20 +226,24 @@ export const AllInput = ({ inputs, formData, setFormData }) => {
         if (input.type == "flex") {
           return (
             <div key={"flex" + index} className="flex gap-4 *:basis-0 *:grow">
-              {input.items.map((item) => (
-                <InputElement key={item.name + "flex-item"} {...item} />
-              ))}
+              <AllInput
+                inputs={input.items}
+                formData={formData}
+                setFormData={setFormData}
+                {...props}
+              />
             </div>
           );
         }
         return (
           <InputElement
-            {...input}
             key={input.name + input.label}
             onChange={(value) => {
               setFormData?.((fd) => ({ ...fd, [input.name]: value }));
             }}
-            value={input.value ? input.value : formData?.[input.name]}
+            value={formData?.[input.name] ?? ""}
+            {...props}
+            {...input}
           />
         );
       })}

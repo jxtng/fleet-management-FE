@@ -4,7 +4,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { redirect } from "next/navigation";
 import { Lock, Mail } from "lucide-react";
-import { TypeInput } from "../dashboard/forms/form-elements";
+import { TypeInput } from "@/components/ui/form-elements";
+import { AllInput } from "./auth-form-elements";
 
 const inputs = [
   {
@@ -42,17 +43,7 @@ const LoginForm = () => {
       className="self-stretch font-normal [&_label]:font-bold flex flex-col gap-4"
       onSubmit={handleFormSubmit}
     >
-      {inputs.map((input) => (
-        <TypeInput
-          key={input.name}
-          className="border-0 border-b outline-none border-[#115931] bg-gray-50 rounded-b-none focus-visible:ring-0"
-          value={formData[input.name ?? ""]}
-          onChange={(value) =>
-            setFormData((fd) => ({ ...fd, [input.name]: value }))
-          }
-          {...input}
-        />
-      ))}
+      <AllInput inputs={inputs} formData={formData} setFormData={setFormData} />
       <Link
         href="#"
         className="self-end text-sm hover:underline text-[#115931]"

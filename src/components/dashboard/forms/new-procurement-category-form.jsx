@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { AllInput } from "./form-elements";
+import { AllInput } from "../../ui/form-elements";
 import SuccessDialog from "../success-dialog";
 import { Button } from "@/components/ui/button";
 

@@ -2,7 +2,7 @@ import * as React from "react";
 import "@/styles/fleet-management-bg.css";
 import { cn } from "@/lib/utils";
 
-const FeetManagementBg = ({ className, props }) => (
+const FleetManagementBg = ({ className, props }) => (
   <svg
     preserveAspectRatio="xMidYMid slice"
     viewBox="0 0 806 806"
@@ -643,4 +643,4 @@ const FeetManagementBg = ({ className, props }) => (
     </defs>
   </svg>
 );
-export default FeetManagementBg;
+export default FleetManagementBg;

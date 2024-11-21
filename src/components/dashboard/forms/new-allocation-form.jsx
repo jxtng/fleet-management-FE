@@ -2,7 +2,7 @@
 import { useState } from "react";
 import SuccessDialog from "@/components/dashboard/success-dialog";
 import { Button } from "@/components/ui/button";
-import { AllInput } from "@/components/dashboard/forms/form-elements";
+import { AllInput } from "@/components/ui/form-elements";
 
 const inputs = [
   { label: "Vehicle ID", name: "vehicleID", placeholder: "Vehicle ID" },

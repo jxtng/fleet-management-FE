@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { AllInput } from "@/components/dashboard/forms/form-elements";
+import { AllInput } from "@/components/ui/form-elements";
 import {
   Card,
   CardContent,
