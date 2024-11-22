@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import SuccessDialog from "@/components/dashboard/success-dialog";
+import SuccessDialog from "@/components/success-dialog";
 import { Button } from "@/components/ui/button";
 import { AllInput } from "@/components/ui/form-elements";
 import { Banknote } from "lucide-react";

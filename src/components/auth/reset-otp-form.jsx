@@ -2,13 +2,16 @@
 import { cn } from "@/lib/utils";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 const ResetOTPForm = () => {
   const [value, setValue] = useState("");
+  const router = useRouter();
 
   const handleOTPSubmit = (e) => {
     e.preventDefault();
     // OTP submit logic coming soon
+    router.push("/auth/reset-password");
   };
 
   return (
@@ -19,7 +22,9 @@ const ResetOTPForm = () => {
       <label htmlFor="otp">Enter Reset Code</label>
       <OTPInput length={6} value={value} setValue={setValue} />
 
-      <Button disabled={value.length < 6}>Submit</Button>
+      <Button type="submit" disabled={value.length < 6}>
+        Submit
+      </Button>
     </form>
   );
 };

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { AllInput } from "@/components/ui/form-elements";
-import SuccessDialog from "@/components/dashboard/success-dialog";
+import SuccessDialog from "@/components/success-dialog";
 import { Banknote } from "lucide-react";
 
 const inputs = [

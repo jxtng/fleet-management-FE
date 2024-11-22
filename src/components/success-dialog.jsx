@@ -16,9 +16,11 @@ const SuccessDialog = ({
   title = "Operation Succesful",
   description = "",
   children,
+  control,
+  open,
 }) => {
   return (
-    <Dialog>
+    <Dialog defaultOpen={open}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -39,7 +41,7 @@ const SuccessDialog = ({
         </DialogHeader>
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant="outline">Close</Button>
+            {control ? control : <Button variant="outline">Close</Button>}
           </DialogClose>
         </DialogFooter>
       </DialogContent>
