@@ -1,7 +1,7 @@
 import Image from "next/image";
-import LoginForm from "@/components/auth/login-form";
 import FleetManagementBg from "@/components/fleet-management-bg";
 import Link from "next/link";
+import ForgotPasswordForm from "@/components/auth/forgot-password-form";
 
 const Login = () => {
   return (
@@ -20,9 +20,9 @@ const Login = () => {
         <h2 className="font-bold text-lg">Welcome</h2>
         <h2 className="text-3xl text-center">Fleet Management System</h2>
         <h1 className="text-[#115931] text-2xl font-extrabold self-start">
-          Login
+          Forgot Password
         </h1>
-        <LoginForm />
+        <ForgotPasswordForm />
         <p>
           Dont have an account?{" "}
           <Link href="/auth/signup" className="text-green-800 hover:underline">

@@ -227,9 +227,9 @@ const SignupSteps = ({
                 {step > count ||
                 step == "success" ||
                 (step == "error" && count < forms.length) ? (
-                  <Check className="text-green-600" />
+                  <Check className="text-green-500" />
                 ) : step == "error" ? (
-                  <X className="text-red-600" />
+                  <X className="text-red-500" />
                 ) : (
                   count
                 )}

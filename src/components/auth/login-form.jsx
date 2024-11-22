@@ -45,7 +45,7 @@ const LoginForm = () => {
     >
       <AllInput inputs={inputs} formData={formData} setFormData={setFormData} />
       <Link
-        href="#"
+        href="/auth/forgot-password"
         className="self-end text-sm hover:underline text-[#115931]"
       >
         Forgot password?

@@ -77,7 +77,7 @@ export const FileInput = ({
         </VisuallyHidden.Root>
         <div
           className={cn(
-            "input-area file-preview h-20 mt-2 rounded-lg text-sm flex flex-col justify-center items-center border border-input",
+            "input-area file-preview h-20 mt-2 rounded-lg text-sm flex flex-col justify-center items-center border border-input bg-background",
             previewClassName
           )}
         >
@@ -215,7 +215,13 @@ export const TextareaInput = ({
   );
 };
 
-export const AllInput = ({ inputs, formData, setFormData, ...props }) => {
+export const AllInput = ({
+  inputs,
+  formData,
+  setFormData,
+  className,
+  ...props
+}) => {
   return (
     <>
       {inputs.map((input, index) => {
@@ -225,7 +231,10 @@ export const AllInput = ({ inputs, formData, setFormData, ...props }) => {
         if (input.type == "textarea") InputElement = TextareaInput;
         if (input.type == "flex") {
           return (
-            <div key={"flex" + index} className="flex gap-4 *:basis-0 *:grow">
+            <div
+              key={"flex" + index}
+              className={cn("flex gap-4 *:basis-0 *:grow", className)}
+            >
               <AllInput
                 inputs={input.items}
                 formData={formData}

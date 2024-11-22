@@ -148,7 +148,7 @@ const SignupInitialStep = ({
           <p className="text-sm">
             Already have an account?{" "}
             <Link
-              href="auth/login"
+              href="/auth/login"
               className="font-bold hover:underline text-[#115931]"
             >
               Login

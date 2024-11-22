@@ -2,18 +2,18 @@ import { AllInput as GenericAllInput } from "@/components/ui/form-elements";
 import { cn } from "@/lib/utils";
 
 const classes = {
-  input: {
-    inputClassName:
-      "border-0 border-b outline-none border-[#115931] bg-gray-50 rounded-b-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none",
-  },
-  select: {
-    triggerClassName:
-      // "focus:ring-0 focus:ring-offset-0 " +
-      "border-0 border-b outline-none border-[#115931] bg-gray-50 rounded-b-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none",
-  },
-  file: {
-    previewClassName: "border-b border-[#115931] bg-white/30",
-  },
+  // input: {
+  //   inputClassName:
+  //     "border-0 border-b outline-none border-[#115931] bg-gray-50 rounded-b-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none",
+  // },
+  // select: {
+  //   triggerClassName:
+  //     "focus:ring-0 focus:ring-offset-0 " +
+  //     "border-0 border-b outline-none border-[#115931] bg-gray-50 rounded-b-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none",
+  // },
+  // file: {
+  //   previewClassName: "border-b border-[#115931] bg-white/30",
+  // },
 };
 
 const mergeClass = (cls, inputObject) => {
