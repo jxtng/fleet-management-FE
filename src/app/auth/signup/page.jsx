@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import SignupSteps from "./steps";
 import { useSearchParams, useRouter, redirect } from "next/navigation";
 
-const Login = () => {
+const Signup = () => {
   const [formData, setFormData] = useState({});
   const [transitioningTo, setTransitioningTo] = useState(false);
   const [step, setStep] = useState(0);
@@ -15,7 +15,7 @@ const Login = () => {
   const handleFormSubmit = async () => {
     // Signup submission logic coming soon...
     await new Promise((r) => setTimeout(r, 1000));
-    return true;
+    return false;
   };
 
   const props = {
@@ -38,4 +38,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;

@@ -17,12 +17,16 @@ const ResetOTPForm = () => {
   return (
     <form
       onSubmit={handleOTPSubmit}
-      className="flex flex-col self-stretch gap-4"
+      className="flex flex-col items-center self-stretch gap-4"
     >
       <label htmlFor="otp">Enter Reset Code</label>
       <OTPInput length={6} value={value} setValue={setValue} />
 
-      <Button type="submit" disabled={value.length < 6}>
+      <Button
+        type="submit"
+        disabled={value.length < 6}
+        className="self-stretch"
+      >
         Submit
       </Button>
     </form>

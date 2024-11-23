@@ -8,7 +8,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Loader2,
-  LoaderPinwheelIcon,
   RefreshCw,
   X,
   XCircle,
@@ -153,7 +152,7 @@ const SignupSteps = ({
 }) => {
   const [submitting, setSubmitting] = useState(false);
 
-  const StepControls = (
+  const stepControls = (
     <div className="flex gap-4 flex-wrap *:grow">
       <Button
         onClick={() => {
@@ -198,14 +197,14 @@ const SignupSteps = ({
         "bg-[#F3FCFC] w-full animate-in slide-in-from-top-10 fade-in duration-700 fill-mode-both",
         transitioningTo === 0 && "animate-out slide-out-to-top-10 fade-out"
       )}
-      onAnimationEnd={(e) => {
+      onAnimationEnd={() => {
         if (transitioningTo === 0) {
           setTransitioningTo(false);
           setStep(0);
         }
       }}
     >
-      <div className=" flex flex-col justify-center gap-4 container p-8">
+      <div className=" flex flex-col justify-center gap-4 container p-8 max-w-screen-lg ">
         <h2 className="font-bold text-center mt-4 text-secondary text-xl">
           Pineapp
         </h2>
@@ -217,8 +216,9 @@ const SignupSteps = ({
             <Fragment key={count}>
               <div
                 className={cn(
-                  "count-number duration-1000 delay-500 bg-white w-10 h-10 flex justify-center items-center rounded-full border-2 border-green-500",
+                  "count-number duration-1000 delay-700 bg-white w-10 h-10 flex justify-center items-center rounded-full border-2 border-neutral-500",
                   step == count && "bg-green-500 text-white",
+                  step >= count && "border-green-500",
                   step == "error" &&
                     count >= forms.length &&
                     "border-red-500 text-white"
@@ -235,11 +235,14 @@ const SignupSteps = ({
                 )}
               </div>
               {index != arr.length - 1 && (
-                <div className={cn("line h-0.5 grow relative bg-black")}>
+                <div className={cn("line h-0.5 grow relative bg-neutral-500")}>
                   <div
                     className={cn(
-                      "passed absolute top-0 left-0 h-full bg-green-500 duration-500 transition-all",
-                      step <= count ? "w-0" : "w-full"
+                      "passed absolute top-0 left-0 h-full bg-green-500 duration-1000 transition-all",
+                      step <= count ? "w-0" : "w-full",
+                      step == "error" &&
+                        count >= forms.length - 1 &&
+                        "relative before:absolute before:inset-0  before:h-[2px] before:bg-gradient-to-l before:from-red-500 before:transition-all"
                     )}
                   ></div>
                 </div>
@@ -248,32 +251,7 @@ const SignupSteps = ({
           ))}
         </div>
 
-        {[
-          <>
-            <FormSet
-              fieldsets={formPartOne}
-              formData={formData}
-              setFormData={setFormData}
-            />
-            {StepControls}
-          </>,
-          <>
-            <FormSet
-              fieldsets={formPartTwo}
-              formData={formData}
-              setFormData={setFormData}
-            />
-            {StepControls}
-          </>,
-          <>
-            <FormSet
-              fieldsets={formPartThree}
-              formData={formData}
-              setFormData={setFormData}
-            />
-            {StepControls}
-          </>,
-        ].map((element, index) => {
+        {forms.map((formPart, index) => {
           return (
             <div className="form" key={index}>
               {step == index + 1 && (
@@ -290,7 +268,12 @@ const SignupSteps = ({
                     }
                   }}
                 >
-                  {element}
+                  <FormSet
+                    fieldsets={formPart}
+                    formData={formData}
+                    setFormData={setFormData}
+                  />
+                  {stepControls}
                 </div>
               )}
             </div>
@@ -307,29 +290,28 @@ const SignupSteps = ({
               You have been successfully onboarded on the PineApp Fleet
               Management System
             </p>
-            <Button asChild>
-              <Link href="/auth/login">Proceed to login</Link>
-            </Button>
+            <Link href="/auth/login">
+              <Button>Proceed to login</Button>
+            </Link>
           </div>
         )}
         {step == "error" && (
           <div className="animate-in slide-in-from-bottom-10 fade-in duration-1000 flex flex-col items-center gap-4">
             <XCircle size={128} className="text-red-500" />
-            <h2 className="text-red-800 text-2xl">An Error Occurred ☹</h2>
+            <h2 className="text-red-800 text-2xl">An Error Occurred</h2>
             <p>
               Something went wrong. Please try again. If error persists, please
               contact our support team support@pineapp.com
             </p>
-            <Button
-              variant="outline"
-              className="border-red-500 text-red-500 hover:bg-red-500/10 group"
-              asChild
-            >
-              <Link href="/auth/signup">
+            <Link href="/auth/signup">
+              <Button
+                variant="outline"
+                className="revert border-red-500 text-red-500 hover:bg-red-500/10 group"
+              >
                 <RefreshCw className="group-hover:animate-[spin_0.7s]" />
                 Retry
-              </Link>
-            </Button>
+              </Button>
+            </Link>
           </div>
         )}
       </div>

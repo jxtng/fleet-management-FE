@@ -233,7 +233,10 @@ export const AllInput = ({
           return (
             <div
               key={"flex" + index}
-              className={cn("flex gap-4 *:basis-0 *:grow", className)}
+              className={cn(
+                "flex gap-4 *:basis-52 *:grow flex-wrap",
+                className
+              )}
             >
               <AllInput
                 inputs={input.items}

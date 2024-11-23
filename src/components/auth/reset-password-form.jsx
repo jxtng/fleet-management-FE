@@ -54,25 +54,18 @@ const ResetPasswordForm = () => {
           title="Password Reset Successful!"
           description="You can now login with your new password"
           control={
-            <Button className="mx-auto" asChild>
+            <Button
+              className="mx-auto bg-[#115931] text-white hover:bg-[#004820]"
+              asChild
+            >
               <Link href="/auth/login">Proceed to login</Link>
             </Button>
           }
         >
-          <Button
-            type="submit"
-            className="bg-[#115931] text-white hover:bg-[#004820]"
-          >
-            Submit
-          </Button>
+          <Button type="submit">Submit</Button>
         </SuccessDialog>
       ) : (
-        <Button
-          type="submit"
-          className="bg-[#115931] text-white hover:bg-[#004820]"
-        >
-          Submit
-        </Button>
+        <Button type="submit">Submit</Button>
       )}
     </form>
   );

@@ -40,22 +40,14 @@ const LoginForm = () => {
   return (
     <form
       method="post"
-      className="self-stretch font-normal [&_label]:font-bold flex flex-col gap-4"
+      className="self-stretch font-normal flex flex-col gap-4"
       onSubmit={handleFormSubmit}
     >
       <AllInput inputs={inputs} formData={formData} setFormData={setFormData} />
-      <Link
-        href="/auth/forgot-password"
-        className="self-end text-sm hover:underline text-[#115931]"
-      >
+      <Link href="/auth/forgot-password" className="self-end text-sm">
         Forgot password?
       </Link>
-      <Button
-        type="submit"
-        className="bg-[#115931] text-white hover:bg-[#004820]"
-      >
-        Sign In
-      </Button>
+      <Button type="submit">Sign In</Button>
     </form>
   );
 };

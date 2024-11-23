@@ -4,13 +4,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AllInput } from "./auth-form-elements";
 import { Button } from "@/components/ui/button";
 import { Mail } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const ForgotPasswordForm = () => {
   const [formData, setFormData] = useState({});
+  const router = useRouter();
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     // Forgot Password Form Submit Logic Coming Soon...
+
+    router.push("/auth/forgot-password/verify");
   };
 
   return (
@@ -20,8 +24,12 @@ const ForgotPasswordForm = () => {
     >
       <Tabs defaultValue="email">
         <TabsList className="w-full my-4">
-          <TabsTrigger value="email">Use Email</TabsTrigger>
-          <TabsTrigger value="phone">Use Phone</TabsTrigger>
+          <TabsTrigger value="email" className="revert">
+            Use Email
+          </TabsTrigger>
+          <TabsTrigger value="phone" className="revert">
+            Use Phone
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="email">
           <AllInput
