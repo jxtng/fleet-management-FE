@@ -1,11 +1,7 @@
 "use client";
 import { useState } from "react";
 import SignupInitialStep from "./initial-step";
-import FleetManagementBg from "@/components/fleet-management-bg";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import SignupSteps from "./steps";
-import { useSearchParams, useRouter, redirect } from "next/navigation";
 
 const Signup = () => {
   const [formData, setFormData] = useState({});
@@ -15,7 +11,7 @@ const Signup = () => {
   const handleFormSubmit = async () => {
     // Signup submission logic coming soon...
     await new Promise((r) => setTimeout(r, 1000));
-    return false;
+    return true;
   };
 
   const props = {

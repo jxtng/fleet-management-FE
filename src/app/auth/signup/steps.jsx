@@ -218,7 +218,7 @@ const SignupSteps = ({
                 className={cn(
                   "count-number duration-1000 delay-700 bg-white w-10 h-10 flex justify-center items-center rounded-full border-2 border-neutral-500",
                   step == count && "bg-green-500 text-white",
-                  step >= count && "border-green-500",
+                  (step >= count || step == "success") && "border-green-500",
                   step == "error" &&
                     count >= forms.length &&
                     "border-red-500 text-white"
@@ -303,7 +303,7 @@ const SignupSteps = ({
               Something went wrong. Please try again. If error persists, please
               contact our support team support@pineapp.com
             </p>
-            <Link href="/auth/signup">
+            <a href="/auth/signup">
               <Button
                 variant="outline"
                 className="revert border-red-500 text-red-500 hover:bg-red-500/10 group"
@@ -311,7 +311,7 @@ const SignupSteps = ({
                 <RefreshCw className="group-hover:animate-[spin_0.7s]" />
                 Retry
               </Button>
-            </Link>
+            </a>
           </div>
         )}
       </div>

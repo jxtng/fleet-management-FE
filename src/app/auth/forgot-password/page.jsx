@@ -1,5 +1,3 @@
-import Image from "next/image";
-import FleetManagementBg from "@/components/fleet-management-bg";
 import Link from "next/link";
 import ForgotPasswordForm from "@/components/auth/forgot-password-form";
 import AuthPageTemplate from "@/components/auth/page-template";

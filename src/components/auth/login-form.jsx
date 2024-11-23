@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { redirect } from "next/navigation";
 import { Lock, Mail } from "lucide-react";
-import { TypeInput } from "@/components/ui/form-elements";
 import { AllInput } from "./auth-form-elements";
 
 const inputs = [
