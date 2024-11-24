@@ -1,10 +1,21 @@
+"use client";
+import { useState } from "react";
 import AuthPageTemplate from "@/components/auth/page-template";
-import ResetOTPForm from "@/components/auth/reset-otp-form";
-import FleetManagementBg from "@/components/fleet-management-bg";
-import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import OTPInput from "@/components/ui/otp-input";
+import { Button } from "@/components/ui/button";
 
 const VerifyOTP = () => {
+  const [value, setValue] = useState("");
+  const router = useRouter();
+
+  const handleOTPSubmit = (e) => {
+    e.preventDefault();
+    // OTP submit logic coming soon
+    router.push("/auth/reset-password");
+  };
+
   return (
     <AuthPageTemplate
       title="Verify OTP"
@@ -14,7 +25,20 @@ const VerifyOTP = () => {
         </>
       }
     >
-      <ResetOTPForm />
+      <form
+        onSubmit={handleOTPSubmit}
+        className="flex flex-col items-center self-stretch gap-4"
+      >
+        <label htmlFor="otp">Enter Reset Code</label>
+        <OTPInput length={6} value={value} setValue={setValue} />
+        <Button
+          type="submit"
+          disabled={value.length < 6}
+          className="self-stretch"
+        >
+          Submit
+        </Button>
+      </form>
     </AuthPageTemplate>
   );
 };
