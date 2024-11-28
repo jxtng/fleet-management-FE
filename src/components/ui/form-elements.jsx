@@ -18,14 +18,14 @@ export const FileInput = ({
   name,
   onChange,
   fileTypes = [],
-  maxSize = Infinity,
-  className,
-  previewClassName,
+  classes = "",
+  inputProps = {},
   uploadLabel = "Click to Upload File",
+  error,
+  required,
 }) => {
   const [imagePreview, setImagePreview] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [error, setError] = useState("");
 
   useEffect(() => {
     if (!selectedFile?.type?.startsWith("image")) {
@@ -41,30 +41,23 @@ export const FileInput = ({
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    let validationSuccess = true;
 
-    if (fileTypes.length && !fileTypes.includes(file?.type)) {
-      validationSuccess = false;
-      setError(
-        `Invalid file type. File must be of type: ${fileTypes.join(" or ")}`
-      );
-    }
-
-    if (file.size > maxSize) {
-      validationSuccess = false;
-      setError(
-        `File size exceeds the maximum allowed size of ${maxSize / 1024} KB`
-      );
-    }
-
-    setSelectedFile(validationSuccess ? file : null);
-    onChange?.(validationSuccess ? file : null);
+    setSelectedFile(file);
+    onChange?.(file);
   };
 
   return (
-    <div className={cn("img-upload relative", className)}>
-      <label htmlFor={name}>
-        <span className="text-sm">{label}</span>
+    <div
+      className={cn(
+        "img-upload relative flex flex-col gap-1",
+        // "has-[:disabled]:opacity-50 has-[:disabled]:*:cursor-not-allowed",
+        typeof classes == "string" ? classes : classes.main
+      )}
+    >
+      <label htmlFor={name} className={cn(classes.label)}>
+        <span className="text-sm">
+          {label} {required && <span className="text-red-400">{"*"}</span>}
+        </span>
         <VisuallyHidden.Root>
           <input
             type="file"
@@ -73,12 +66,15 @@ export const FileInput = ({
             accept={fileTypes.join(",")}
             onChange={handleFileChange}
             className="appearance-none"
+            {...inputProps}
           />
         </VisuallyHidden.Root>
         <div
           className={cn(
             "input-area file-preview h-20 mt-2 rounded-lg text-sm flex flex-col justify-center items-center border border-input bg-background",
-            previewClassName
+            error && "shadow-[0_0_1px_0.5px] shadow-red-500 text-red-500",
+            inputProps.disabled && "cursor-not-allowed opacity-50",
+            classes.input
           )}
         >
           {imagePreview ? (
@@ -97,7 +93,11 @@ export const FileInput = ({
           )}
         </div>
       </label>
-      <div className="error text-red-500 text-xs">{error}</div>
+      {error && (
+        <div className={cn("error text-red-500 text-xs", classes.error)}>
+          {error}
+        </div>
+      )}
     </div>
   );
 };
@@ -106,21 +106,35 @@ export const TypeInput = ({
   type = "text",
   label,
   name,
+  placeholder,
   onChange,
-  className,
-  inputClassName,
-  containerClassName,
+  value,
+  classes = "",
   icon,
-  ...props
+  error,
+  inputProps = {},
+  required,
 }) => {
+  const val = onChange ? { value: value } : { defaultValue: value };
+
   return (
-    <div className={cn("relative flex flex-col gap-2", className)}>
-      <label htmlFor={name} className="text-sm">
-        {label} {props.required && <span className="text-red-400">{"*"}</span>}
+    <div
+      className={cn(
+        "relative flex flex-col gap-1",
+        typeof classes == "string" ? classes : classes.main
+      )}
+    >
+      <label htmlFor={name} className={cn("text-sm", classes.label)}>
+        {label} {required && <span className="text-red-400">{"*"}</span>}
       </label>
-      <div className={cn("relative", containerClassName)}>
+      <div className={cn("relative", classes.inputContainer)}>
         {icon && (
-          <div className="icon text-muted-foreground absolute bottom-1/2 translate-y-1/2 ml-2 *:w-6">
+          <div
+            className={cn(
+              "icon text-muted-foreground absolute bottom-1/2 translate-y-1/2 ml-2 *:w-6",
+              classes.icon
+            )}
+          >
             {icon}
           </div>
         )}
@@ -129,10 +143,22 @@ export const TypeInput = ({
           id={name}
           name={name}
           onChange={(e) => onChange?.(e.target.value)}
-          className={cn("input-area", icon && "pl-9", inputClassName)}
-          {...props}
+          className={cn(
+            "input-area",
+            error && "shadow-[0_0_1px_0.5px] shadow-red-500",
+            icon && "pl-9",
+            classes.input
+          )}
+          placeholder={placeholder}
+          {...val}
+          {...inputProps}
         />
       </div>
+      {error && (
+        <div className={cn("error text-xs text-red-500", classes.error)}>
+          {error}
+        </div>
+      )}
     </div>
   );
 };
@@ -144,23 +170,45 @@ export const SelectInput = ({
   value,
   options = [],
   placeholder,
-  className,
-  triggerClassName,
+  classes = "",
   icon,
+  required,
+  error,
+  inputProps = {},
 }) => {
   return (
-    <div className={cn("relative flex flex-col gap-2", className)}>
-      <label htmlFor={name} className="text-sm">
+    <div
+      className={cn(
+        "relative flex flex-col gap-1",
+        typeof classes == "string" ? classes : classes.main
+      )}
+    >
+      <label htmlFor={name} className={cn("text-sm", classes.label)}>
         {label}
+        {required && <span className="text-red-400">{" *"}</span>}
       </label>
-      <Select id={name} name={name} onValueChange={onChange} value={value}>
-        <SelectTrigger className={cn("input-area", triggerClassName)}>
+      <Select
+        id={name}
+        name={name}
+        onValueChange={onChange}
+        value={value}
+        className={classes.select}
+        {...inputProps}
+      >
+        <SelectTrigger
+          className={cn(
+            "input-area",
+            error && "shadow-[0_0_1px_0.5px] shadow-red-500",
+            classes.input,
+            classes.trigger
+          )}
+        >
           <div className="value flex gap-2 items-end">
             {icon}
             <SelectValue placeholder={placeholder} />
           </div>
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className={classes.content}>
           {options.map((option) => {
             const { label, value } =
               typeof option == "string"
@@ -185,6 +233,11 @@ export const SelectInput = ({
           })}
         </SelectContent>
       </Select>
+      {error && (
+        <div className={cn("error text-xs text-red-500", classes.error)}>
+          {error}
+        </div>
+      )}
     </div>
   );
 };
@@ -194,23 +247,42 @@ export const TextareaInput = ({
   label,
   placeholder,
   onChange,
-  className,
-  inputClassName,
-  ...props
+  value,
+  classes = "",
+  error,
+  inputProps = {},
+  required,
 }) => {
+  const val = onChange ? { value: value } : { defaultValue: value };
+
   return (
-    <div className={cn("relative flex flex-col gap-2", className)}>
-      <label htmlFor={name} className="text-sm">
-        {label}
+    <div
+      className={cn(
+        "relative flex flex-col gap-2",
+        typeof classes == "string" ? classes : classes.main
+      )}
+    >
+      <label htmlFor={name} className={cn("text-sm", classes.label)}>
+        {label} {required && <span className="text-red-400">{"*"}</span>}
       </label>
       <Textarea
         id={name}
         name={name}
         placeholder={placeholder ?? label}
         onChange={(e) => onChange?.(e.target.value)}
-        className={cn("input-area", inputClassName)}
-        {...props}
+        className={cn(
+          "input-area",
+          error && "shadow-[0_0_1px_0.5px] shadow-red-500",
+          classes.input
+        )}
+        {...val}
+        {...inputProps}
       />
+      {error && (
+        <div className={cn("error text-xs text-red-500", classes.error)}>
+          {error}
+        </div>
+      )}
     </div>
   );
 };
@@ -220,8 +292,15 @@ export const AllInput = ({
   formData,
   setFormData,
   className,
+  errors,
   ...props
 }) => {
+  const [dismissErrors, setDismissErrors] = useState({});
+
+  useEffect(() => {
+    setDismissErrors({});
+  }, [errors]);
+
   return (
     <>
       {inputs.map((input, index) => {
@@ -242,6 +321,7 @@ export const AllInput = ({
                 inputs={input.items}
                 formData={formData}
                 setFormData={setFormData}
+                errors={errors}
                 {...props}
               />
             </div>
@@ -252,8 +332,12 @@ export const AllInput = ({
             key={input.name + input.label}
             onChange={(value) => {
               setFormData?.((fd) => ({ ...fd, [input.name]: value }));
+              if (!dismissErrors[input.name]) {
+                setDismissErrors((sr) => ({ ...sr, [input.name]: true }));
+              }
             }}
             value={formData?.[input.name] ?? ""}
+            error={!dismissErrors[input.name] && errors?.[input.name]}
             {...props}
             {...input}
           />

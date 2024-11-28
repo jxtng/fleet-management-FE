@@ -10,10 +10,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { BadgeCheck } from "lucide-react";
+import { BadgeX } from "lucide-react";
 
-const SuccessDialog = ({
-  title = "Operation Succesful",
+const ErrorDialog = ({
+  title = "An Error Occurred",
   description = "",
   children,
   control,
@@ -26,9 +26,9 @@ const SuccessDialog = ({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <BadgeCheck
+          <BadgeX
             size={96}
-            className="mx-auto text-background fill-green-500 animate-in zoom-in slide-in-from-bottom fade-in duration-500"
+            className="mx-auto text-background fill-red-500 animate-in zoom-in slide-in-from-bottom fade-in duration-500"
           />
 
           <DialogTitle className="text-secondary text-xl text-center">
@@ -48,4 +48,4 @@ const SuccessDialog = ({
   );
 };
 
-export default SuccessDialog;
+export default ErrorDialog;
