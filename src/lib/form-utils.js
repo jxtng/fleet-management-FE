@@ -166,6 +166,7 @@ export const handleFormSubmitHelper = async ({
       status: "error",
       error:
         err.response?.data?.message ?? err.response?.data?.error ?? err.message,
+      data: err?.response?.data,
     };
     setSubmitStatus?.(formStatus);
     onError?.(formStatus);

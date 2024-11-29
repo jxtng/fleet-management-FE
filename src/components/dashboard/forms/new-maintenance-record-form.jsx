@@ -3,12 +3,14 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { AllInput } from "@/components/ui/form-elements";
 import SuccessDialog from "@/components/success-dialog";
-import { Banknote } from "lucide-react";
+import { Banknote, Loader2 } from "lucide-react";
+import ErrorDialog from "@/components/error-dialog";
+import { createZodSchema, handleFormSubmitHelper } from "@/lib/form-utils";
 
 const inputs = [
   {
     label: "Enter Vehicle ID",
-    name: "vehicleID",
+    name: "vehicle_id",
     placeholder: "Enter Vehicle ID",
   },
   {
@@ -18,7 +20,7 @@ const inputs = [
   },
   {
     label: "Type of Maintenance",
-    name: "maintenanceType",
+    name: "type_of_maintenance",
     placeholder: "Select Maintenance Type",
     type: "select",
     options: [
@@ -29,44 +31,72 @@ const inputs = [
   },
   {
     label: "Description of Maintenance",
-    name: "maintenanceDescription",
+    name: "description_maintenance",
     placeholder: "E.g Oil change, tire rotation",
   },
   {
     label: "Maintenance Cost (₦)",
-    name: "maintenanceCost",
+    name: "maintenance_cost",
     type: "number",
     placeholder: "In Naira",
     icon: <Banknote />,
   },
   {
     label: "Mileage (km)",
-    name: "mileage",
+    name: "milage",
     type: "number",
     placeholder: "E.g 45,000",
   },
   {
     label: "Maintenance Provider",
-    name: "maintenanceProvider",
+    name: "maintenance_provider",
     placeholder: "E.g PineAuto Services",
   },
   {
     label: "Invoice",
-    name: "invoice",
+    name: "invoice_img_url",
     type: "file",
-    fileTypes: ["application/pdf", "image/jpeg", "image/png", "image/jpg"],
+    fileTypes: ["image/jpeg", "image/png", "image/jpg"],
   },
-];
+].map((field) => ({ ...field, required: true }));
 
 const NewMaintenanceRecordForm = () => {
   const [formData, setFormData] = useState({});
+  const [submitStatus, setSubmitStatus] = useState(null);
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    await handleFormSubmitHelper({
+      formSchema: createZodSchema(inputs),
+      formData,
+      endPoint: "/maintainers/maintenance-record",
+      setSubmitStatus,
+    });
+  };
 
   return (
-    <form className="flex flex-col gap-4">
-      <AllInput inputs={inputs} formData={formData} setFormData={setFormData} />
+    <form className="flex flex-col gap-4" onSubmit={handleFormSubmit}>
+      <AllInput
+        inputs={inputs}
+        formData={formData}
+        setFormData={setFormData}
+        errors={submitStatus?.status == "form_error" && submitStatus?.error}
+        inputProps={{ disabled: submitStatus?.status == "submitting" }}
+      />
 
+      <Button type="submit" disabled={submitStatus?.status == "submitting"}>
+        Add Maintenance Record
+        {submitStatus?.status == "submitting" && (
+          <Loader2 className="animate-spin size-4" />
+        )}
+      </Button>
       <SuccessDialog
-        title="Vehicle Successfully added to Fleet inventory"
+        open={submitStatus?.status == "success"}
+        onOpenChange={() => {
+          setSubmitStatus(null);
+          setFormData({});
+        }}
+        title={submitStatus?.data?.message ?? "Record Successfully Created"}
         description={
           <>
             Maintenance Record of Vehicle{" "}
@@ -74,9 +104,17 @@ const NewMaintenanceRecordForm = () => {
             and updated
           </>
         }
-      >
-        <Button onClick={() => setFormData({})}>Add Maintenance Record</Button>
-      </SuccessDialog>
+      />
+      <ErrorDialog
+        open={submitStatus?.status == "error"}
+        onOpenChange={() => setSubmitStatus(null)}
+        description={
+          <>
+            {submitStatus?.error} <br />
+            {submitStatus?.data?.details}
+          </>
+        }
+      />
     </form>
   );
 };
