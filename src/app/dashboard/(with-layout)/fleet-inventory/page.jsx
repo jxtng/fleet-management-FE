@@ -40,7 +40,7 @@ const FleetInventory = () => {
       <div className="flex justify-between items-center flex-wrap gap-2 my-4">
         <RealTimeInfo title="Fleet Inventory" />
         <div className="btn-group flex gap-2">
-          <Button>
+          <Button asChild>
             <Link href="/dashboard/fleet-inventory/new/">
               Add/Document New Vehicle
             </Link>

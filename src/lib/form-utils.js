@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { axiosInstance } from "./axios";
 
 export const createZodSchema = (formObjects) => {
   let schema = z.object({});
@@ -102,4 +103,61 @@ const validators = {
         message: `${label} is required`,
       });
   },
+};
+
+export const handleFormSubmitHelper = async ({
+  formSchema,
+  formData,
+  endPoint,
+  axiosConfig = {},
+  setSubmitStatus,
+  onFormError,
+  onError,
+  onSuccess,
+  onSubmitStart,
+  onSubmitEnd,
+}) => {
+  // Can be controlled using events and/or setSubmitStatus state function
+  let formStatus = {};
+  const validatedFormData = formSchema.safeParse(formData);
+
+  if (!validatedFormData.success) {
+    formStatus = {
+      status: "form_error",
+      error: createErrors(validatedFormData.error),
+    };
+    onFormError?.(formStatus);
+    setSubmitStatus?.(formStatus);
+    return formStatus;
+  }
+
+  formStatus = { status: "submitting" };
+  onSubmitStart?.(formStatus);
+  setSubmitStatus?.(formStatus);
+
+  try {
+    const response = await axiosInstance.post(
+      endPoint,
+      validatedFormData.data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        ...axiosConfig,
+      }
+    );
+    formStatus = { status: "success", data: response.data };
+    onSuccess?.(formStatus);
+    setSubmitStatus?.(formStatus);
+  } catch (err) {
+    formStatus = {
+      status: "error",
+      error:
+        err.response?.data?.message ?? err.response?.data?.error ?? err.message,
+    };
+    setSubmitStatus?.(formStatus);
+    onError?.(formStatus);
+  }
+  onSubmitEnd?.();
+  return formStatus;
 };
