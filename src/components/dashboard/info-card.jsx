@@ -21,17 +21,19 @@ const InfoCard = ({
     <div className={cn("card ", className)}>
       <div className="img-area group relative h-44 bg-background border-[1.3rem] border-b-0 border-input overflow-hidden">
         {action && <div className="absolute top-2 right-2">{action}</div>}
-        {image ? (
-          image
-        ) : (
-          <>
-            <hr className="w-28 h-2 m-4 bg-input rounded" />
-            <hr className="w-40 h-2 m-4 bg-input rounded" />
-            <hr className="w-52 h-2 m-4 bg-input rounded" />
-            <hr className="w-32 h-2 m-4 bg-input rounded" />
-            <hr className="w-40 h-2 m-4 bg-input rounded" />
-          </>
-        )}
+        <div className="flex flex-col justify-center items-center h-full w-48 mx-auto">
+          {image ? (
+            image
+          ) : (
+            <>
+              <hr className="w-28 h-2 m-4 bg-input rounded" />
+              <hr className="w-40 h-2 m-4 bg-input rounded" />
+              <hr className="w-52 h-2 m-4 bg-input rounded" />
+              <hr className="w-32 h-2 m-4 bg-input rounded" />
+              <hr className="w-40 h-2 m-4 bg-input rounded" />
+            </>
+          )}
+        </div>
       </div>
       <ul className="info-area flex flex-col p-4 bg-primary text-background">
         <li className="mb-2">{title}</li>

@@ -9,6 +9,7 @@ const DashboardLayout = ({ children }) => {
       <ScrollArea
         type="auto"
         className="h-[calc(100vh-2rem)] w-screen rounded-3xl border-none"
+        id="main-scroll-area"
       >
         <main className="p-8 basis-4/5 min-h-[calc(100vh-2rem)] grow bg-background text-foreground overflow-auto">
           {children}

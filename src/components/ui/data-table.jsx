@@ -1,18 +1,48 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { Loader2, EllipsisVertical } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 
 const DataTable = ({
   data = [],
   columnDefs = [],
-  selectable = true,
+  isLoading,
+  error,
   serialNumber = true,
   colorful = true,
   caption = "",
-  verticalBorder = false,
+  verticalBorder = true,
+  actions = [],
+  actionTrigger = <EllipsisVertical size={18} />,
 }) => {
-  const [selectedRows, setSelectedRows] = useState(new Set());
+  const [width, setWidth] = useState("100%");
+  const tbRef = useRef();
+
+  useEffect(() => {
+    function syncWidth() {
+      let width = document.querySelector("#main-scroll-area").clientWidth;
+      let mainElementStyles = window.getComputedStyle(
+        document.querySelector("main")
+      );
+      width -=
+        parseFloat(mainElementStyles.paddingTop) +
+        parseFloat(mainElementStyles.paddingBottom);
+      setWidth(width);
+    }
+
+    window.addEventListener("resize", syncWidth);
+    syncWidth();
+
+    return () => window.removeEventListener("resize", syncWidth);
+  }, []);
 
   const columns = [...columnDefs];
   if (serialNumber) {
@@ -23,115 +53,154 @@ const DataTable = ({
     });
   }
 
-  return (
-    <ScrollArea type="auto" className="rounded-lg w-full">
-      <table className="w-full text-sm">
-        {caption && (
-          <caption className="py-4 text-xl text-secondary text-left font-extrabold">
-            {caption}
-          </caption>
+  if (actions.length) {
+    columns.push({
+      th: "Action",
+      td: ({ row }) => (
+        <TableAction row={row} trigger={actionTrigger} actions={actions} />
+      ),
+      sticky: true,
+    });
+  }
+
+  const stickyStyles = "sticky right-0 border bg-inherit";
+
+  if (!data.length) {
+    return (
+      <div
+        className={cn(
+          "w-full h-48 rounded-lg bg-muted flex justify-center items-center",
+          !error && "animate-pulse"
         )}
-        <colgroup>
-          {columns.map((col, index) => {
-            return (
-              <col key={index} className={cn(verticalBorder && "border")} />
-            );
-          })}
-        </colgroup>
-        <thead>
-          <tr
-            className={`${
-              colorful ? "bg-primary" : "border-b border-foreground"
-            } `}
-          >
-            {selectable && (
-              <th
-                className={`w-10 text-center p-2 py-5 h-10 align-middle ${
-                  colorful ? "bg-primary" : "bg-muted"
-                } text-background first:rounded-tl-lg last:rounded-tr-lg`}
-              >
-                <input
-                  type="checkbox"
-                  name="selectall"
-                  id="selectall"
-                  onChange={() => {
-                    if (data.every((_, index) => selectedRows.has(index))) {
-                      setSelectedRows(new Set());
-                    } else {
-                      setSelectedRows(new Set(data.map((_, index) => index)));
-                    }
-                  }}
-                  checked={selectedRows.size == data.length}
-                  className="accent-primary"
-                />
-              </th>
-            )}
-            {columns.map((col) => {
+      >
+        {error && !isLoading ? (
+          <div className="error">
+            Error loading table data. Please refresh the page to try again
+          </div>
+        ) : (
+          <div className="flex gap-2">
+            Loading Table Data
+            <Loader2 className="animate-spin" />
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="table-wrapper">
+      {caption && (
+        <div className="caption py-4 text-xl text-secondary text-left font-extrabold">
+          {caption}
+        </div>
+      )}
+
+      <ScrollArea type="auto" className="rounded-lg" style={{ width }}>
+        <table className="w-full text-sm" summary={caption}>
+          <colgroup>
+            {columns.map((col, index) => {
               return (
-                <th
-                  key={col.th}
-                  className={cn(
-                    "p-2 h-10 align-middle text-left",
-                    colorful
-                      ? "bg-primary text-background"
-                      : "bg-muted text-foreground",
-                    "first:rounded-tl-lg last:rounded-tr-lg",
-                    col.thClassName
-                  )}
-                >
-                  {typeof col.th == "function" ? <col.th /> : col.th}
-                </th>
+                <col key={index} className={cn(verticalBorder && "border")} />
               );
             })}
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((row, rowIndex) => {
-            return (
-              <tr
-                key={rowIndex}
-                className={`p-2 h-10 align-middle border-b last:border-b-0 ${
-                  colorful
-                    ? "hover:even:bg-amber-500/30 even:bg-amber-500/10 even:border-amber-500 hover:odd:bg-green-500/30 odd:bg-green-500/10 odd:border-green-500"
-                    : "hover:bg-muted even:bg-muted/70 odd:bg-muted/20 "
-                } `}
-              >
-                {selectable && (
-                  <th>
-                    <input
-                      type="checkbox"
-                      name={rowIndex}
-                      checked={selectedRows.has(rowIndex)}
-                      onChange={() => {
-                        const newSelectedRows = new Set(selectedRows);
-                        newSelectedRows.has(rowIndex)
-                          ? newSelectedRows.delete(rowIndex)
-                          : newSelectedRows.add(rowIndex);
-
-                        setSelectedRows(newSelectedRows);
-                      }}
-                      className="accent-primary"
-                    />
+          </colgroup>
+          <thead>
+            <tr
+              className={`${
+                colorful ? "bg-primary" : "border-b border-foreground"
+              } `}
+            >
+              {columns.map((col, index) => {
+                return (
+                  <th
+                    key={index}
+                    className={cn(
+                      "p-2 h-10 align-middle text-left",
+                      colorful
+                        ? "bg-primary text-background"
+                        : "bg-muted text-foreground",
+                      "first:rounded-tl-lg last:rounded-tr-lg",
+                      col.sticky && stickyStyles,
+                      col.thClassName
+                    )}
+                  >
+                    {typeof col.th == "function" ? <col.th /> : col.th}
                   </th>
-                )}
-                {columns.map((col) => {
-                  let element = row[col.key];
-                  if (col.td && typeof col.td === "function") {
-                    element = <col.td row={row} col={col} index={rowIndex} />;
-                  }
-                  return (
-                    <td key={col.th} className={cn("p-2", col.tdClassName)}>
-                      {element}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      <ScrollBar orientation="horizontal" />
-    </ScrollArea>
+                );
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((row, rowIndex) => {
+              return (
+                <tr
+                  key={rowIndex}
+                  className={`p-2 h-10 align-middle border-b last:border-b-0 ${
+                    colorful
+                      ? "hover:even:bg-amber-100 even:bg-amber-50 even:border-amber-500 hover:odd:bg-green-100 odd:bg-green-50 odd:border-green-500"
+                      : "hover:bg-muted even:bg-muted/70 odd:bg-muted/20 "
+                  } `}
+                >
+                  {columns.map((col, colIndex) => {
+                    let element = row[col.key];
+                    if (col.td) {
+                      element =
+                        typeof col.td === "function" ? (
+                          <col.td row={row} col={col} index={rowIndex} />
+                        ) : (
+                          col.td
+                        );
+                    }
+                    return (
+                      <td
+                        key={String(rowIndex) + colIndex}
+                        className={cn(
+                          "p-2",
+                          col.sticky && stickyStyles,
+                          col.tdClassName
+                        )}
+                      >
+                        {element}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
+    </div>
+  );
+};
+
+export const TableAction = ({ row, trigger, actions = [] }) => {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger className="flex">{trigger}</DropdownMenuTrigger>
+      <DropdownMenuContent>
+        {actions.map((action) => (
+          <DropdownMenuItem key={action.label} asChild>
+            {action.href ? (
+              <Link
+                href={
+                  typeof action.href === "function"
+                    ? action.href(row)
+                    : action.href
+                }
+              >
+                {action.icon} {action.label}
+              </Link>
+            ) : (
+              <button className="w-full" onClick={() => action.onClick?.(row)}>
+                {action.icon} {action.label}
+              </button>
+            )}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 
