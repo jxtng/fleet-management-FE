@@ -6,12 +6,17 @@ export const createZodSchema = (formObjects) => {
 
   formObjects.forEach(({ type, ...formObject }) => {
     if (type == "flex") {
-      const flexSchema = createZodSchema(formObject.items);
+      const { type, items, className, ...itemProps } = formObject;
+      const flexSchema = createZodSchema(
+        formObject.items.map((item) => ({ ...itemProps, ...item }))
+      );
       schema = schema.merge(flexSchema);
       return;
     }
 
-    let fieldSchema = (validators[type] ?? validators.text)(formObject);
+    let fieldSchema = validators[type]
+      ? validators[type](formObject)
+      : validators.text(formObject);
     fieldSchema = formObject.required ? fieldSchema : fieldSchema.optional();
 
     schema = schema.extend({ [formObject.name]: fieldSchema });
@@ -49,7 +54,10 @@ const validators = {
   },
   number({ label, name, required }) {
     label = label ?? name;
-    let schema = z.coerce.number({ required_error: `${label} is required` });
+    let schema = z.coerce.number({
+      required_error: `${label} is required`,
+      invalid_type_error: "You need to enter an amount/number",
+    });
 
     if (required) schema = schema.min(1, { message: `${label} is required` });
     return schema;
@@ -78,9 +86,13 @@ const validators = {
 
   date({ label, name }) {
     label = label ?? name;
-    let schema = z.string().date();
+    let schema = z.coerce.date({ required_error: `${label} is required` });
 
     return schema;
+  },
+
+  "datetime-local"({ label, name }) {
+    return this.date({ label, name });
   },
 
   file({ label, name, required, fileTypes = [], maxSize = Infinity }) {
@@ -131,7 +143,7 @@ export const handleFormSubmitHelper = async ({
     return formStatus;
   }
 
-  formStatus = { status: "submitting" };
+  formStatus = { status: "submitting", data: validatedFormData.data };
   onSubmitStart?.(formStatus);
   setSubmitStatus?.(formStatus);
 

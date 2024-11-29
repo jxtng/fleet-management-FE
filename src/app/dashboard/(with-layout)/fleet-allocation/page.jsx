@@ -166,9 +166,9 @@ const FleetAllocation = () => {
               }
               image={
                 allocateMode && record.recipient_img_id ? (
-                  <img src={record.recipient_img_id} />
+                  <img src={record.recipient_img_id} className="max-w-4 w-4" />
                 ) : !allocateMode && record.driver_img_url ? (
-                  <img src={record.driver_img_url} />
+                  <img src={record.driver_img_url} className="max-w-4 w-4" />
                 ) : (
                   <UserCircle className="w-full h-full p-2 text-muted-foreground" />
                 )

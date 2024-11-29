@@ -54,7 +54,10 @@ export const FileInput = ({
         typeof classes == "string" ? classes : classes.main
       )}
     >
-      <label htmlFor={name} className={cn(classes.label)}>
+      <label
+        htmlFor={name}
+        className={cn(error && "text-red-500", classes.label)}
+      >
         <span className="text-sm">
           {label} {required && <span className="text-red-400">{"*"}</span>}
         </span>
@@ -124,7 +127,10 @@ export const TypeInput = ({
         typeof classes == "string" ? classes : classes.main
       )}
     >
-      <label htmlFor={name} className={cn("text-sm", classes.label)}>
+      <label
+        htmlFor={name}
+        className={cn("text-sm", error && "text-red-500", classes.label)}
+      >
         {label} {required && <span className="text-red-400">{"*"}</span>}
       </label>
       <div className={cn("relative", classes.inputContainer)}>
@@ -183,7 +189,10 @@ export const SelectInput = ({
         typeof classes == "string" ? classes : classes.main
       )}
     >
-      <label htmlFor={name} className={cn("text-sm", classes.label)}>
+      <label
+        htmlFor={name}
+        className={cn("text-sm", error && "text-red-500", classes.label)}
+      >
         {label}
         {required && <span className="text-red-400">{" *"}</span>}
       </label>
@@ -262,7 +271,10 @@ export const TextareaInput = ({
         typeof classes == "string" ? classes : classes.main
       )}
     >
-      <label htmlFor={name} className={cn("text-sm", classes.label)}>
+      <label
+        htmlFor={name}
+        className={cn("text-sm", error && "text-red-500", classes.label)}
+      >
         {label} {required && <span className="text-red-400">{"*"}</span>}
       </label>
       <Textarea
@@ -299,6 +311,7 @@ export const AllInput = ({
   formData,
   setFormData,
   errors,
+  className,
   ...props
 }) => {
   const [dismissErrors, setDismissErrors] = useState({});
@@ -320,24 +333,30 @@ export const AllInput = ({
     ...input,
   });
 
-  const issueFields = Object.keys(errors).filter((k) => !dismissErrors[k]);
+  const issueFields = Object.keys(errors || {}).filter(
+    (k) => !dismissErrors[k]
+  );
 
   return (
     <>
       {inputs.map((input, index) => {
         if (input.type == "flex") {
+          const { type, items, className, ...itemProps } = input;
           return (
             <div
               key={"flex" + index}
               className={cn(
                 "flex gap-4 *:basis-52 *:grow flex-wrap",
-                input.className
+                className
               )}
             >
-              {input.items.map((item) => {
+              {items.map((item) => {
                 const InputElement = mapping[item.type] ?? mapping.text;
                 return (
-                  <InputElement key={item.name} {...generateProps(item)} />
+                  <InputElement
+                    key={item.name}
+                    {...generateProps({ ...itemProps, ...item })}
+                  />
                 );
               })}
             </div>

@@ -3,55 +3,34 @@ import { useState } from "react";
 import SuccessDialog from "@/components/success-dialog";
 import { Button } from "@/components/ui/button";
 import { AllInput } from "@/components/ui/form-elements";
-import { Banknote } from "lucide-react";
+import { Banknote, Loader2 } from "lucide-react";
+import { createZodSchema, handleFormSubmitHelper } from "@/lib/form-utils";
+import ErrorDialog from "@/components/error-dialog";
 
 const inputs = [
-  { label: "Vehicle ID", name: "vehicleID", placeholder: "Vehicle ID" },
-  {
-    label: "Vehicle Plate Number",
-    name: "plateNumber",
-    placeholder: "Vehicle Plate Number",
-  },
-  {
-    label: "Vehicle Type",
-    name: "vehicleType",
-    placeholder: "Vehicle Type",
-  },
-  {
-    label: "Vehicle Color",
-    name: "vehicleColor",
-    placeholder: "Vehicle Color",
-  },
-
-  {
-    label: "Vehicle Make/Model",
-    name: "makeModel",
-    placeholder: "Vehicle Make/Model",
-  },
-  {
-    label: "Vehicle Engine Number",
-    name: "engineNumber",
-    placeholder: "Vehicle Engine Number",
-  },
   {
     label: "Name of Driver",
-    name: "driverName",
+    name: "name_of_driver",
     placeholder: "Name of Driver",
   },
   {
     label: "Position of Government  Occupied By Driver",
-    name: "governmentPosition",
-    placeholder: "Government Position ",
+    name: "driver_position",
+    placeholder: "Driver Position ",
   },
-  { label: "Select Date of Assignment", name: "assignmentDate", type: "date" },
+  {
+    label: "Select Date of Assignment",
+    name: "date_of_assignment",
+    type: "date",
+  },
   {
     label: "Driver Contact",
-    name: "driverContact",
+    name: "driver_contact",
     placeholder: "Driver’s Contact",
   },
   {
     label: "Driver Mode of ID",
-    name: "driverIDMode",
+    name: "driver_id_type",
     type: "select",
     options: [
       "Civil Service ID",
@@ -64,14 +43,14 @@ const inputs = [
   {
     label: "Driver  ID",
     type: "file",
-    fileTypes: ["application/pdf", "image/*"],
-    name: "driverID",
+    fileTypes: ["image/jpeg", "image/png", "image/jpg"],
+    name: "driver_img_url",
     placeholder: "Upload Driver ID",
   },
   {
     label: "Vehicle Status",
     type: "select",
-    name: "vehicleStatus",
+    name: "vehicle_status",
     options: [
       "Active",
       "Inactive",
@@ -82,58 +61,66 @@ const inputs = [
     placeholder: "Select Vehicle Status",
   },
   {
-    label: "All Vehicle Particulars have been Given to Driver?",
-    type: "select",
-    name: "recievedParticulars",
-    options: ["Yes", "No", "Pending"],
-    placeholder: "Select Option",
-  },
-  {
-    label: "Responsible Officer",
-    name: "responsibleOfficer",
-    placeholder: "Responsible Officer",
-  },
-  {
-    type: "flex",
-    items: [
-      {
-        label: "Date of Order",
-        name: "orderDate",
-        type: "date",
-      },
-      {
-        label: "Time of Order",
-        name: "orderTime",
-        type: "time",
-      },
-    ],
+    label: "Date of Order",
+    name: "date_of_order",
+    type: "date",
   },
   {
     label: "Start Location",
-    name: "startLocation",
+    name: "start_location",
     placeholder: "Start Location",
   },
   {
     label: "Approved Destination",
-    name: "approvedDestination",
+    name: "approved_destination",
     placeholder: "Stop Location",
   },
   {
     label: "Approved Allowance",
-    name: "approvedAllowance",
+    name: "approved_allowance",
     type: "number",
     placeholder: "In Naira",
     icon: <Banknote />,
   },
-];
+].map((field) => ({ ...field, required: true }));
+
 const NewAllocationForm = () => {
   const [formData, setFormData] = useState({});
-  return (
-    <form className="flex flex-col gap-4">
-      <AllInput inputs={inputs} formData={formData} setFormData={setFormData} />
+  const [submitStatus, setSubmitStatus] = useState(null);
 
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    await handleFormSubmitHelper({
+      formSchema: createZodSchema(inputs),
+      formData,
+      endPoint: "/assigned/assign-vehicle",
+      setSubmitStatus,
+    });
+  };
+
+  return (
+    <form className="flex flex-col gap-4" onSubmit={handleFormSubmit}>
+      <AllInput
+        inputs={inputs}
+        formData={formData}
+        setFormData={setFormData}
+        errors={submitStatus?.status == "form_error" && submitStatus.error}
+        inputProps={{ disabled: submitStatus?.status == "submitting" }}
+      />
+
+      <Button type="submit" disabled={submitStatus?.status == "submitting"}>
+        Save &amp; Update
+        {submitStatus?.status == "submitting" && (
+          <Loader2 className="animate-spin size-4" />
+        )}
+      </Button>
       <SuccessDialog
-        title="Vehicle Allocation Successful"
+        open={submitStatus?.status == "success"}
+        onOpenChange={() => {
+          setSubmitStatus(null);
+          setFormData({});
+        }}
+        title={submitStatus?.data?.message ?? "Vehicle Allocation Successful"}
         description={
           <>
             Allocation of Vehicle{" "}
@@ -141,9 +128,12 @@ const NewAllocationForm = () => {
             and updated
           </>
         }
-      >
-        <Button onClick={() => setFormData({})}>Save &amp; Update</Button>
-      </SuccessDialog>
+      ></SuccessDialog>
+      <ErrorDialog
+        open={submitStatus?.status == "error"}
+        onOpenChange={() => setSubmitStatus(null)}
+        description={submitStatus?.error}
+      />
     </form>
   );
 };
