@@ -1,15 +1,45 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Loader2 } from "lucide-react";
 import Link from "next/link";
 import inventoryMockData from "@/data/inventoryMockData";
 import Image from "next/image";
 import InfoCard from "@/components/dashboard/info-card";
+import { useParams, useRouter } from "next/navigation";
+import ErrorDialog from "@/components/error-dialog";
+import useSWR from "swr";
+import { axiosInstance } from "@/lib/axios";
 
-const VehicleDetails = async ({ params }) => {
-  const { vehicleID } = await params;
-  const vehicle = inventoryMockData.find((vehicle) => vehicle.id == vehicleID);
-  console.log(vehicle);
+const VehicleDetails = () => {
+  const { vehicleID } = useParams();
+  const {
+    data: response,
+    isLoading,
+    error,
+  } = useSWR("vehicle/vehicle-record", axiosInstance.get);
+  const router = useRouter();
+
+  if (error) {
+    return (
+      <ErrorDialog
+        title={error.message}
+        description="Reload the page to try again"
+        defaultOpen
+      ></ErrorDialog>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen rounded bg-muted animate-pulse">
+        <Loader2 className="animate-spin size-10" />
+      </div>
+    );
+  }
+
+  const vehicle =
+    response?.data.data.find((vehicle) => vehicle._id == vehicleID) ?? {};
 
   return (
     <div>
@@ -20,22 +50,20 @@ const VehicleDetails = async ({ params }) => {
           </Button>
         </Link>
         <h1 className="text-secondary text-xl mx-auto font-bold">
-          {vehicle.makeModel}
+          {vehicle.vehicle_model}
         </h1>
       </div>
 
       <div className="p-4 my-4 rounded border border-green-500 bg-green-200">
-        Viewing {vehicle.makeModel} details
+        Viewing {vehicle.vehicle_model} details
       </div>
 
       <div className="flex gap-4">
         <div className="image-area basis-0 grow">
           <img
-            src="/images/car.jpg"
-            width={80}
-            height={66}
-            alt={"Image of  " + vehicle.makeModel}
-            className="w-full rounded-lg mb-4"
+            src={vehicle.img ?? vehicle.procurement_img}
+            alt={"Image of  " + vehicle.vehicle_model}
+            className="w-full rounded-lg mb-4 min-h-40 object-cover object-left-top"
           />
           <InfoCard
             title="Procurement Document"
@@ -52,7 +80,10 @@ const VehicleDetails = async ({ params }) => {
         </div>
         <ul className="info-area basis-0 grow">
           {Object.entries(vehicle)
-            .filter(([key, _]) => !["id", "vehicleImage"].includes(key))
+            .filter(
+              ([key, _]) =>
+                !(["__v", "image"].includes(key) || key.includes("img"))
+            )
             .map(([key, value]) => (
               <li
                 key={key + value}

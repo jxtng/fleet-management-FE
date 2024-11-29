@@ -24,18 +24,18 @@ const DataTable = ({
   actionTrigger = <EllipsisVertical size={18} />,
 }) => {
   const [width, setWidth] = useState("100%");
-  const tbRef = useRef();
 
   useEffect(() => {
     function syncWidth() {
-      let width = document.querySelector("#main-scroll-area").clientWidth;
+      let width = document.querySelector("#main-scroll-area")?.clientWidth;
+      if (!width) return;
       let mainElementStyles = window.getComputedStyle(
         document.querySelector("main")
       );
       width -=
         parseFloat(mainElementStyles.paddingTop) +
         parseFloat(mainElementStyles.paddingBottom);
-      setWidth(width);
+      setWidth(width || "100%");
     }
 
     window.addEventListener("resize", syncWidth);

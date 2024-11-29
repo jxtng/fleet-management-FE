@@ -40,7 +40,9 @@ const InfoCard = ({
         {infoList.map(([key, value], index) => (
           <li className="text-sm" key={key + index}>
             <span className="opacity-70 capitalize leading-6">
-              {key.replace(/((?<=[^A-Z])[A-Z])/g, " $1")}
+              {key
+                .replace(/((?<=[^A-Z])[A-Z])/g, " $1")
+                .replace(/_([a-z])/g, " $1")}
             </span>
             {key && ": "}
             {value}

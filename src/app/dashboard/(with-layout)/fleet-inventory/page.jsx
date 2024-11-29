@@ -6,19 +6,19 @@ import { Button } from "@/components/ui/button";
 import VehicleSummary from "@/components/dashboard/vehicle-summary";
 import TableFilter from "@/components/dashboard/table-filter";
 import DataTable from "@/components/ui/data-table";
-import inventoryMockData from "@/data/inventoryMockData";
-import Image from "next/image";
-import { Edit, Eye, History, Share, ShieldCheck, Trash2 } from "lucide-react";
+import { Edit, Eye, History, Share, Trash2 } from "lucide-react";
 
 import Link from "next/link";
 import InfoCard from "@/components/dashboard/info-card";
 import TableAction from "@/components/dashboard/table-action";
+import useSWR from "swr";
+import { axiosInstance } from "@/lib/axios";
 
 const actions = [
   {
     label: "View vehicle details",
     icon: <Eye className="text-green-400" />,
-    href: (row) => `/dashboard/fleet-inventory/vehicle/${row.id}`,
+    href: (row) => `/dashboard/fleet-inventory/vehicle/${row._id}`,
   },
   {
     label: "View vehicle history",
@@ -31,8 +31,35 @@ const actions = [
 
 const FleetInventory = () => {
   const [filterData, setFilterData] = useState({});
+  const {
+    data: response,
+    isLoading,
+    error,
+  } = useSWR("vehicle/vehicle-record", axiosInstance.get);
 
-  console.log(filterData);
+  let columnDefs,
+    data = [];
+  if (response) {
+    data = response?.data.data;
+    columnDefs = Object.keys(data[0] ?? {})
+      .filter((key) => !key.startsWith("_"))
+      .map((key) => {
+        return {
+          th: (
+            <div className="capitalize">{key.replace(/_([a-z])/g, " $1")}</div>
+          ),
+          td: ({ row }) => (
+            <>
+              {key.includes("img") || key.includes("image") ? (
+                <img src={row[key]} alt="Image" className="mx-auto max-w-16" />
+              ) : (
+                row[key]
+              )}
+            </>
+          ),
+        };
+      });
+  }
 
   return (
     <div>
@@ -54,44 +81,32 @@ const FleetInventory = () => {
 
       {filterData.displayMode == "cards" ? (
         <div className="cards flex justify-between flex-wrap gap-2">
-          {inventoryMockData.map((vehicle) => (
+          {data.map((vehicle) => (
             <InfoCard
-              key={vehicle.id}
+              key={vehicle._id}
               details={vehicle}
-              include={["vehicleType", "makeModel", "engineNumber"]}
-              className="grow"
-              action={<TableAction row={vehicle} actions={actions} />}
+              include={["plate_number", "vehicle_model", "engine_number"]}
+              title={`Vehicle ID: ${vehicle.vehicle_id}`}
+              image={
+                vehicle.image ? (
+                  <img src={vehicle.image} />
+                ) : vehicle.procurement_img ? (
+                  <img src={vehicle.procurement_img} />
+                ) : (
+                  <UserCircle className="w-full h-full p-2 text-muted-foreground" />
+                )
+              }
             />
           ))}
         </div>
       ) : (
         <DataTable
-          data={inventoryMockData}
-          columnDefs={[
-            {
-              th: "Vehicle Image",
-              td: ({ row }) => (
-                <Image
-                  src="/images/car.jpeg"
-                  width={80}
-                  height={66}
-                  alt={"Image of vehicle with id " + row.id}
-                />
-              ),
-            },
-            { th: "Vehicle ID/Inventory ID", key: "vehicleID" },
-            { th: "Type", key: "vehicleType" },
-            { th: "Make/Model", key: "makeModel" },
-            { th: "Engine Number", key: "engineNumber" },
-            {
-              th: "",
-              td: () => <ShieldCheck className="text-green-400" size={18} />,
-            },
-            {
-              th: "Actions",
-              td: ({ row }) => <TableAction row={row} actions={actions} />,
-            },
-          ]}
+          caption="Vehicle Inventory"
+          data={data}
+          isLoading={isLoading}
+          error={error}
+          columnDefs={columnDefs}
+          actions={actions}
         />
       )}
     </div>
