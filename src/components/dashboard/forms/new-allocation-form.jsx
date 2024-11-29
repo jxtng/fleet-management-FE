@@ -3,8 +3,7 @@ import { useState } from "react";
 import SuccessDialog from "@/components/success-dialog";
 import { Button } from "@/components/ui/button";
 import { AllInput } from "@/components/ui/form-elements";
-import { axiosInstance } from "@/lib/axios";
-import { createErrors, createZodSchema } from "@/lib/form-utils";
+import { createZodSchema, handleFormSubmitHelper } from "@/lib/form-utils";
 import { Loader2 } from "lucide-react";
 import ErrorDialog from "@/components/error-dialog";
 
@@ -120,42 +119,19 @@ const inputs = [
     required: true,
   },
 ];
-const newAllocationFormSchema = createZodSchema(inputs);
 
 const NewAllocationForm = () => {
   const [formData, setFormData] = useState({});
   const [submitStatus, setSubmitStatus] = useState(null);
-  const [errors, setErrors] = useState(null);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    const validatedFormData = newAllocationFormSchema.safeParse(formData);
-
-    if (!validatedFormData.success) {
-      setErrors(createErrors(validatedFormData.error));
-      return;
-    } else setErrors(null);
-
-    setSubmitStatus("submitting");
-    try {
-      const response = await axiosInstance.post(
-        "/allocation/allocate",
-        validatedFormData.data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      setFormData({});
-      setSubmitStatus({ status: "success", message: response.data.message });
-    } catch (err) {
-      console.log(err);
-      setSubmitStatus({
-        status: "error",
-        message: err.response?.data?.message ?? err.message,
-      });
-    }
+    await handleFormSubmitHelper({
+      formSchema: createZodSchema(inputs),
+      formData,
+      endPoint: "/allocation/allocate",
+      setSubmitStatus,
+    });
   };
 
   return (
@@ -164,22 +140,27 @@ const NewAllocationForm = () => {
         inputs={inputs}
         formData={formData}
         setFormData={setFormData}
-        errors={errors}
-        inputProps={{ disabled: submitStatus == "submitting" }}
+        errors={submitStatus?.status == "form_error" ? submitStatus.error : {}}
+        inputProps={{ disabled: submitStatus?.status == "submitting" }}
       />
 
       <Button
         type="submit"
         onClick={handleFormSubmit}
-        disabled={submitStatus == "submitting"}
+        disabled={submitStatus?.status == "submitting"}
       >
         Save &amp; Update
-        {submitStatus == "submitting" && <Loader2 className="animate-spin" />}
+        {submitStatus?.status == "submitting" && (
+          <Loader2 className="animate-spin" />
+        )}
       </Button>
       <SuccessDialog
         open={submitStatus?.status == "success"}
-        onOpenChange={() => setSubmitStatus(null)}
-        title={submitStatus?.message}
+        onOpenChange={() => {
+          setSubmitStatus(null);
+          setFormData({});
+        }}
+        title={submitStatus?.data?.message}
         description={
           <>
             Allocation of Vehicle{" "}
@@ -192,7 +173,7 @@ const NewAllocationForm = () => {
       <ErrorDialog
         open={submitStatus?.status == "error"}
         onOpenChange={() => setSubmitStatus(null)}
-        description={<>{submitStatus?.message}</>}
+        description={<>{submitStatus?.error}</>}
       ></ErrorDialog>
     </form>
   );

@@ -3,8 +3,6 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, Loader2 } from "lucide-react";
 import Link from "next/link";
-import inventoryMockData from "@/data/inventoryMockData";
-import Image from "next/image";
 import InfoCard from "@/components/dashboard/info-card";
 import { useParams, useRouter } from "next/navigation";
 import ErrorDialog from "@/components/error-dialog";

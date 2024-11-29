@@ -91,7 +91,11 @@ const FleetAllocation = () => {
           td: ({ row }) => (
             <>
               {key.includes("img") ? (
-                <img src={row[key]} alt="Image" className="mx-auto max-w-16" />
+                <img
+                  src={row[key]}
+                  alt="Image"
+                  className="mx-auto max-w-16 w-16"
+                />
               ) : (
                 row[key]
               )}

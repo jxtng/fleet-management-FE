@@ -287,11 +287,17 @@ export const TextareaInput = ({
   );
 };
 
+const mapping = {
+  text: TypeInput,
+  file: FileInput,
+  select: SelectInput,
+  textarea: TextareaInput,
+};
+
 export const AllInput = ({
   inputs,
   formData,
   setFormData,
-  className,
   errors,
   ...props
 }) => {
@@ -301,48 +307,53 @@ export const AllInput = ({
     setDismissErrors({});
   }, [errors]);
 
+  const generateProps = (input) => ({
+    onChange(value) {
+      setFormData?.((fd) => ({ ...fd, [input.name]: value }));
+      if (!dismissErrors[input.name]) {
+        setDismissErrors((sr) => ({ ...sr, [input.name]: true }));
+      }
+    },
+    value: formData?.[input.name] ?? "",
+    error: !dismissErrors[input.name] && errors?.[input.name],
+    ...props,
+    ...input,
+  });
+
+  const issueFields = Object.keys(errors).filter((k) => !dismissErrors[k]);
+
   return (
     <>
       {inputs.map((input, index) => {
-        let InputElement = TypeInput;
-        if (input.type == "file") InputElement = FileInput;
-        if (input.type == "select") InputElement = SelectInput;
-        if (input.type == "textarea") InputElement = TextareaInput;
         if (input.type == "flex") {
           return (
             <div
               key={"flex" + index}
               className={cn(
                 "flex gap-4 *:basis-52 *:grow flex-wrap",
-                className
+                input.className
               )}
             >
-              <AllInput
-                inputs={input.items}
-                formData={formData}
-                setFormData={setFormData}
-                errors={errors}
-                {...props}
-              />
+              {input.items.map((item) => {
+                const InputElement = mapping[item.type] ?? mapping.text;
+                return (
+                  <InputElement key={item.name} {...generateProps(item)} />
+                );
+              })}
             </div>
           );
         }
-        return (
-          <InputElement
-            key={input.name + input.label}
-            onChange={(value) => {
-              setFormData?.((fd) => ({ ...fd, [input.name]: value }));
-              if (!dismissErrors[input.name]) {
-                setDismissErrors((sr) => ({ ...sr, [input.name]: true }));
-              }
-            }}
-            value={formData?.[input.name] ?? ""}
-            error={!dismissErrors[input.name] && errors?.[input.name]}
-            {...props}
-            {...input}
-          />
-        );
+
+        const InputElement = mapping[input.type] ?? mapping.text;
+        return <InputElement key={input.name} {...generateProps(input)} />;
       })}
+
+      {issueFields.length !== 0 && (
+        <div className="error text-sm text-red-500">
+          Some field(s) have issues.{" "}
+          <em>{issueFields.slice(0, 3).join(", ")}...</em>
+        </div>
+      )}
     </>
   );
 };
