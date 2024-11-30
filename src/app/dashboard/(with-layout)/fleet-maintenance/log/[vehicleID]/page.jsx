@@ -24,12 +24,7 @@ const MaintenanceLog = async ({ params }) => {
 
       <TableFilter showDisplayToggle={false} />
 
-      <MaintenanceLogTable
-        data={
-          maintenanceLog.find((log) => log.vehicleID == vehicleID)
-            ?.maintenanceLog ?? []
-        }
-      />
+      <MaintenanceLogTable data={maintenanceLog[0]?.maintenanceLog ?? []} />
     </>
   );
 };

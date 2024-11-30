@@ -6,26 +6,20 @@ import { Button } from "@/components/ui/button";
 import VehicleSummary from "@/components/dashboard/vehicle-summary";
 import TableFilter from "@/components/dashboard/table-filter";
 import maintenanceMockData from "@/data/maintenanceMockData";
-import {
-  AlertTriangle,
-  Car,
-  Eye,
-  Plus,
-  Share,
-  ShieldCheck,
-  Trash2,
-} from "lucide-react";
+import { Car, Eye, Plus, Share, Trash2 } from "lucide-react";
 import InfoCard from "@/components/dashboard/info-card";
 import DataTable from "@/components/ui/data-table";
 import TableAction from "@/components/dashboard/table-action";
 import Image from "next/image";
 import Link from "next/link";
+import useSWR from "swr";
+import { axiosInstance } from "@/lib/axios";
 
 const actions = [
   {
     label: "View maintenance",
     icon: <Eye className="text-green-400" />,
-    href: (row) => `/dashboard/fleet-maintenance/${row.vehicleID}`,
+    href: (row) => `/dashboard/fleet-maintenance/${row.vehicle_id}`,
   },
   {
     label: "Add new maintenance history",
@@ -40,6 +34,35 @@ const actions = [
 ];
 const FleetMaintenance = () => {
   const [filterData, setFilterData] = useState({});
+  const {
+    data: response,
+    isLoading,
+    error,
+  } = useSWR("/maintainers/maintenance-record", axiosInstance.get);
+
+  let columnDefs,
+    data = [];
+  if (response) {
+    data = response?.data.data;
+    columnDefs = Object.keys(data[0] ?? {})
+      .filter((key) => !key.startsWith("_"))
+      .map((key) => {
+        return {
+          th: (
+            <div className="capitalize">{key.replace(/_([a-z])/g, " $1")}</div>
+          ),
+          td: ({ row }) => (
+            <>
+              {key.includes("img") || key.includes("image") ? (
+                <img src={row[key]} alt="Image" className="mx-auto max-w-16" />
+              ) : (
+                row[key]
+              )}
+            </>
+          ),
+        };
+      });
+  }
 
   return (
     <div>
@@ -59,64 +82,43 @@ const FleetMaintenance = () => {
 
       {filterData.displayMode == "cards" ? (
         <div className="cards flex justify-between flex-wrap gap-2">
-          {maintenanceMockData.map((vehicle) => (
+          {data.map((vehicle) => (
             <InfoCard
-              key={vehicle.id}
-              title={`Vehicle ID: ${vehicle.vehicleID}`}
+              key={vehicle._id}
+              title={`Vehicle ID: ${vehicle.vehicle_id}`}
               details={vehicle}
-              include={["vehicleType", "lastServiceDate", "nextServiceDate"]}
+              include={[
+                "description_maintenance",
+                "type_of_maintenance",
+                "date",
+              ]}
               className="grow"
               action={<TableAction row={vehicle} actions={actions} />}
               image={
-                <Car
-                  className={`w-full h-full p-2 ${
-                    vehicle.status == "ok" ? "text-green-400" : "text-red-400"
-                  }`}
-                />
+                vehicle.invoice_img_url ? (
+                  <img
+                    src={vehicle.invoice_img_url}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <Car
+                    className={`w-full h-full p-2 ${
+                      vehicle.status == "ok" ? "text-green-400" : "text-red-400"
+                    }`}
+                  />
+                )
               }
             />
           ))}
         </div>
       ) : (
         <DataTable
-          data={maintenanceMockData}
-          columnDefs={[
-            {
-              th: "Vehicle Image",
-              td: ({ row }) => (
-                <Image
-                  src="/images/car.jpeg"
-                  width={80}
-                  height={66}
-                  alt={"Image of vehicle with id " + row.id}
-                />
-              ),
-            },
-            { th: "Vehicle ID/Inventory ID", key: "vehicleID" },
-            { th: "Type", key: "vehicleType" },
-            { th: "License Plate", key: "licensePlate" },
-            { th: "Last Service Date", key: "lastServiceDate" },
-            { th: "Next Service Due", key: "nextServiceDate" },
-            {
-              th: "Status",
-              td: ({ row }) => (
-                <>
-                  {row.status == "ok" ? (
-                    <ShieldCheck className="text-green-400 mx-auto" size={18} />
-                  ) : (
-                    <AlertTriangle
-                      className="text-amber-400 mx-auto"
-                      size={18}
-                    />
-                  )}
-                </>
-              ),
-            },
-            {
-              th: "",
-              td: ({ row }) => <TableAction row={row} actions={actions} />,
-            },
-          ]}
+          data={data}
+          isLoading={isLoading}
+          error={error}
+          caption="Maintenance History"
+          columnDefs={columnDefs}
+          actions={actions}
         />
       )}
     </div>

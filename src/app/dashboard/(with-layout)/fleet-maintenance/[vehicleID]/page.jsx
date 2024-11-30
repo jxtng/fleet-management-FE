@@ -1,13 +1,40 @@
+"use client";
+import React from "react";
 import OverviewCard from "@/components/dashboard/overview-card";
 import SubHeader from "@/components/dashboard/sub-header";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { FileClock } from "lucide-react";
+import { FileClock, Loader2 } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import { notFound, useParams } from "next/navigation";
+import useSWR from "swr";
+import { axiosInstance } from "@/lib/axios";
 
-const VehicleMaintenanceView = async ({ params }) => {
-  const { vehicleID } = await params;
+const VehicleMaintenanceView = () => {
+  const { vehicleID } = useParams();
+  const {
+    data: response,
+    isLoading,
+    error,
+  } = useSWR("/maintainers/maintenance-record", axiosInstance.get);
+
+  if (isLoading || error) {
+    return (
+      <div className="absolute inset-8 flex justify-center items-center bg-muted rounded-lg animate-pulse">
+        {isLoading ? (
+          <Loader2 size={64} className="animate-spin" />
+        ) : (
+          <p>Failed to load data. Refresh to try again.</p>
+        )}
+      </div>
+    );
+  }
+
+  const vehicle = response?.data.data.find(
+    (vehicle) => vehicle.vehicle_id === vehicleID
+  );
+
+  if (!vehicle) notFound();
 
   return (
     <>
@@ -18,16 +45,16 @@ const VehicleMaintenanceView = async ({ params }) => {
       <OverviewCard
         title="Vehicle Overview"
         data={[
-          "Mileage (km): 45,000",
-          "Vehicle Type: SUV",
-          "Current Status: Active",
-          "Last Maintenance Date: 2024-08-12",
-          "Fuel Efficiency (km/l): 12.4",
+          "Mileage (km): " + vehicle.milage,
+          "Maintenance Type: " + vehicle.type_of_maintenance,
+          "Cost (₦): " + vehicle.maintenance_cost,
+          "Last Maintenance Date: " + vehicle.updatedAt,
+          "Provider: " + vehicle.maintenance_provider,
         ]}
       />
 
       <p className="text-lg font-bold text-secondary my-8">
-        Click to view the details related to Vehicle ID: {vehicleID}.
+        Click to view the details related to the Vehicle ID: {vehicleID}.
       </p>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         {[
@@ -87,6 +114,7 @@ const MaintenanceCard = ({
       <Link
         href={href}
         className={cn(
+          "mt-auto",
           buttonVariants(),
           btnColor,
           `hover:opacity-85 hover:${btnColor}`
