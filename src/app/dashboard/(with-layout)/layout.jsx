@@ -5,7 +5,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 const DashboardLayout = ({ children }) => {
   return (
     <div className="bg-foreground min-h-screen flex p-4">
-      <SideNav className="text-background basis-1/5 font-sans text-sm" />
+      <SideNav className="text-background shrink-0 font-sans text-sm w-[clamp(240px,_20vw,_350px)]" />
       <ScrollArea
         type="auto"
         className="h-[calc(100vh-2rem)] w-screen rounded-3xl border-none"

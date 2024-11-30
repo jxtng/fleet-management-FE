@@ -14,6 +14,7 @@ import {
   CircleDollarSign,
   Settings,
 } from "lucide-react";
+import Image from "next/image";
 
 const links = [
   {
@@ -53,6 +54,19 @@ const SideNav = ({ className }) => {
 
   return (
     <nav className={className}>
+      <div className="relative">
+        <Image
+          src="/images/fleet-management-logo.svg"
+          width={64}
+          height={64}
+          alt="Fleet Manager Logo"
+          className="mx-auto"
+        />
+        <h2 className="text-xl text-center text-muted-foreground font-bold">
+          Fleet Manager
+        </h2>
+        <hr className="absolute -bottom-1 right-2 w-full h-0.5 bg-muted-foreground border-0" />
+      </div>
       <ProfileCard />
 
       <p className="opacity-70 uppercase my-4 text-xs pl-2">Main menu</p>
