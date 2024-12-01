@@ -14,6 +14,7 @@ import Link from "next/link";
 const DataTable = ({
   data = [],
   columnDefs = [],
+  className,
   isLoading,
   error,
   serialNumber = true,
@@ -48,7 +49,8 @@ const DataTable = ({
   if (serialNumber) {
     columns.unshift({
       th: "SN",
-      thClassName: "w-2",
+      thClassName: "w-12 text-center",
+      tdClassName: "text-center",
       td: ({ index }) => (index < 9 ? "0" : "") + (index + 1),
     });
   }
@@ -96,7 +98,7 @@ const DataTable = ({
       )}
 
       <ScrollArea type="auto" className="rounded-lg" style={{ width }}>
-        <table className="w-full text-sm" summary={caption}>
+        <table className={cn("w-full text-sm", className)} summary={caption}>
           <colgroup>
             {columns.map((col, index) => {
               return (
