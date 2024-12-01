@@ -7,7 +7,7 @@ const store = createStore({
   authName: "__fleet_manager_auth",
   authType: "cookie",
   cookieSecure: false,
-  cookieDomain: "127.0.0.1",
+  cookieDomain: process.env.NEXT_PUBLIC_DOMAIN ?? "/",
 });
 
 const Providers = ({ children }) => {
