@@ -1,8 +1,14 @@
+"use client";
+import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Lock, Mail } from "lucide-react";
+import { Loader2, Lock, Mail } from "lucide-react";
 import { AllInput } from "@/components/auth/auth-form-elements";
 import AuthPageTemplate from "@/components/auth/page-template";
+import { createZodSchema, handleFormSubmitHelper } from "@/lib/form-utils";
+import SuccessDialog from "@/components/success-dialog";
+import ErrorDialog from "@/components/error-dialog";
+import { DialogClose } from "@/components/ui/dialog";
 
 const inputs = [
   {
@@ -57,7 +63,7 @@ const inputs = [
         </svg>
       </div>
     ),
-    inputClassName: "pl-20",
+    classes: { input: "pl-20" },
     pattern: "\\d{10}",
     required: true,
   },
@@ -80,13 +86,32 @@ const inputs = [
 ];
 
 const SignupInitialStep = ({
-  formData,
-  setFormData,
+  // formData,
+  // setFormData,
   transitioningTo,
   setTransitioningTo,
   step,
   setStep,
 }) => {
+  const [submitStatus, setSubmitStatus] = useState(null);
+  const [formData, setFormData] = useState({});
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    const formStatus = await handleFormSubmitHelper({
+      formSchema: createZodSchema(inputs),
+      formData,
+      setSubmitStatus,
+      setFormData,
+      endPoint: "/auth/register",
+      axiosConfig: {
+        headers: {},
+      },
+    });
+
+    console.log(formStatus);
+  };
+
   const handleAnimationEnd = (e) => {
     if (transitioningTo && step === 0) {
       setTransitioningTo(false);
@@ -105,21 +130,52 @@ const SignupInitialStep = ({
       transitioningTo={transitioningTo}
       onAnimationEnd={handleAnimationEnd}
     >
-      <div className="self-stretch font-normal flex flex-col gap-4">
+      <form
+        onSubmit={handleFormSubmit}
+        className="self-stretch font-normal flex flex-col gap-4"
+      >
         <AllInput
           inputs={inputs}
           formData={formData}
           setFormData={setFormData}
+          errors={submitStatus?.status == "form_error" && submitStatus.error}
         />
-        <Button
-          type="submit"
-          onClick={() => {
-            setTransitioningTo(1);
-          }}
-        >
+        <Button type="submit" disabled={submitStatus?.status === "submitting"}>
           Proceed
+          {submitStatus?.status == "submitting" && (
+            <Loader2 className="ml-2 w-4 h-4 animate-spin" />
+          )}
         </Button>
-      </div>
+      </form>
+
+      <SuccessDialog
+        open={submitStatus?.status == "success"}
+        onOpenChange={() => setSubmitStatus(null)}
+        title={submitStatus?.data?.message ?? "Registration Successful"}
+        description={
+          "You can continue your registration or login with your credentials now"
+        }
+        control={
+          <div className="flex justify-between grow auth-style">
+            <Button variant="outline" asChild>
+              <Link href="/auth/login">Proceed to Login</Link>
+            </Button>
+            <DialogClose
+              onClick={() => {
+                setTransitioningTo(1);
+              }}
+              asChild
+            >
+              <Button>Continue</Button>
+            </DialogClose>
+          </div>
+        }
+      />
+      <ErrorDialog
+        open={submitStatus?.status == "error"}
+        onOpenChange={() => setSubmitStatus(null)}
+        description={submitStatus?.error}
+      />
     </AuthPageTemplate>
   );
 };

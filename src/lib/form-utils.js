@@ -158,10 +158,12 @@ export const handleFormSubmitHelper = async ({
         ...axiosConfig,
       }
     );
+    console.log(response);
     formStatus = { status: "success", data: response.data };
     onSuccess?.(formStatus);
     setSubmitStatus?.(formStatus);
   } catch (err) {
+    console.log(err);
     formStatus = {
       status: "error",
       error:

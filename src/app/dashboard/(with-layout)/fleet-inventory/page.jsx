@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import VehicleSummary from "@/components/dashboard/vehicle-summary";
 import TableFilter from "@/components/dashboard/table-filter";
 import DataTable from "@/components/ui/data-table";
-import { Edit, Eye, History, Share, Trash2 } from "lucide-react";
+import { Edit, Eye, History, Share, Trash2, UserCircle } from "lucide-react";
 
 import Link from "next/link";
 import InfoCard from "@/components/dashboard/info-card";

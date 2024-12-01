@@ -39,9 +39,13 @@ const SuccessDialog = ({
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <DialogClose asChild>
-            {control ? control : <Button variant="outline">Close</Button>}
-          </DialogClose>
+          {control ? (
+            control
+          ) : (
+            <DialogClose asChild>
+              <Button variant="outline">Close</Button>
+            </DialogClose>
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>

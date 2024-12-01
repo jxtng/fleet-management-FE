@@ -3,8 +3,12 @@ import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { redirect } from "next/navigation";
-import { Lock, Mail } from "lucide-react";
+import { Loader2, Lock, Mail } from "lucide-react";
 import { AllInput } from "./auth-form-elements";
+import { createZodSchema, handleFormSubmitHelper } from "@/lib/form-utils";
+import SuccessDialog from "../success-dialog";
+import ErrorDialog from "../error-dialog";
+import useSignIn from "react-auth-kit/hooks/useSignIn";
 
 const inputs = [
   {
@@ -29,25 +33,84 @@ const LoginForm = () => {
     email: "",
     password: "",
   });
+  const [submitStatus, setSubmitStatus] = useState(null);
+  const signIn = useSignIn();
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    // Login logic coming soon
-    redirect("/dashboard");
+
+    let formStatus = await handleFormSubmitHelper({
+      formSchema: createZodSchema(inputs),
+      formData,
+      setSubmitStatus,
+      endPoint: "/auth/login",
+      axiosConfig: {
+        headers: {
+          "Access-Control-Allow-Origin":
+            "https://fleet-management-fe.vercel.app",
+        },
+        withCredentials: true,
+      },
+    });
+
+    if (formStatus?.status == "success") {
+      signIn({
+        userState: formStatus.data?.data,
+      });
+
+      setTimeout(() => redirect("/dashboard"), 3000);
+    }
+
+    console.log(formStatus);
+
+    // Uncomment the following code to force login
+    // setSubmitStatus({ status: "success", data: formStatus.data });
   };
 
   return (
-    <form
-      method="post"
-      className="self-stretch font-normal flex flex-col gap-4"
-      onSubmit={handleFormSubmit}
-    >
-      <AllInput inputs={inputs} formData={formData} setFormData={setFormData} />
-      <Link href="/auth/forgot-password" className="self-end text-sm">
-        Forgot password?
-      </Link>
-      <Button type="submit">Sign In</Button>
-    </form>
+    <div className="self-stretch ">
+      <form
+        method="post"
+        className="self-stretch font-normal flex flex-col gap-4"
+        onSubmit={handleFormSubmit}
+      >
+        <AllInput
+          inputs={inputs}
+          formData={formData}
+          setFormData={setFormData}
+          errors={submitStatus?.status == "form_error" && submitStatus?.error}
+        />
+        <Link href="/auth/forgot-password" className="self-end text-sm">
+          Forgot password?
+        </Link>
+        <Button type="submit" disabled={submitStatus?.status == "submitting"}>
+          Sign In
+          {submitStatus?.status == "submitting" && (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          )}
+        </Button>
+      </form>
+      <SuccessDialog
+        open={submitStatus?.status == "success"}
+        onOpenChange={() => setSubmitStatus(null)}
+        title={submitStatus?.data?.message ?? "Login Successful"}
+        description={
+          "Redirecting to dashboard... If it takes too long, use the button below"
+        }
+        control={
+          <div className="auth-style flex justify-center gap-2 grow">
+            <Button asChild>
+              <Link href="/dashboard">Go to dashboard</Link>
+            </Button>
+          </div>
+        }
+      />
+      <ErrorDialog
+        open={submitStatus?.status == "error"}
+        onOpenChange={() => setSubmitStatus(null)}
+        description={submitStatus?.error}
+      />
+    </div>
   );
 };
 
