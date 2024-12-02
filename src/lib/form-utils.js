@@ -47,19 +47,19 @@ export const createErrors = (zodError) => {
 const validators = {
   text({ label, name, required }) {
     label = label ?? name;
-    let schema = z.string({ required_error: `${label} is required` });
+    let schema = z.string({ required_error: `${name} is required` });
 
-    if (required) schema = schema.min(1, { message: `${label} is required` });
+    if (required) schema = schema.min(1, { message: `${name} is required` });
     return schema;
   },
   number({ label, name, required }) {
     label = label ?? name;
     let schema = z.coerce.number({
-      required_error: `${label} is required`,
+      required_error: `${name} is required`,
       invalid_type_error: "You need to enter an amount/number",
     });
 
-    if (required) schema = schema.min(1, { message: `${label} is required` });
+    if (required) schema = schema.min(1, { message: `${name} is required` });
     return schema;
   },
 
@@ -78,7 +78,7 @@ const validators = {
         )
       : options;
     let schema = z.enum(validValues, {
-      required_error: `${label} is required`,
+      required_error: `${name} is required`,
     });
 
     return schema;
@@ -86,7 +86,7 @@ const validators = {
 
   date({ label, name }) {
     label = label ?? name;
-    let schema = z.coerce.date({ required_error: `${label} is required` });
+    let schema = z.coerce.date({ required_error: `${name} is required` });
 
     return schema;
   },
@@ -112,7 +112,7 @@ const validators = {
         }
       )
       .refine((file) => (required ? file : true), {
-        message: `${label} is required`,
+        message: `${name} is required`,
       });
   },
 };
@@ -147,9 +147,6 @@ export const handleFormSubmitHelper = async ({
   onSubmitStart?.(formStatus);
   setSubmitStatus?.(formStatus);
 
-  // formStatus = { status: "success", data: validatedFormData.data };
-  // setSubmitStatus?.(formStatus);
-  // return formStatus;
   try {
     const response = await axiosInstance.post(
       endPoint,

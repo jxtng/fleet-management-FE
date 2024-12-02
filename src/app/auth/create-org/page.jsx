@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { createZodSchema, handleFormSubmitHelper } from "@/lib/form-utils";
+import { z } from "zod";
 
 const formPartOne = {
   "Section 1: Organization Details": [
@@ -80,7 +81,7 @@ const formPartTwo = {
         {
           label: "Admin Role/Postion",
           placeholder: "Admin Role/Position",
-          name: "adminRole",
+          name: "addminRole",
         },
       ],
     },
@@ -90,7 +91,7 @@ const formPartTwo = {
         {
           label: "Admin Email",
           placeholder: "Enter Admin Email",
-          name: "adminEmail",
+          name: "addminEmail",
           type: "email",
         },
         {
@@ -146,18 +147,21 @@ const formPartThree = {
 };
 
 const forms = [formPartOne, formPartTwo, formPartThree];
+const formSchemas = forms.map((form) =>
+  createZodSchema(Object.values(form).flat())
+);
 
 const CreateOrg = ({}) => {
-  const [formValidations, setformValidations] = useState([]);
+  const [validForms, setValidForms] = useState([]);
   const [formData, setFormData] = useState({
     name: "Organic tomatoes",
     type: "governmentAgency",
     email: "tester@gmail.com",
     phone: "4567893333",
-    logo: {},
+    // logo: {},
     adminFullName: "fff",
-    adminEmail: "ffff",
-    adminRole: "fff",
+    addminEmail: "ffff",
+    addminRole: "fff",
     adminPhone: "09012345678",
     numberOfVehicles: "20",
     operationalAreas: "Enugu",
@@ -167,43 +171,41 @@ const CreateOrg = ({}) => {
   const [step, setStep] = useState(1);
   const [transitioningTo, setTransitioningTo] = useState(false);
 
-  const handleFormErrors = () => {
-    const formsWithErrors = forms.map((form) => {
-      let inputSchema = createZodSchema(Object.values(form).flat());
-      return inputSchema.safeParse(formData).success;
-    });
-    setformValidations(formsWithErrors);
-    return formsWithErrors;
+  console.log(
+    formSchemas
+      .reduce((merged, schema) => merged.merge(schema))
+      .safeParse(formData),
+    validForms
+  );
+
+  const validateForms = () => {
+    const currentValidForms = formSchemas.map(
+      (schema) => schema.safeParse(formData).success
+    );
+
+    setValidForms(currentValidForms);
+    const errorStep = currentValidForms.findIndex((isValid) => !isValid) + 1;
+    // if (errorStep !== -1 && errorStep !== step) setTransitioningTo(errorStep);
+    return currentValidForms;
   };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    validateForms();
 
     if (step >= forms.length) {
-      // If at the last step of submitting form
-      // submit the form
-      console.log(formData);
+      // If at the last step of submitting form, submit the form
       const formStatus = await handleFormSubmitHelper({
-        formSchema: createZodSchema(
-          forms.map((form) => Object.values(form).flat()).flat()
+        formSchema: formSchemas.reduce((mergedSchema, schema) =>
+          mergedSchema.merge(schema)
         ),
         formData,
         setSubmitStatus,
         setFormData,
         endPoint: "/organizations/create-org",
-        axiosConfig: {
-          headers: {},
-        },
       });
 
-      const formWithErrors = handleFormErrors().map((valid) => !valid);
-      if (formStatus?.status == "form_error") {
-        // Move to invalidation error step
-        const errorIndex = formWithErrors.findIndex((hasError) => hasError) + 1;
-        if (errorIndex !== step) setTransitioningTo(errorIndex);
-
-        return;
-      }
+      if (formStatus?.status == "form_error") return;
     }
 
     setTransitioningTo(step + 1);
@@ -213,7 +215,7 @@ const CreateOrg = ({}) => {
     <div className="flex gap-4 flex-wrap *:grow">
       <Button
         onClick={() => {
-          handleFormErrors();
+          validateForms();
           setTransitioningTo(step > 1 ? step - 1 : 1);
         }}
         variant="outline"
@@ -263,12 +265,9 @@ const CreateOrg = ({}) => {
             let timelineState = "inactive"; //inactive | active | success | error
             if (count == step) timelineState = "active";
             if (count < step) timelineState = "success";
-            if (
-              !formValidations[index] ||
-              (count == forms.length && submitStatus?.status == "error")
-            ) {
+            if (submitStatus?.status == "error") timelineState = "error";
+            if (submitStatus?.status == "form_error" && !validForms[index])
               timelineState = "error";
-            }
 
             return (
               <Fragment key={count}>
@@ -298,9 +297,11 @@ const CreateOrg = ({}) => {
                   <div
                     className={cn(
                       "passed absolute top-0 left-0 h-full bg-green-500 duration-1000 transition-all",
-                      timelineState != "error" ? "w-0" : "w-full",
-                      timelineState == "error" &&
-                        "relative before:absolute before:inset-0  before:h-[2px] before:bg-gradient-to-l before:from-red-500 before:transition-all"
+                      count >= step && timelineState != "error"
+                        ? "w-0"
+                        : "w-full"
+                      // timelineState == "error" &&
+                      //   "relative before:absolute before:inset-0  before:h-[2px] before:bg-gradient-to-l before:from-red-500 before:transition-all"
                     )}
                   ></div>
                 </div>
@@ -349,8 +350,8 @@ const CreateOrg = ({}) => {
               {submitStatus?.data?.message ?? "Success"}
             </h2>
             <p>
-              You have been successfully onboarded on the PineApp Fleet
-              Management System
+              Your organization <strong>{formData.name}</strong> has been
+              created
             </p>
             <Link href="/auth/login">
               <Button>Proceed to login</Button>
