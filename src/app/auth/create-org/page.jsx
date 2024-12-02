@@ -24,12 +24,12 @@ const formPartOne = {
         {
           label: "Name of Organization",
           placeholder: "Enter Organization Name",
-          name: "organizationName",
+          name: "name",
         },
         {
           label: "Organization Type",
           placeholder: "Select Organization Type",
-          name: "organizationType",
+          name: "type",
           type: "select",
           options: [
             "Logistics",
@@ -47,13 +47,13 @@ const formPartOne = {
         {
           label: "Organization Email",
           placeholder: "Enter Organization Email",
-          name: "organizationEmail",
+          name: "email",
           type: "email",
         },
         {
           label: "Organization Phone Number",
           placeholder: "Enter Phone Number",
-          name: "organizationPhone",
+          name: "phone",
           type: "tel",
         },
       ],
@@ -61,7 +61,7 @@ const formPartOne = {
     {
       label: "Upload Organization Logo",
       type: "file",
-      name: "organizationLogo",
+      name: "logo",
       fileTypes: ["image/png", "image/jpeg", "image/jpg"],
     },
   ],
@@ -75,7 +75,7 @@ const formPartTwo = {
         {
           label: "Admin Full Name",
           placeholder: "Enter Admin Full Name",
-          name: "adminName",
+          name: "adminFullName",
         },
         {
           label: "Admin Role/Postion",
@@ -112,13 +112,13 @@ const formPartThree = {
         {
           label: "Number of Vehicles",
           placeholder: "Enter Number of Vehicles",
-          name: "vehicleCount",
+          name: "numberOfVehicles",
           type: "number",
         },
         {
           label: "Vehicle Category",
           placeholder: "Select Vehicle Category",
-          name: "vehicleCategory",
+          name: "vehicleCategories",
           type: "select",
           options: ["Buses", "Passenger Cars", "Motorcycles", "Truck"],
         },
@@ -135,6 +135,7 @@ const formPartThree = {
         {
           name: "hidden1",
           type: "hidden",
+          inputProps: { disabled: true },
         },
       ],
     },
@@ -145,7 +146,6 @@ const forms = [formPartOne, formPartTwo, formPartThree];
 
 const SignupSteps = ({}) => {
   const [formData, setFormData] = useState({});
-  // const [submitting, setSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
   const [step, setStep] = useState(1);
   const [transitioningTo, setTransitioningTo] = useState(false);

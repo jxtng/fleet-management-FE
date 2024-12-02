@@ -1,9 +1,9 @@
-import NextAuth from "@auth-kit/next";
+"use client";
+import { AuthProtected } from "@/components/auth/auth";
 import React from "react";
 
 const GeneralDashboardLayout = ({ children }) => {
-  // return <NextAuth fallbackPath="/auth/login">{children}</NextAuth>;
-  return <>{children}</>;
+  return <AuthProtected>{children}</AuthProtected>;
 };
 
 export default GeneralDashboardLayout;

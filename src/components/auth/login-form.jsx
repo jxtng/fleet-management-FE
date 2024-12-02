@@ -8,7 +8,7 @@ import { AllInput } from "./auth-form-elements";
 import { createZodSchema, handleFormSubmitHelper } from "@/lib/form-utils";
 import SuccessDialog from "../success-dialog";
 import ErrorDialog from "../error-dialog";
-import useSignIn from "react-auth-kit/hooks/useSignIn";
+import { useAuth } from "./auth";
 
 const inputs = [
   {
@@ -34,7 +34,7 @@ const LoginForm = () => {
     password: "",
   });
   const [submitStatus, setSubmitStatus] = useState(null);
-  const signIn = useSignIn();
+  const { authDispatch } = useAuth();
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -45,22 +45,14 @@ const LoginForm = () => {
       setSubmitStatus,
       endPoint: "/auth/login",
       axiosConfig: {
-        headers: {
-          // "Access-Control-Allow-Origin":
-          //   "https://fleet-management-fe.vercel.app",
-        },
-        // withCredentials: true,
+        headers: {},
       },
     });
 
     if (formStatus?.status == "success") {
       try {
-        signIn({
-          auth: {},
-          userState: formStatus?.data?.data,
-        });
-
-        setTimeout(() => redirect("/dashboard"), 3000);
+        authDispatch({ type: "LOGIN", payload: formStatus?.data?.data?.[0] });
+        setTimeout(() => redirect("/dashboard"), 2000);
       } catch (err) {
         setSubmitStatus({
           status: "error",
@@ -89,7 +81,7 @@ const LoginForm = () => {
         <Button type="submit" disabled={submitStatus?.status == "submitting"}>
           Sign In
           {submitStatus?.status == "submitting" && (
-            <Loader2 className="w-4 h-4 animate-spin" />
+            <Loader2 className="size-4 animate-spin" />
           )}
         </Button>
       </form>
