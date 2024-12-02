@@ -46,25 +46,28 @@ const LoginForm = () => {
       endPoint: "/auth/login",
       axiosConfig: {
         headers: {
-          "Access-Control-Allow-Origin":
-            "https://fleet-management-fe.vercel.app",
+          // "Access-Control-Allow-Origin":
+          //   "https://fleet-management-fe.vercel.app",
         },
-        withCredentials: true,
+        // withCredentials: true,
       },
     });
 
     if (formStatus?.status == "success") {
-      signIn({
-        userState: formStatus.data?.data,
-      });
+      try {
+        signIn({
+          auth: {},
+          userState: formStatus?.data?.data,
+        });
 
-      setTimeout(() => redirect("/dashboard"), 3000);
+        setTimeout(() => redirect("/dashboard"), 3000);
+      } catch (err) {
+        setSubmitStatus({
+          status: "error",
+          error: `Error Loging in: ${err.message}`,
+        });
+      }
     }
-
-    console.log(formStatus);
-
-    // Uncomment the following code to force login
-    // setSubmitStatus({ status: "success", data: formStatus.data });
   };
 
   return (

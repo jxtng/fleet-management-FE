@@ -9,6 +9,7 @@ import { createZodSchema, handleFormSubmitHelper } from "@/lib/form-utils";
 import SuccessDialog from "@/components/success-dialog";
 import ErrorDialog from "@/components/error-dialog";
 import { DialogClose } from "@/components/ui/dialog";
+import { z } from "zod";
 
 const inputs = [
   {
@@ -23,48 +24,48 @@ const inputs = [
     label: "Phone Number",
     name: "phone",
     type: "tel",
-    placeholder: "7012345678",
-    icon: (
-      <div>
-        <svg
-          width={70}
-          height={23}
-          viewBox="0 0 70 23"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
-        >
-          <g id="Frame 1">
-            <rect id="rect1" y={3} width={10} height={18} fill="#008751" />
-            <rect id="rect2" x={10} y={3} width={10} height={18} fill="white" />
-            <rect
-              id="rect3"
-              x={20}
-              y={3}
-              width={10}
-              height={18}
-              fill="#008751"
-            />
-            <text
-              id={234}
-              fill="currentColor"
-              xmlSpace="preserve"
-              style={{
-                whiteSpace: "pre",
-              }}
-              fontSize={14}
-              letterSpacing="0em"
-            >
-              <tspan x={33} y={17.3936}>
-                {"+234"}
-              </tspan>
-            </text>
-          </g>
-        </svg>
-      </div>
-    ),
-    classes: { input: "pl-20" },
-    pattern: "\\d{10}",
+    placeholder: "07012345678",
+    // icon: (
+    //   <div>
+    //     <svg
+    //       width={70}
+    //       height={23}
+    //       viewBox="0 0 70 23"
+    //       fill="none"
+    //       xmlns="http://www.w3.org/2000/svg"
+    //       xmlnsXlink="http://www.w3.org/1999/xlink"
+    //     >
+    //       <g id="Frame 1">
+    //         <rect id="rect1" y={3} width={10} height={18} fill="#008751" />
+    //         <rect id="rect2" x={10} y={3} width={10} height={18} fill="white" />
+    //         <rect
+    //           id="rect3"
+    //           x={20}
+    //           y={3}
+    //           width={10}
+    //           height={18}
+    //           fill="#008751"
+    //         />
+    //         {/* <text
+    //           id={234}
+    //           fill="currentColor"
+    //           xmlSpace="preserve"
+    //           style={{
+    //             whiteSpace: "pre",
+    //           }}
+    //           fontSize={14}
+    //           letterSpacing="0em"
+    //         >
+    //           <tspan x={33} y={17.3936}>
+    //             {"+234"}
+    //           </tspan>
+    //         </text> */}
+    //       </g>
+    //     </svg>
+    //   </div>
+    // ),
+    // classes: { input: "pl-20" },
+    pattern: "\\d{11}",
     required: true,
   },
   {
@@ -86,20 +87,28 @@ const inputs = [
 ];
 
 const SignupInitialStep = ({
-  // formData,
-  // setFormData,
   transitioningTo,
   setTransitioningTo,
   step,
   setStep,
 }) => {
   const [submitStatus, setSubmitStatus] = useState(null);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    email: "tester@gmail.com",
+    phone: "07012345678",
+    password: "tester@gmail.com",
+    confirmPassword: "tester@gmail.com",
+  });
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     const formStatus = await handleFormSubmitHelper({
-      formSchema: createZodSchema(inputs),
+      formSchema: createZodSchema(inputs).extend({
+        phone: z.string().length(11, {
+          message:
+            "Phone number must be 11 digits and should start with 090, 080, 081, 091, or 070",
+        }),
+      }),
       formData,
       setSubmitStatus,
       setFormData,
@@ -108,8 +117,6 @@ const SignupInitialStep = ({
         headers: {},
       },
     });
-
-    console.log(formStatus);
   };
 
   const handleAnimationEnd = (e) => {
@@ -174,7 +181,8 @@ const SignupInitialStep = ({
       <ErrorDialog
         open={submitStatus?.status == "error"}
         onOpenChange={() => setSubmitStatus(null)}
-        description={submitStatus?.error}
+        title={submitStatus?.error}
+        description={submitStatus?.data?.errors?.[0]?.message}
       />
     </AuthPageTemplate>
   );

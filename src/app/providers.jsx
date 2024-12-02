@@ -6,8 +6,8 @@ import createStore from "react-auth-kit/createStore";
 const store = createStore({
   authName: "__fleet_manager_auth",
   authType: "cookie",
-  cookieSecure: false,
-  cookieDomain: process.env.NEXT_PUBLIC_DOMAIN ?? "/",
+  cookieSecure: window.location.protocol === "https:",
+  cookieDomain: window.location.hostname,
 });
 
 const Providers = ({ children }) => {
