@@ -1,3 +1,4 @@
+"use client";
 import { useState, Fragment } from "react";
 import { AllInput } from "@/components/auth/auth-form-elements";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,7 @@ import {
   XCircle,
 } from "lucide-react";
 import Link from "next/link";
+import { createZodSchema, handleFormSubmitHelper } from "@/lib/form-utils";
 
 const formPartOne = {
   "Section 1: Organization Details": [
@@ -141,26 +143,22 @@ const formPartThree = {
 
 const forms = [formPartOne, formPartTwo, formPartThree];
 
-const SignupSteps = ({
-  formData,
-  setFormData,
-  transitioningTo,
-  setTransitioningTo,
-  step,
-  setStep,
-  handleFormSubmit,
-}) => {
-  const [submitting, setSubmitting] = useState(false);
+const SignupSteps = ({}) => {
+  const [formData, setFormData] = useState({});
+  // const [submitting, setSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+  const [step, setStep] = useState(1);
+  const [transitioningTo, setTransitioningTo] = useState(false);
 
   const stepControls = (
     <div className="flex gap-4 flex-wrap *:grow">
       <Button
         onClick={() => {
-          setTransitioningTo(step > 0 ? step - 1 : 0);
+          setTransitioningTo(step > 1 ? step - 1 : 1);
         }}
         variant="outline"
-        className="group"
-        disabled={submitting}
+        className="group disabled:cursor-not-allowed"
+        disabled={submitStatus?.status === "submitting" || step <= 1}
       >
         <ChevronLeft className="group-hover:-translate-x-1.5 transition" /> Go
         back
@@ -168,21 +166,27 @@ const SignupSteps = ({
       <Button
         onClick={async () => {
           if (step >= forms.length) {
-            setSubmitting(true);
-            const success = await handleFormSubmit();
+            const formStatus = await handleFormSubmitHelper({
+              formSchema: createZodSchema(Object.values(formPartThree).flat()),
+              formData,
+              setSubmitStatus,
+              setFormData,
+              endPoint: "/404",
+              axiosConfig: {
+                headers: {},
+              },
+            });
 
-            setSubmitting(false);
-            setTransitioningTo(success ? "success" : "error");
-            return;
+            console.log(formStatus);
           }
 
           setTransitioningTo(step + 1);
         }}
         className="group"
-        disabled={submitting}
+        disabled={submitStatus?.status === "submitting"}
       >
         {step >= forms.length ? "Signup" : "Click to Proceed"}
-        {submitting ? (
+        {submitStatus?.status === "submitting" ? (
           <Loader2 className="animate-spin" />
         ) : (
           <ChevronRight className="group-hover:translate-x-1.5 transition" />
@@ -194,7 +198,7 @@ const SignupSteps = ({
   return (
     <div
       className={cn(
-        "bg-[#F3FCFC] w-full animate-in slide-in-from-top-10 fade-in duration-700 fill-mode-both",
+        "bg-[#F3FCFC] min-h-screen w-full animate-in slide-in-from-top-10 fade-in duration-700 fill-mode-both",
         transitioningTo === 0 && "animate-out slide-out-to-top-10 fade-out"
       )}
       onAnimationEnd={() => {
@@ -280,7 +284,7 @@ const SignupSteps = ({
           );
         })}
 
-        {step == "success" && (
+        {submitStatus?.status == "success" && !transitioningTo && (
           <div className="animate-in slide-in-from-bottom-10 fade-in duration-1000 flex flex-col items-center gap-4">
             <CheckCircle2 size={128} className="text-green-500" />
             <h2 className="text-green-800 text-2xl">
@@ -295,7 +299,7 @@ const SignupSteps = ({
             </Link>
           </div>
         )}
-        {step == "error" && (
+        {submitStatus?.status == "error" && !transitioningTo && (
           <div className="animate-in slide-in-from-bottom-10 fade-in duration-1000 flex flex-col items-center gap-4">
             <XCircle size={128} className="text-red-500" />
             <h2 className="text-red-800 text-2xl">An Error Occurred</h2>

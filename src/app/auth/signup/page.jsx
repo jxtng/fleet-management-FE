@@ -1,36 +1,33 @@
 "use client";
 import { useState } from "react";
-import SignupInitialStep from "./initial-step";
-import SignupSteps from "./steps";
+import SignupForm from "@/components/auth/signup-form";
+import AuthPageTemplate from "@/components/auth/page-template";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Signup = () => {
-  const [formData, setFormData] = useState({});
   const [transitioningTo, setTransitioningTo] = useState(false);
-  const [step, setStep] = useState(0);
+  const router = useRouter();
 
-  const handleFormSubmit = async () => {
-    // Signup submission logic coming soon...
-    await new Promise((r) => setTimeout(r, 1000));
-    return true;
-  };
-
-  const props = {
-    formData,
-    setFormData,
-    transitioningTo,
-    setTransitioningTo,
-    step,
-    setStep,
+  const handleAnimationEnd = (e) => {
+    if (transitioningTo) {
+      router.push(transitioningTo);
+    }
   };
 
   return (
-    <div className="flex min-h-screen">
-      {step == 0 ? (
-        <SignupInitialStep {...props} />
-      ) : (
-        <SignupSteps {...props} handleFormSubmit={handleFormSubmit} />
-      )}
-    </div>
+    <AuthPageTemplate
+      title="Signup"
+      footer={
+        <>
+          Already have an account? <Link href="/auth/login">Login</Link>
+        </>
+      }
+      transitioningTo={transitioningTo}
+      onAnimationEnd={handleAnimationEnd}
+    >
+      <SignupForm setTransitioningTo={setTransitioningTo} />
+    </AuthPageTemplate>
   );
 };
 

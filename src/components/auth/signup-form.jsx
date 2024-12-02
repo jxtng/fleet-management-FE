@@ -1,10 +1,8 @@
 "use client";
 import { useState } from "react";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Loader2, Lock, Mail } from "lucide-react";
 import { AllInput } from "@/components/auth/auth-form-elements";
-import AuthPageTemplate from "@/components/auth/page-template";
 import { createZodSchema, handleFormSubmitHelper } from "@/lib/form-utils";
 import SuccessDialog from "@/components/success-dialog";
 import ErrorDialog from "@/components/error-dialog";
@@ -86,23 +84,16 @@ const inputs = [
   },
 ];
 
-const SignupInitialStep = ({
-  transitioningTo,
-  setTransitioningTo,
-  step,
-  setStep,
-}) => {
+const SignupForm = ({ setTransitioningTo }) => {
   const [submitStatus, setSubmitStatus] = useState(null);
-  const [formData, setFormData] = useState({
-    email: "tester@gmail.com",
-    phone: "07012345678",
-    password: "tester@gmail.com",
-    confirmPassword: "tester@gmail.com",
-  });
+  const [formData, setFormData] = useState({});
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    const formStatus = await handleFormSubmitHelper({
+
+    return setSubmitStatus({ status: "success" });
+
+    await handleFormSubmitHelper({
       formSchema: createZodSchema(inputs).extend({
         phone: z.string().length(11, {
           message:
@@ -119,41 +110,23 @@ const SignupInitialStep = ({
     });
   };
 
-  const handleAnimationEnd = (e) => {
-    if (transitioningTo && step === 0) {
-      setTransitioningTo(false);
-      setStep(1);
-    }
-  };
-
   return (
-    <AuthPageTemplate
-      title="Signup"
-      footer={
-        <>
-          Already have an account? <Link href="/auth/login">Login</Link>
-        </>
-      }
-      transitioningTo={transitioningTo}
-      onAnimationEnd={handleAnimationEnd}
+    <form
+      onSubmit={handleFormSubmit}
+      className="self-stretch font-normal flex flex-col gap-4"
     >
-      <form
-        onSubmit={handleFormSubmit}
-        className="self-stretch font-normal flex flex-col gap-4"
-      >
-        <AllInput
-          inputs={inputs}
-          formData={formData}
-          setFormData={setFormData}
-          errors={submitStatus?.status == "form_error" && submitStatus.error}
-        />
-        <Button type="submit" disabled={submitStatus?.status === "submitting"}>
-          Proceed
-          {submitStatus?.status == "submitting" && (
-            <Loader2 className="ml-2 w-4 h-4 animate-spin" />
-          )}
-        </Button>
-      </form>
+      <AllInput
+        inputs={inputs}
+        formData={formData}
+        setFormData={setFormData}
+        errors={submitStatus?.status == "form_error" && submitStatus.error}
+      />
+      <Button type="submit" disabled={submitStatus?.status === "submitting"}>
+        Proceed
+        {submitStatus?.status == "submitting" && (
+          <Loader2 className="ml-2 w-4 h-4 animate-spin" />
+        )}
+      </Button>
 
       <SuccessDialog
         open={submitStatus?.status == "success"}
@@ -164,13 +137,16 @@ const SignupInitialStep = ({
         }
         control={
           <div className="flex justify-between grow auth-style">
-            <Button variant="outline" asChild>
-              <Link href="/auth/login">Proceed to Login</Link>
-            </Button>
             <DialogClose
-              onClick={() => {
-                setTransitioningTo(1);
-              }}
+              onClick={() => setTransitioningTo("/auth/create-org")}
+              asChild
+            >
+              <Button variant="outline" className="button-outline">
+                Proceed to Login
+              </Button>
+            </DialogClose>
+            <DialogClose
+              onClick={() => setTransitioningTo("/auth/create-org")}
               asChild
             >
               <Button>Continue</Button>
@@ -184,8 +160,8 @@ const SignupInitialStep = ({
         title={submitStatus?.error}
         description={submitStatus?.data?.errors?.[0]?.message}
       />
-    </AuthPageTemplate>
+    </form>
   );
 };
 
-export default SignupInitialStep;
+export default SignupForm;

@@ -99,9 +99,12 @@
   body {
     @apply bg-background text-foreground;
   }
-  .auth-style button:not(.revert, [role]),
+  .auth-style button:not(.revert, [role], .button-outline),
   .auth-style .button {
     @apply bg-[#115931] text-white hover:bg-[#004820];
+  }
+  .auth-style .button-outline {
+    @apply border-[#115931] text-[#115931] hover:border-[#004820] hover:bg-[#11593111];
   }
   .auth-style a:not(.revert, .button) {
     @apply text-[#115931] hover:underline;
