@@ -99,7 +99,16 @@
   body {
     @apply bg-background text-foreground;
   }
-  .auth-style button:not(.revert, [role], .button-outline),
+
+  .auth-style {
+    --primary: 151 78% 30%;
+
+    & a:not(.revert, .button) {
+      @apply text-[#115931] hover:underline;
+    }
+  }
+
+  /* .auth-style button:not(.revert, [role], .button-outline),
   .auth-style .button {
     @apply bg-[#115931] text-white hover:bg-[#004820];
   }
@@ -111,5 +120,5 @@
   }
   .auth-style label:not(.revert) {
     @apply font-bold;
-  }
+  } */
 }

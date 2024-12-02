@@ -34,7 +34,7 @@ const LoginForm = () => {
     password: "",
   });
   const [submitStatus, setSubmitStatus] = useState(null);
-  const { authDispatch } = useAuth();
+  // const { authDispatch } = useAuth();
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -53,7 +53,7 @@ const LoginForm = () => {
 
     if (formStatus?.status == "success") {
       try {
-        authDispatch({ type: "LOGIN", payload: formStatus?.data?.data?.[0] });
+        // authDispatch({ type: "LOGIN", payload: formStatus?.data?.data?.[0] });
         setTimeout(() => redirect("/dashboard"), 2000);
       } catch (err) {
         setSubmitStatus({
