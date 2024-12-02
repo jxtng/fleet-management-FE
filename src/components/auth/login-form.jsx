@@ -49,6 +49,8 @@ const LoginForm = () => {
       },
     });
 
+    console.log(formStatus?.response);
+
     if (formStatus?.status == "success") {
       try {
         authDispatch({ type: "LOGIN", payload: formStatus?.data?.data?.[0] });

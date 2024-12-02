@@ -64,7 +64,7 @@ const formPartOne = {
       name: "logo",
       fileTypes: ["image/png", "image/jpeg", "image/jpg"],
     },
-  ],
+  ].map((field) => ({ ...field, required: true })),
 };
 
 const formPartTwo = {
@@ -101,7 +101,7 @@ const formPartTwo = {
         },
       ],
     },
-  ],
+  ].map((field) => ({ ...field, required: true })),
 };
 
 const formPartThree = {
@@ -114,6 +114,7 @@ const formPartThree = {
           placeholder: "Enter Number of Vehicles",
           name: "numberOfVehicles",
           type: "number",
+          required: true,
         },
         {
           label: "Vehicle Category",
@@ -121,6 +122,7 @@ const formPartThree = {
           name: "vehicleCategories",
           type: "select",
           options: ["Buses", "Passenger Cars", "Motorcycles", "Truck"],
+          required: true,
         },
       ],
     },
@@ -131,6 +133,7 @@ const formPartThree = {
           label: "Operational Areas",
           placeholder: "Example: “Lagos, Enugu, Abuja”",
           name: "operationalAreas",
+          required: true,
         },
         {
           name: "hidden1",
@@ -144,16 +147,73 @@ const formPartThree = {
 
 const forms = [formPartOne, formPartTwo, formPartThree];
 
-const SignupSteps = ({}) => {
-  const [formData, setFormData] = useState({});
+const CreateOrg = ({}) => {
+  const [formValidations, setformValidations] = useState([]);
+  const [formData, setFormData] = useState({
+    name: "Organic tomatoes",
+    type: "governmentAgency",
+    email: "tester@gmail.com",
+    phone: "4567893333",
+    logo: {},
+    adminFullName: "fff",
+    adminEmail: "ffff",
+    adminRole: "fff",
+    adminPhone: "09012345678",
+    numberOfVehicles: "20",
+    operationalAreas: "Enugu",
+    vehicleCategories: "passengerCars",
+  });
   const [submitStatus, setSubmitStatus] = useState(null);
   const [step, setStep] = useState(1);
   const [transitioningTo, setTransitioningTo] = useState(false);
+
+  const handleFormErrors = () => {
+    const formsWithErrors = forms.map((form) => {
+      let inputSchema = createZodSchema(Object.values(form).flat());
+      return inputSchema.safeParse(formData).success;
+    });
+    setformValidations(formsWithErrors);
+    return formsWithErrors;
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
+    if (step >= forms.length) {
+      // If at the last step of submitting form
+      // submit the form
+      console.log(formData);
+      const formStatus = await handleFormSubmitHelper({
+        formSchema: createZodSchema(
+          forms.map((form) => Object.values(form).flat()).flat()
+        ),
+        formData,
+        setSubmitStatus,
+        setFormData,
+        endPoint: "/organizations/create-org",
+        axiosConfig: {
+          headers: {},
+        },
+      });
+
+      const formWithErrors = handleFormErrors().map((valid) => !valid);
+      if (formStatus?.status == "form_error") {
+        // Move to invalidation error step
+        const errorIndex = formWithErrors.findIndex((hasError) => hasError) + 1;
+        if (errorIndex !== step) setTransitioningTo(errorIndex);
+
+        return;
+      }
+    }
+
+    setTransitioningTo(step + 1);
+  };
 
   const stepControls = (
     <div className="flex gap-4 flex-wrap *:grow">
       <Button
         onClick={() => {
+          handleFormErrors();
           setTransitioningTo(step > 1 ? step - 1 : 1);
         }}
         variant="outline"
@@ -164,24 +224,7 @@ const SignupSteps = ({}) => {
         back
       </Button>
       <Button
-        onClick={async () => {
-          if (step >= forms.length) {
-            const formStatus = await handleFormSubmitHelper({
-              formSchema: createZodSchema(Object.values(formPartThree).flat()),
-              formData,
-              setSubmitStatus,
-              setFormData,
-              endPoint: "/404",
-              axiosConfig: {
-                headers: {},
-              },
-            });
-
-            console.log(formStatus);
-          }
-
-          setTransitioningTo(step + 1);
-        }}
+        onClick={handleFormSubmit}
         className="group"
         disabled={submitStatus?.status === "submitting"}
       >
@@ -216,43 +259,54 @@ const SignupSteps = ({}) => {
           Fleet Management System
         </h1>
         <div className="timeline flex items-center">
-          {[1, 2, 3].map((count, index, arr) => (
-            <Fragment key={count}>
-              <div
-                className={cn(
-                  "count-number duration-1000 delay-700 bg-white w-10 h-10 flex justify-center items-center rounded-full border-2 border-neutral-500",
-                  step == count && "bg-green-500 text-white",
-                  (step >= count || step == "success") && "border-green-500",
-                  step == "error" &&
-                    count >= forms.length &&
-                    "border-red-500 text-white"
-                )}
-              >
-                {step > count ||
-                step == "success" ||
-                (step == "error" && count < forms.length) ? (
-                  <Check className="text-green-500" />
-                ) : step == "error" ? (
-                  <X className="text-red-500" />
-                ) : (
-                  count
-                )}
-              </div>
-              {index != arr.length - 1 && (
-                <div className={cn("line h-0.5 grow relative bg-neutral-500")}>
+          {[1, 2, 3].map((count, index) => {
+            let timelineState = "inactive"; //inactive | active | success | error
+            if (count == step) timelineState = "active";
+            if (count < step) timelineState = "success";
+            if (
+              !formValidations[index] ||
+              (count == forms.length && submitStatus?.status == "error")
+            ) {
+              timelineState = "error";
+            }
+
+            return (
+              <Fragment key={count}>
+                <div
+                  className={cn(
+                    "count-number duration-1000 delay-700 bg-white w-10 h-10 flex justify-center items-center rounded-full border-2 border-neutral-500",
+                    count == step && "ring ring-green-500",
+                    timelineState == "active" && "bg-green-500 text-white",
+                    (timelineState == "success" || timelineState == "active") &&
+                      "border-green-500",
+                    timelineState == "error" && "border-red-500 text-white"
+                  )}
+                >
+                  {timelineState == "error" ? (
+                    <X className="text-red-500" />
+                  ) : timelineState == "success" ? (
+                    <Check className="text-green-500" />
+                  ) : (
+                    count
+                  )}
+                </div>
+                <div
+                  className={cn(
+                    "line last:hidden h-0.5 grow relative bg-neutral-500"
+                  )}
+                >
                   <div
                     className={cn(
                       "passed absolute top-0 left-0 h-full bg-green-500 duration-1000 transition-all",
-                      step <= count ? "w-0" : "w-full",
-                      step == "error" &&
-                        count >= forms.length - 1 &&
+                      timelineState != "error" ? "w-0" : "w-full",
+                      timelineState == "error" &&
                         "relative before:absolute before:inset-0  before:h-[2px] before:bg-gradient-to-l before:from-red-500 before:transition-all"
                     )}
                   ></div>
                 </div>
-              )}
-            </Fragment>
-          ))}
+              </Fragment>
+            );
+          })}
         </div>
 
         {forms.map((formPart, index) => {
@@ -276,6 +330,10 @@ const SignupSteps = ({}) => {
                     fieldsets={formPart}
                     formData={formData}
                     setFormData={setFormData}
+                    errors={
+                      submitStatus?.status == "form_error" &&
+                      submitStatus?.error
+                    }
                   />
                   {stepControls}
                 </div>
@@ -285,10 +343,10 @@ const SignupSteps = ({}) => {
         })}
 
         {submitStatus?.status == "success" && !transitioningTo && (
-          <div className="animate-in slide-in-from-bottom-10 fade-in duration-1000 flex flex-col items-center gap-4">
+          <div className="animate-in slide-in-from-bottom-10 fade-in duration-1000 flex flex-col items-center gap-4 text-center">
             <CheckCircle2 size={128} className="text-green-500" />
             <h2 className="text-green-800 text-2xl">
-              Congratulations Enugu State Government
+              {submitStatus?.data?.message ?? "Success"}
             </h2>
             <p>
               You have been successfully onboarded on the PineApp Fleet
@@ -300,14 +358,15 @@ const SignupSteps = ({}) => {
           </div>
         )}
         {submitStatus?.status == "error" && !transitioningTo && (
-          <div className="animate-in slide-in-from-bottom-10 fade-in duration-1000 flex flex-col items-center gap-4">
+          <div className="animate-in slide-in-from-bottom-10 fade-in duration-1000 flex flex-col items-center gap-4 text-center">
             <XCircle size={128} className="text-red-500" />
             <h2 className="text-red-800 text-2xl">An Error Occurred</h2>
             <p>
-              Something went wrong. Please try again. If error persists, please
-              contact our support team support@pineapp.com
+              {submitStatus?.error ??
+                `Something went wrong. Please try again. If error persists, please
+              contact our support team support@pineapp.com`}
             </p>
-            <a href="/auth/signup">
+            <a href="/auth/create-org">
               <Button
                 variant="outline"
                 className="revert border-red-500 text-red-500 hover:bg-red-500/10 group"
@@ -323,7 +382,7 @@ const SignupSteps = ({}) => {
   );
 };
 
-const FormSet = ({ fieldsets = {}, formData, setFormData }) => {
+const FormSet = ({ fieldsets = {}, formData, setFormData, errors }) => {
   return (
     <>
       {Object.entries(fieldsets).map(([legend, inputs]) => {
@@ -334,6 +393,7 @@ const FormSet = ({ fieldsets = {}, formData, setFormData }) => {
               inputs={inputs}
               formData={formData}
               setFormData={setFormData}
+              errors={errors}
             />
           </fieldset>
         );
@@ -342,4 +402,4 @@ const FormSet = ({ fieldsets = {}, formData, setFormData }) => {
   );
 };
 
-export default SignupSteps;
+export default CreateOrg;
