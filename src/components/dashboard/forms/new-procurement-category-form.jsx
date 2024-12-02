@@ -9,7 +9,13 @@ const NewProcurementCategoryForm = () => {
   return (
     <form>
       <AllInput
-        inputs={[{ label: "New Category", placeholder: "Create New Category" }]}
+        inputs={[
+          {
+            label: "New Category",
+            name: "category",
+            placeholder: "Create New Category",
+          },
+        ]}
         formData={formData}
         setFormData={setFormData}
       />
