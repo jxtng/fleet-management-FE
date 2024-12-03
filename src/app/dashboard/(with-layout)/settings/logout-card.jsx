@@ -1,3 +1,4 @@
+import LogoutDialog from "@/components/auth/logout-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -25,10 +26,12 @@ const LogoutCard = () => {
 
       <CardFooter className="justify-between">
         <Button variant="outline">Cancel</Button>
-        <Button>
-          Log Out
-          <LogOut />
-        </Button>
+        <LogoutDialog>
+          <Button>
+            Log Out
+            <LogOut />
+          </Button>
+        </LogoutDialog>
       </CardFooter>
     </Card>
   );

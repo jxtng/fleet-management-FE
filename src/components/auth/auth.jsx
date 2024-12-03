@@ -10,23 +10,24 @@ export const useAuth = () => {
 };
 
 export const useIsAuthenticated = () => {
-  const auth = useContext(Auth);
-  return auth !== null;
+  const { authState } = useContext(Auth);
+  return authState !== null;
 };
 
 export const AuthProvider = ({ children }) => {
   const [authState, setAuthState] = useState("loading");
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
 
     axiosInstance
-      // .post("/organizations/create-org", {
       .get("/organizations/get-organization", {
         signal: controller.signal,
       })
       .then((response) => {
-        setAuthState(response.data?.data);
+        console.log("initialize auth", { organization: response.data?.data });
+        setAuthState({ organization: response.data?.data });
       })
       .catch((error) => {
         console.log(error);
@@ -34,7 +35,7 @@ export const AuthProvider = ({ children }) => {
       });
 
     return () => controller.abort();
-  }, []);
+  }, [refresh]);
 
   if (authState === "loading") {
     return (
@@ -44,7 +45,13 @@ export const AuthProvider = ({ children }) => {
     );
   }
 
-  return <Auth.Provider value={authState}>{children}</Auth.Provider>;
+  return (
+    <Auth.Provider
+      value={{ authState, refreshAuthState: () => setRefresh(!refresh) }}
+    >
+      {children}
+    </Auth.Provider>
+  );
 };
 
 export const AuthProtected = ({ children, fallback = "/auth/login" }) => {

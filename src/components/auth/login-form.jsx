@@ -8,7 +8,6 @@ import { AllInput } from "./auth-form-elements";
 import { createZodSchema, handleFormSubmitHelper } from "@/lib/form-utils";
 import SuccessDialog from "../success-dialog";
 import ErrorDialog from "../error-dialog";
-import { useAuth } from "./auth";
 
 const inputs = [
   {
@@ -34,7 +33,6 @@ const LoginForm = () => {
     password: "",
   });
   const [submitStatus, setSubmitStatus] = useState(null);
-  // const { authDispatch } = useAuth();
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
