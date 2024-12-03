@@ -1,13 +1,9 @@
 "use client";
-import { useState } from "react";
 import { AllInput } from "../../ui/form-elements";
-import SuccessDialog from "../../success-dialog";
 import { Button } from "@/components/ui/button";
-import ErrorDialog from "@/components/error-dialog";
-import { createZodSchema, handleFormSubmitHelper } from "@/lib/form-utils";
 import { Banknote, Loader2 } from "lucide-react";
 
-const inputs = [
+export const inputs = [
   {
     label: "Procurement Type",
     name: "procurementType",
@@ -40,6 +36,7 @@ const inputs = [
     type: "number",
     placeholder: "Enter Number of Items.",
     required: true,
+    min: 1,
   },
   {
     label: "Budget Allocation",
@@ -59,22 +56,13 @@ const inputs = [
   },
 ];
 
-const NewProcurementRequestForm = () => {
-  const [formData, setFormData] = useState({});
-  const [submitStatus, setSubmitStatus] = useState(null);
-
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-
-    const formStatus = await handleFormSubmitHelper({
-      formSchema: createZodSchema(inputs),
-      formData,
-      endPoint: "/procurement",
-      setSubmitStatus,
-      axiosConfig: { headers: {} },
-    });
-  };
-
+const ProcurementRequestForm = ({
+  formData,
+  setFormData,
+  handleFormSubmit,
+  submitStatus,
+  control,
+}) => {
   return (
     <form className="flex flex-col gap-4" onSubmit={handleFormSubmit}>
       <AllInput
@@ -84,42 +72,22 @@ const NewProcurementRequestForm = () => {
         errors={submitStatus?.status === "form_error" && submitStatus?.error}
       />
 
-      <Button
-        className="my-4 w-full"
-        type="submit"
-        disabled={submitStatus?.status === "submitting"}
-      >
-        Create Request
-        {submitStatus?.status === "submitting" && (
-          <Loader2 className="animate-spin size-4" />
-        )}
-      </Button>
-
-      <SuccessDialog
-        open={submitStatus?.status === "success"}
-        onOpenChange={() => {
-          setSubmitStatus(null);
-          setFormData({});
-        }}
-        title={
-          submitStatus?.data?.message ||
-          "Procurement request created successfully"
-        }
-        description={
-          <>
-            Procurement Request for vendor {formData.vendorName}, have been
-            successfully created
-          </>
-        }
-      />
-      <ErrorDialog
-        open={submitStatus?.status === "error"}
-        onOpenChange={() => setSubmitStatus(null)}
-        title={"Procurement request creation failed"}
-        description={submitStatus?.error}
-      />
+      {control ? (
+        control
+      ) : (
+        <Button
+          className="my-4 w-full"
+          type="submit"
+          disabled={submitStatus?.status === "submitting"}
+        >
+          Create Request
+          {submitStatus?.status === "submitting" && (
+            <Loader2 className="animate-spin size-4" />
+          )}
+        </Button>
+      )}
     </form>
   );
 };
 
-export default NewProcurementRequestForm;
+export default ProcurementRequestForm;

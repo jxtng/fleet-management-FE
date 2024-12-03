@@ -21,13 +21,15 @@ export const AuthProvider = ({ children }) => {
     const controller = new AbortController();
 
     axiosInstance
-      .post("/organizations/create-org", {
+      // .post("/organizations/create-org", {
+      .get("/organizations/get-organization", {
         signal: controller.signal,
       })
       .then((response) => {
-        setAuthState(response.data);
+        setAuthState(response.data?.data);
       })
       .catch((error) => {
+        console.log(error);
         setAuthState(error.response.status === 401 ? null : {});
       });
 

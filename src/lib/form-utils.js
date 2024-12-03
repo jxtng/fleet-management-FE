@@ -52,29 +52,38 @@ const validators = {
     if (required) schema = schema.min(1, { message: `${name} is required` });
     return schema;
   },
-  number({ label, name, required }) {
+  number({ label, name, required, min, max }) {
     label = label ?? name;
     let schema = z.coerce.number({
       required_error: `${name} is required`,
       invalid_type_error: "You need to enter an amount/number",
     });
 
-    if (required) schema = schema.min(1, { message: `${name} is required` });
+    if (min) {
+      schema = schema.min(min, {
+        message: `${name} should be greater than ${min} `,
+      });
+    }
+    if (max) {
+      schema = schema.max(max, {
+        message: `${name} should be greater than ${max} `,
+      });
+    }
     return schema;
   },
 
   select({ label, name, required, options }) {
     label = label ?? name;
     let validValues = Array.isArray(options)
-      ? options.map((option) =>
-          option
-            .split(" ")
-            .map((s, i) =>
-              i > 0
-                ? s[0].toUpperCase() + s.slice(1).toLowerCase()
-                : s.toLowerCase()
-            )
-            .join("")
+      ? options.map(
+          (option) => option
+          // .split(" ")
+          // .map((s, i) =>
+          //   i > 0
+          //     ? s[0].toUpperCase() + s.slice(1).toLowerCase()
+          //     : s.toLowerCase()
+          // )
+          // .join("")
         )
       : options;
     let schema = z.enum(validValues, {
@@ -121,6 +130,7 @@ export const handleFormSubmitHelper = async ({
   formSchema,
   formData,
   endPoint,
+  method = "post",
   axiosConfig = {},
   setSubmitStatus,
   onFormError,
@@ -148,16 +158,15 @@ export const handleFormSubmitHelper = async ({
   setSubmitStatus?.(formStatus);
 
   try {
-    const response = await axiosInstance.post(
-      endPoint,
-      validatedFormData.data,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        ...axiosConfig,
-      }
-    );
+    const response = await axiosInstance.request({
+      url: endPoint,
+      method,
+      data: validatedFormData.data,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      ...axiosConfig,
+    });
     formStatus = { status: "success", data: response.data, response };
     onSuccess?.(formStatus);
     setSubmitStatus?.(formStatus);

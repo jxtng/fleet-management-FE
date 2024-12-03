@@ -223,14 +223,14 @@ export const SelectInput = ({
               typeof option == "string"
                 ? {
                     label: option,
-                    value: option
-                      .split(" ")
-                      .map((s, i) =>
-                        i > 0
-                          ? s[0].toUpperCase() + s.slice(1).toLowerCase()
-                          : s.toLowerCase()
-                      )
-                      .join(""),
+                    value: option,
+                    // .split(" ")
+                    // .map((s, i) =>
+                    //   i > 0
+                    //     ? s[0].toUpperCase() + s.slice(1).toLowerCase()
+                    //     : s.toLowerCase()
+                    // )
+                    // .join(""),
                   }
                 : option;
 

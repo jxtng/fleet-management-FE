@@ -7,9 +7,11 @@ import { axiosInstance } from "@/lib/axios";
 import SubHeader from "@/components/dashboard/sub-header";
 
 const ViewProcurement = () => {
-  const { id } = useParams();
-  const { data, error, isLoading } = useSWR(`procurement/${id}`, (url) =>
-    axiosInstance.get(url).then((response) => response?.data.data[0] ?? {})
+  const { id: procurementId } = useParams();
+  const { data, error, isLoading } = useSWR(
+    `/procurement/${procurementId}`,
+    (url) =>
+      axiosInstance.get(url).then((response) => response?.data.data[0] ?? {})
   );
 
   if (isLoading) {
@@ -31,7 +33,6 @@ const ViewProcurement = () => {
     );
   }
 
-  console.log(data);
   return (
     <div>
       <SubHeader

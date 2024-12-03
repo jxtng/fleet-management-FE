@@ -14,6 +14,7 @@ import SuccessDialog from "@/components/success-dialog";
 import ErrorDialog from "@/components/error-dialog";
 import { axiosInstance } from "@/lib/axios";
 import { useSWRConfig } from "swr";
+import { Loader2 } from "lucide-react";
 
 const DeleteAction = ({ description = "", children, row }) => {
   const [open, setOpen] = useState(false);
@@ -84,6 +85,9 @@ const DeleteAction = ({ description = "", children, row }) => {
               disabled={deleteStatus?.status == "submitting"}
             >
               Delete
+              {deleteStatus?.status == "submitting" && (
+                <Loader2 className="animate-spin size-4" />
+              )}
             </Button>
           </DialogFooter>
         </DialogContent>

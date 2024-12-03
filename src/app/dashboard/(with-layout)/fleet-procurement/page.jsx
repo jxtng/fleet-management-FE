@@ -3,10 +3,8 @@ import { useState } from "react";
 import Greeting from "@/components/dashboard/greeting";
 import RealTimeInfo from "@/components/dashboard/real-time-info";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, Edit, Eye, Share } from "lucide-react";
-import TableFilter from "@/components/dashboard/table-filter";
+import { ChevronDown } from "lucide-react";
 import OverviewCard from "@/components/dashboard/overview-card";
-import DataTable from "@/components/ui/data-table";
 import Link from "next/link";
 import ProcurementHistoryTable from "./procurement-history-table";
 import VendorManagementTable from "./vendor-management-table";
@@ -28,7 +26,6 @@ const months = [
 ];
 
 const FleetProcurement = () => {
-  const [filterData, setFilterData] = useState({});
   const [viewMode, setViewMode] = useState("history");
   const [date, setDate] = useState(new Date());
 

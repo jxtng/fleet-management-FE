@@ -7,7 +7,6 @@ import { Edit, Share, Eye, Trash2 } from "lucide-react";
 import useSWR from "swr";
 import { axiosInstance } from "@/lib/axios";
 import DeleteAction from "./delete-action";
-import { Button } from "@/components/ui/button";
 
 const ProcurementHistoryTable = () => {
   const [filterData, setFilterData] = useState({});
@@ -44,34 +43,6 @@ const ProcurementHistoryTable = () => {
         data={data}
         error={error}
         isLoading={isLoading}
-        // columnDefs={[
-        //   { th: "Order Number", key: "orderNumber" },
-        //   { th: "Type", key: "procurementType" },
-        //   { th: "Vendor", key: "vendor" },
-        //   { th: "Description", key: "itemDescription" },
-        //   { th: "Quantity", key: "quantity" },
-        //   { th: "Total Cost", key: "totalCost" },
-        //   { th: "Delivery Status", key: "deliveryStatus" },
-        //   {
-        //     th: "Actions",
-        //     td: ({ row }) => (
-        //       <TableAction
-        //         actions={[
-        //           {
-        //             label: "View Vehicle Procurement ",
-        //             icon: <Eye className="text-green-400" />,
-        //           },
-        //           { label: "Edit Procurement  Details", icon: <Edit /> },
-        //           { label: "Share Procurement Details", icon: <Share /> },
-        //           {
-        //             label: "Delete Procurement Info ",
-        //             icon: <Trash2 className="text-red-400" />,
-        //           },
-        //         ]}
-        //       />
-        //     ),
-        //   },
-        // ]}
         columnDefs={columnDefs}
         actions={[
           {
@@ -80,7 +51,12 @@ const ProcurementHistoryTable = () => {
             href: (row) =>
               `/dashboard/fleet-procurement/procurement/${row?._id}`,
           },
-          { label: "Edit Procurement  Details", icon: <Edit /> },
+          {
+            label: "Edit Procurement  Details",
+            icon: <Edit />,
+            href: (row) =>
+              `/dashboard/fleet-procurement/procurement/${row?._id}/edit`,
+          },
           { label: "Share Procurement Details", icon: <Share /> },
           {
             label: "Delete Procurement Info",

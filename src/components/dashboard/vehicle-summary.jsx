@@ -1,4 +1,6 @@
+"use client";
 import { ChevronRight, FolderOpenDot } from "lucide-react";
+import { useAuth } from "../auth/auth";
 
 const vehicleSummaries = [
   {
@@ -34,6 +36,10 @@ const vehicleSummaries = [
 ];
 
 const VehicleSummary = () => {
+  const authData = useAuth();
+
+  console.log(authData);
+
   return (
     <div className="card-wrapper flex gap-4 flex-wrap justify-center mb-6">
       {vehicleSummaries.map(({ title, count, fg, bg }) => (
