@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Button } from "@/components/ui/button";
 
@@ -9,8 +10,11 @@ import TripExpenses from "@/components/dashboard/home/trip-expenses";
 import TopLocations from "@/components/dashboard/home/top-locations";
 import TripTable from "@/components/dashboard/home/trip-table";
 import Link from "next/link";
+import { useAuth } from "@/components/auth/auth";
 
 const DashboardHome = () => {
+  const { authState } = useAuth();
+
   return (
     <div>
       <Greeting />
@@ -22,6 +26,18 @@ const DashboardHome = () => {
           </Link>
         </Button>
       </div>
+
+      {!authState?.organization && (
+        <div className="create-org-badge p-4 bg-amber-200 rounded my-4 text-sm">
+          You currently have no orgaization.{" "}
+          <Link
+            href="/auth/create-org"
+            className="text-primary hover:underline"
+          >
+            Click here to create one
+          </Link>
+        </div>
+      )}
 
       <VehicleSummary />
 

@@ -91,8 +91,6 @@ const SignupForm = ({ setTransitioningTo }) => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    return setSubmitStatus({ status: "success" });
-
     await handleFormSubmitHelper({
       formSchema: createZodSchema(inputs).extend({
         phone: z.string().length(11, {
@@ -133,23 +131,15 @@ const SignupForm = ({ setTransitioningTo }) => {
         onOpenChange={() => setSubmitStatus(null)}
         title={submitStatus?.data?.message ?? "Registration Successful"}
         description={
-          "You can continue your registration or login with your credentials now"
+          "Your account has been created successfully. You can now login"
         }
         control={
-          <div className="flex justify-between grow auth-style">
+          <div className="flex justify-center grow auth-style">
             <DialogClose
-              onClick={() => setTransitioningTo("/auth/create-org")}
+              onClick={() => setTransitioningTo("/auth/login")}
               asChild
             >
-              <Button variant="outline" className="button-outline">
-                Proceed to Login
-              </Button>
-            </DialogClose>
-            <DialogClose
-              onClick={() => setTransitioningTo("/auth/create-org")}
-              asChild
-            >
-              <Button>Continue</Button>
+              <Button className="button-outline">Proceed to Login</Button>
             </DialogClose>
           </div>
         }

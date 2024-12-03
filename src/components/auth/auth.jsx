@@ -30,8 +30,8 @@ export const AuthProvider = ({ children }) => {
         setAuthState({ organization: response.data?.data });
       })
       .catch((error) => {
-        console.log(error);
-        setAuthState(error.response.status === 401 ? null : {});
+        console.log("Error initializing auth", error);
+        setAuthState(error?.response.status === 401 ? null : {});
       });
 
     return () => controller.abort();

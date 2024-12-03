@@ -15,6 +15,8 @@ import {
   Settings,
 } from "lucide-react";
 import Image from "next/image";
+import { useAuth } from "../auth/auth";
+import { Button } from "../ui/button";
 
 const links = [
   {
@@ -54,19 +56,8 @@ const SideNav = ({ className }) => {
 
   return (
     <nav className={className}>
-      <div className="relative">
-        <Image
-          src="/images/fleet-management-logo.svg"
-          width={64}
-          height={64}
-          alt="Fleet Manager Logo"
-          className="mx-auto"
-        />
-        <h2 className="text-xl text-center text-muted-foreground font-bold">
-          Fleet Manager
-        </h2>
-        <hr className="absolute -bottom-1 right-2 w-full h-0.5 bg-muted-foreground border-0" />
-      </div>
+      <OranizationCard />
+
       <ProfileCard />
 
       <p className="opacity-70 uppercase my-4 text-xs pl-2">Main menu</p>
@@ -105,6 +96,44 @@ const ProfileCard = () => {
         <p className="name">John Doe</p>
         <p className="role opacity-70">Resident Transport Officer</p>
       </div>
+    </div>
+  );
+};
+
+const OranizationCard = () => {
+  const { authState } = useAuth();
+
+  return (
+    <div className="relative">
+      {authState.organization ? (
+        <img
+          src={authState?.organization?.logoImgUrl}
+          className="size-16 mx-auto rounded-full object-cover"
+          alt="Organization Logo"
+        />
+      ) : (
+        <Image
+          src="/images/fleet-management-logo.svg"
+          width={64}
+          height={64}
+          alt="Fleet Manager Logo"
+          className="mx-auto"
+        />
+      )}
+      <h2 className="text-xl text-center text-muted-foreground font-bold">
+        {authState?.organization?.name ?? "Fleet Manager"}
+      </h2>
+      {!authState?.organization && (
+        <p>
+          <Link
+            href="/auth/create-org"
+            className="text-green-500 p-2 inline-block text-center hover:underline"
+          >
+            This is your default organization. Click here to create one
+          </Link>
+        </p>
+      )}
+      <hr className="absolute -bottom-2 right-2 w-full h-0.5 bg-muted-foreground border-0" />
     </div>
   );
 };

@@ -8,6 +8,7 @@ import { AllInput } from "./auth-form-elements";
 import { createZodSchema, handleFormSubmitHelper } from "@/lib/form-utils";
 import SuccessDialog from "../success-dialog";
 import ErrorDialog from "../error-dialog";
+import { useAuth } from "./auth";
 
 const inputs = [
   {
@@ -33,6 +34,7 @@ const LoginForm = () => {
     password: "",
   });
   const [submitStatus, setSubmitStatus] = useState(null);
+  const { refreshAuthState } = useAuth();
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -47,12 +49,9 @@ const LoginForm = () => {
       },
     });
 
-    console.log(formStatus?.response);
-
     if (formStatus?.status == "success") {
       try {
-        // authDispatch({ type: "LOGIN", payload: formStatus?.data?.data?.[0] });
-        setTimeout(() => redirect("/dashboard"), 2000);
+        setTimeout(() => refreshAuthState(), 2000);
       } catch (err) {
         setSubmitStatus({
           status: "error",
@@ -95,7 +94,7 @@ const LoginForm = () => {
         control={
           <div className="auth-style flex justify-center gap-2 grow">
             <Button asChild>
-              <Link href="/dashboard">Go to dashboard</Link>
+              <a href="/dashboard">Go to dashboard</a>
             </Button>
           </div>
         }

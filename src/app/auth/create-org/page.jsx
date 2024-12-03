@@ -154,18 +154,18 @@ const formSchemas = forms.map((form) =>
 const CreateOrg = ({}) => {
   const [validForms, setValidForms] = useState([]);
   const [formData, setFormData] = useState({
-    name: "Organic tomatoes",
-    type: "governmentAgency",
-    email: "tester@gmail.com",
-    phone: "4567893333",
-    // logo: {},
-    adminFullName: "fff",
-    addminEmail: "ffff",
-    addminRole: "fff",
-    adminPhone: "09012345678",
-    numberOfVehicles: "20",
-    operationalAreas: "Enugu",
-    vehicleCategories: "passengerCars",
+    // name: "Organic tomatoes",
+    // type: "governmentAgency",
+    // email: "tester@gmail.com",
+    // phone: "4567893333",
+    // // logo: {},
+    // adminFullName: "fff",
+    // addminEmail: "ffff",
+    // addminRole: "fff",
+    // adminPhone: "09012345678",
+    // numberOfVehicles: "20",
+    // operationalAreas: "Enugu",
+    // vehicleCategories: "passengerCars",
   });
   const [submitStatus, setSubmitStatus] = useState(null);
   const [step, setStep] = useState(1);
@@ -399,6 +399,7 @@ const FormSet = ({ fieldsets = {}, formData, setFormData, errors }) => {
           </fieldset>
         );
       })}
+      <a href="/dashboard">Go to board</a>
     </>
   );
 };
