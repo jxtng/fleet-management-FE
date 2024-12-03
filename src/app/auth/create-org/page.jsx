@@ -16,6 +16,8 @@ import {
 import Link from "next/link";
 import { createZodSchema, handleFormSubmitHelper } from "@/lib/form-utils";
 import { z } from "zod";
+import { useAuth } from "@/components/auth/auth";
+import { redirect } from "next/navigation";
 
 const formPartOne = {
   "Section 1: Organization Details": [
@@ -153,30 +155,15 @@ const formSchemas = forms.map((form) =>
 
 const CreateOrg = ({}) => {
   const [validForms, setValidForms] = useState([]);
-  const [formData, setFormData] = useState({
-    // name: "Organic tomatoes",
-    // type: "governmentAgency",
-    // email: "tester@gmail.com",
-    // phone: "4567893333",
-    // // logo: {},
-    // adminFullName: "fff",
-    // addminEmail: "ffff",
-    // addminRole: "fff",
-    // adminPhone: "09012345678",
-    // numberOfVehicles: "20",
-    // operationalAreas: "Enugu",
-    // vehicleCategories: "passengerCars",
-  });
+  const [formData, setFormData] = useState({});
   const [submitStatus, setSubmitStatus] = useState(null);
   const [step, setStep] = useState(1);
   const [transitioningTo, setTransitioningTo] = useState(false);
+  const { authState } = useAuth();
 
-  console.log(
-    formSchemas
-      .reduce((merged, schema) => merged.merge(schema))
-      .safeParse(formData),
-    validForms
-  );
+  if (authState === null) {
+    redirect("/auth/login");
+  }
 
   const validateForms = () => {
     const currentValidForms = formSchemas.map(
@@ -185,7 +172,7 @@ const CreateOrg = ({}) => {
 
     setValidForms(currentValidForms);
     const errorStep = currentValidForms.findIndex((isValid) => !isValid) + 1;
-    // if (errorStep !== -1 && errorStep !== step) setTransitioningTo(errorStep);
+    if (errorStep !== 0 && errorStep !== step) setTransitioningTo(errorStep);
     return currentValidForms;
   };
 
@@ -203,11 +190,19 @@ const CreateOrg = ({}) => {
         setSubmitStatus,
         setFormData,
         endPoint: "/organizations/create-org",
+        onError(formStatus) {
+          // The below block was meant to be handled on the server side
+          if (formStatus?.error.includes("duplicate key")) {
+            setSubmitStatus({
+              ...formStatus,
+              error: `Organization with email: ${formData.email} already exists`,
+            });
+          }
+        },
       });
 
       if (formStatus?.status == "form_error") return;
     }
-
     setTransitioningTo(step + 1);
   };
 
@@ -265,7 +260,8 @@ const CreateOrg = ({}) => {
             let timelineState = "inactive"; //inactive | active | success | error
             if (count == step) timelineState = "active";
             if (count < step) timelineState = "success";
-            if (submitStatus?.status == "error") timelineState = "error";
+            if (submitStatus?.status == "error" && count == forms.length)
+              timelineState = "error";
             if (submitStatus?.status == "form_error" && !validForms[index])
               timelineState = "error";
 
@@ -300,8 +296,6 @@ const CreateOrg = ({}) => {
                       count >= step && timelineState != "error"
                         ? "w-0"
                         : "w-full"
-                      // timelineState == "error" &&
-                      //   "relative before:absolute before:inset-0  before:h-[2px] before:bg-gradient-to-l before:from-red-500 before:transition-all"
                     )}
                   ></div>
                 </div>
@@ -353,8 +347,8 @@ const CreateOrg = ({}) => {
               Your organization <strong>{formData.name}</strong> has been
               created
             </p>
-            <Link href="/auth/login">
-              <Button>Proceed to login</Button>
+            <Link href="/dashboard">
+              <Button>Go to dashboard</Button>
             </Link>
           </div>
         )}
@@ -399,7 +393,6 @@ const FormSet = ({ fieldsets = {}, formData, setFormData, errors }) => {
           </fieldset>
         );
       })}
-      <a href="/dashboard">Go to board</a>
     </>
   );
 };

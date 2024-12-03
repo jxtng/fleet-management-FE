@@ -148,14 +148,14 @@ export const handleFormSubmitHelper = async ({
       status: "form_error",
       error: createErrors(validatedFormData.error),
     };
-    onFormError?.(formStatus);
     setSubmitStatus?.(formStatus);
+    onFormError?.(formStatus);
     return formStatus;
   }
 
   formStatus = { status: "submitting", data: validatedFormData.data };
-  onSubmitStart?.(formStatus);
   setSubmitStatus?.(formStatus);
+  onSubmitStart?.(formStatus);
 
   try {
     const response = await axiosInstance.request({
@@ -168,8 +168,8 @@ export const handleFormSubmitHelper = async ({
       ...axiosConfig,
     });
     formStatus = { status: "success", data: response.data, response };
-    onSuccess?.(formStatus);
     setSubmitStatus?.(formStatus);
+    onSuccess?.(formStatus);
   } catch (err) {
     formStatus = {
       status: "error",
