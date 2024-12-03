@@ -31,7 +31,9 @@ export const AuthProvider = ({ children }) => {
       })
       .catch((error) => {
         console.log("Error initializing auth", error);
-        setAuthState(error?.response.status === 401 ? null : {});
+        setAuthState(
+          error.response && error.response.status !== 401 ? {} : null
+        );
       });
 
     return () => controller.abort();
@@ -57,9 +59,9 @@ export const AuthProvider = ({ children }) => {
 export const AuthProtected = ({ children, fallback = "/auth/login" }) => {
   const isAuthenticated = useIsAuthenticated();
 
-  if (isAuthenticated === false) {
-    redirect(fallback);
-  }
+  // if (isAuthenticated === false) {
+  //   redirect(fallback);
+  // }
 
   return <>{children}</>;
 };

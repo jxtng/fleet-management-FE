@@ -105,9 +105,9 @@ const OranizationCard = () => {
 
   return (
     <div className="relative">
-      {authState.organization ? (
+      {authState?.organization ? (
         <img
-          src={authState?.organization?.logoImgUrl}
+          src={authState.organization?.logoImgUrl}
           className="size-16 mx-auto rounded-full object-cover"
           alt="Organization Logo"
         />

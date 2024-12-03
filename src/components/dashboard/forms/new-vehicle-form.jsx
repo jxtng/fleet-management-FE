@@ -77,8 +77,7 @@ const inputs = [
       "Active",
       "Under Maintenance",
       "Pending Maintenance",
-      "Awaiting Parts",
-      "Out of Service",
+      "Available",
       "Scheduled for Service",
       "Overdue for Service",
       "Retired",
@@ -138,8 +137,8 @@ const NewVehicleForm = () => {
         description={
           <>
             Fleet Inventory of Vehicle{" "}
-            <strong>[Vehicle ID: {formData.vehicleID}]</strong> have been saved
-            and updated
+            <strong>[Plate Number: {formData.plate_number}]</strong> have been
+            saved and updated
           </>
         }
       ></SuccessDialog>
