@@ -73,8 +73,6 @@ const NewProcurementRequestForm = () => {
       setSubmitStatus,
       axiosConfig: { headers: {} },
     });
-
-    console.log(formStatus);
   };
 
   return (

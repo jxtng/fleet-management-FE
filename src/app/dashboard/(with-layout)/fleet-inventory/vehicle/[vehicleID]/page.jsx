@@ -8,6 +8,8 @@ import { useParams, useRouter } from "next/navigation";
 import ErrorDialog from "@/components/error-dialog";
 import useSWR from "swr";
 import { axiosInstance } from "@/lib/axios";
+import SubHeader from "@/components/dashboard/sub-header";
+import { ErrorLoader, FullLoader } from "@/components/loader";
 
 const VehicleDetails = () => {
   const { vehicleID } = useParams();
@@ -20,19 +22,20 @@ const VehicleDetails = () => {
 
   if (error) {
     return (
-      <ErrorDialog
-        title={error.message}
-        description="Reload the page to try again"
-        defaultOpen
-      ></ErrorDialog>
+      <ErrorLoader
+        className="inset-4 rounded-2xl"
+        title="Error fetching vehicle details"
+        label={error?.message ?? "Refreshing the page might help"}
+      />
     );
   }
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-screen rounded bg-muted animate-pulse">
-        <Loader2 className="animate-spin size-10" />
-      </div>
+      <FullLoader
+        label="Loading vehicle details"
+        className="inset-4 rounded-2xl"
+      />
     );
   }
 
@@ -41,20 +44,15 @@ const VehicleDetails = () => {
 
   return (
     <div>
-      <div className="flex items-center mb-4">
-        <Link href="/dashboard/fleet-inventory">
-          <Button size="icon" variant="outline">
-            <ChevronLeft />
-          </Button>
-        </Link>
-        <h1 className="text-secondary text-xl mx-auto font-bold">
-          {vehicle.vehicle_model}
-        </h1>
-      </div>
-
-      <div className="p-4 my-4 rounded border border-green-500 bg-green-200">
-        Viewing {vehicle.vehicle_model} details
-      </div>
+      <SubHeader
+        title={vehicle.vehicle_model.toUpperCase()}
+        description={
+          <>
+            Viewing <strong>{vehicle?.vehicle_model.toUpperCase()}</strong>{" "}
+            details
+          </>
+        }
+      />
 
       <div className="flex gap-4">
         <div className="image-area basis-0 grow">
@@ -80,7 +78,7 @@ const VehicleDetails = () => {
           {Object.entries(vehicle)
             .filter(
               ([key, _]) =>
-                !(["__v", "image"].includes(key) || key.includes("img"))
+                !(["__v", "image", "_id"].includes(key) || key.includes("img"))
             )
             .map(([key, value]) => (
               <li
@@ -88,7 +86,7 @@ const VehicleDetails = () => {
                 className="p-3 border-b even:bg-green-100 even:border-green-500 odd:bg-red-100 odd:border-red-500"
               >
                 <span className="capitalize text-muted-foreground">
-                  {key.replace(/((?<=[^A-Z])[A-Z])/g, " $1")}
+                  {key.replace(/((?<=[^A-Z])[A-Z])/g, " $1").replace("_", " ")}
                 </span>
                 : {value}
               </li>

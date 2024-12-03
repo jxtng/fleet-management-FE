@@ -7,8 +7,6 @@ import { ChevronDown, Edit, Eye, Share } from "lucide-react";
 import TableFilter from "@/components/dashboard/table-filter";
 import OverviewCard from "@/components/dashboard/overview-card";
 import DataTable from "@/components/ui/data-table";
-import procurementMockData from "@/data/procurementMockData";
-import TableAction from "@/components/dashboard/table-action";
 import Link from "next/link";
 import ProcurementHistoryTable from "./procurement-history-table";
 import VendorManagementTable from "./vendor-management-table";
