@@ -5,11 +5,10 @@ import SuccessDialog from "../success-dialog";
 import { axiosInstance } from "@/lib/axios";
 import { useAuth } from "./auth";
 import { Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 const LogoutDialog = ({ children, ...props }) => {
   const [logoutStatus, setLogoutStatus] = useState(null);
-  const router = useRouter();
+  const { refreshAuthState } = useAuth();
 
   const handleLogout = async () => {
     setLogoutStatus("loggingout");
@@ -17,7 +16,8 @@ const LogoutDialog = ({ children, ...props }) => {
       const response = await axiosInstance.post("/auth/logout");
       setLogoutStatus("success");
       setTimeout(() => {
-        router.push("/auth/login");
+        refreshAuthState();
+        setLogoutStatus(null);
       }, 1000);
     } catch (error) {
       setLogoutStatus("error");
@@ -27,7 +27,6 @@ const LogoutDialog = ({ children, ...props }) => {
   return (
     <>
       <ConfirmDialog
-        // open={logoutStatus != "loggedout"}
         title="Are you sure you want to proceed?"
         description="This will log you out from the dashboard"
         confirm={
