@@ -20,20 +20,23 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const controller = new AbortController();
+    let newAuthState = null;
 
     axiosInstance
       .get("/organizations/get-organization", {
         signal: controller.signal,
       })
       .then((response) => {
-        console.log("initialize auth", { organization: response.data?.data });
-        setAuthState({ organization: response.data?.data });
+        let storedAuthData = JSON.parse(localStorage.getItem("_auth"));
+        newAuthState = { ...storedAuthData, organization: response.data?.data };
+        console.log("initialized auth", newAuthState);
       })
       .catch((error) => {
-        console.log("Error initializing auth", error);
-        setAuthState(
-          error.response && error.response.status !== 401 ? {} : null
-        );
+        console.log("Error initializing auth", error, newAuthState);
+        if (error.response && error.response.status !== 401) newAuthState = {};
+      })
+      .finally(() => {
+        setAuthState(newAuthState);
       });
 
     return () => controller.abort();
@@ -59,9 +62,9 @@ export const AuthProvider = ({ children }) => {
 export const AuthProtected = ({ children, fallback = "/auth/login" }) => {
   const isAuthenticated = useIsAuthenticated();
 
-  // if (isAuthenticated === false) {
-  //   redirect(fallback);
-  // }
+  if (isAuthenticated === false) {
+    redirect(fallback);
+  }
 
   return <>{children}</>;
 };

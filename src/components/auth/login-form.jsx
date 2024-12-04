@@ -47,18 +47,11 @@ const LoginForm = () => {
       axiosConfig: {
         headers: {},
       },
-    });
-
-    if (formStatus?.status == "success") {
-      try {
+      onSuccess(formStatus) {
+        localStorage.setItem("_auth", JSON.stringify(formStatus.data.data[0]));
         setTimeout(() => refreshAuthState(), 2000);
-      } catch (err) {
-        setSubmitStatus({
-          status: "error",
-          error: `Error Loging in: ${err.message}`,
-        });
-      }
-    }
+      },
+    });
   };
 
   return (

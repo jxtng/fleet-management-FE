@@ -9,9 +9,11 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Edit, User } from "lucide-react";
+import { useAuth } from "@/components/auth/auth";
 
 const MyProfile = () => {
   const [profileData, setprofileData] = useState({});
+  const { authState } = useAuth();
 
   return (
     <Card className="">
@@ -26,21 +28,21 @@ const MyProfile = () => {
               {
                 label: "Name",
                 name: "name",
-                value: "John Doe",
-                disabled: true,
+                value: authState.fullname ?? "None",
+                inputProps: { readOnly: true },
               },
               {
                 label: "Email",
                 type: "email",
                 name: "email",
-                value: "johndoe@gmail.com",
-                disabled: true,
+                value: authState.email ?? "None",
+                inputProps: { readOnly: true },
               },
               {
                 label: "Role",
                 name: "role",
-                value: "Resident Transport Officer",
-                disabled: true,
+                value: authState.role ?? "None",
+                inputProps: { readOnly: true },
               },
             ]}
           />

@@ -16,6 +16,7 @@ const LogoutDialog = ({ children, ...props }) => {
       const response = await axiosInstance.post("/auth/logout");
       setLogoutStatus("success");
       setTimeout(() => {
+        localStorage.removeItem("_auth");
         refreshAuthState();
         setLogoutStatus(null);
       }, 1000);
