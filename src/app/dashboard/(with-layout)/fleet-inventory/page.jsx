@@ -13,6 +13,7 @@ import InfoCard from "@/components/dashboard/info-card";
 import TableAction from "@/components/dashboard/table-action";
 import useSWR from "swr";
 import { axiosInstance } from "@/lib/axios";
+import DeleteAction from "./delete-action";
 
 const actions = [
   {
@@ -24,23 +25,27 @@ const actions = [
     label: "View vehicle history",
     icon: <History className="text-blue-400" />,
   },
-  { label: "Edit vehicle details", icon: <Edit /> },
+  {
+    label: "Edit vehicle details",
+    icon: <Edit />,
+    href: (row) => `/dashboard/fleet-inventory/vehicle/${row._id}/edit`,
+  },
   { label: "Share vehicle details", icon: <Share /> },
-  { label: "Delete vehicle", icon: <Trash2 className="text-red-400" /> },
+  {
+    label: "Delete vehicle",
+    icon: <Trash2 className="text-red-400" />,
+    ActionComponent: DeleteAction,
+  },
 ];
 
 const FleetInventory = () => {
   const [filterData, setFilterData] = useState({});
-  const {
-    data: response,
-    isLoading,
-    error,
-  } = useSWR("vehicle/vehicle-record", axiosInstance.get);
+  const { data, isLoading, error } = useSWR("/vehicle/vehicle-record", (url) =>
+    axiosInstance.get(url).then((response) => response?.data?.data)
+  );
 
-  let columnDefs,
-    data = [];
-  if (response) {
-    data = response?.data.data;
+  let columnDefs;
+  if (data) {
     columnDefs = Object.keys(data[0] ?? {})
       .filter((key) => !key.startsWith("_"))
       .map((key) => {
@@ -85,8 +90,8 @@ const FleetInventory = () => {
             <InfoCard
               key={vehicle._id}
               details={vehicle}
-              include={["plate_number", "vehicle_model", "engine_number"]}
-              title={`Vehicle ID: ${vehicle.vehicle_id}`}
+              include={["vehicle_model", "engine_number", "createdAt"]}
+              title={`Vehicle ID: ${vehicle.plate_number}`}
               image={
                 vehicle.image ? (
                   <img src={vehicle.image} />
@@ -96,6 +101,7 @@ const FleetInventory = () => {
                   <UserCircle className="w-full h-full p-2 text-muted-foreground" />
                 )
               }
+              actions={actions}
             />
           ))}
         </div>

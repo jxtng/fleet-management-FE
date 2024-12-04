@@ -3,9 +3,6 @@ import { useState } from "react";
 import SuccessDialog from "@/components/success-dialog";
 import ErrorDialog from "@/components/error-dialog";
 import { createZodSchema, handleFormSubmitHelper } from "@/lib/form-utils";
-import ProcurementRequestForm, {
-  inputs,
-} from "@/components/dashboard/forms/new-procurement-request-form";
 import SubHeader from "@/components/dashboard/sub-header";
 import useSWR, { useSWRConfig } from "swr";
 import { useParams } from "next/navigation";
@@ -13,15 +10,17 @@ import { ErrorLoader, FullLoader } from "@/components/loader";
 import { axiosInstance } from "@/lib/axios";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
+import VehicleForm, {
+  inputs,
+} from "@/components/dashboard/forms/new-vehicle-form";
 
-const EditProcurement = () => {
+const EditVehicle = () => {
   const [formData, setFormData] = useState(null);
   const [submitStatus, setSubmitStatus] = useState(null);
-  const { id: procurementId } = useParams();
+  const { id: vehicleId } = useParams();
   const { data, error, isLoading } = useSWR(
-    `/procurement/${procurementId}`,
-    (url) =>
-      axiosInstance.get(url).then((response) => response?.data.data[0] ?? {})
+    `/vehicle/vehicle-record/${vehicleId}`,
+    (url) => axiosInstance.get(url).then((response) => response?.data?.data)
   );
   const { mutate } = useSWRConfig();
 
@@ -52,21 +51,20 @@ const EditProcurement = () => {
     const formStatus = await handleFormSubmitHelper({
       formSchema: createZodSchema(inputs),
       formData,
-      endPoint: `/procurement/${procurementId}`,
+      endPoint: `/vehicle/vehicle-record/${vehicleId}`,
       method: "patch",
       setSubmitStatus,
-      axiosConfig: { headers: {} },
     });
   };
 
   return (
     <>
       <SubHeader
-        title="Update A Procurement Request"
-        description="Editing Procurement Request"
+        title="Update Vehicle Details"
+        description={`Editing vehicle details for ${formData?.vehicle_model}`}
       />
 
-      <ProcurementRequestForm
+      <VehicleForm
         {...{ formData, setFormData, submitStatus, handleFormSubmit }}
         control={
           <div className="control flex flex-col gap-2 my-4">
@@ -74,7 +72,7 @@ const EditProcurement = () => {
               type="submit"
               disabled={submitStatus?.status === "submitting"}
             >
-              Update Request
+              Update details
               {submitStatus?.status === "submitting" && (
                 <Loader2 className="animate-spin size-4" />
               )}
@@ -96,16 +94,15 @@ const EditProcurement = () => {
         onOpenChange={() => {
           setSubmitStatus(null);
           setFormData({});
-          mutate(`/procurement/${procurementId}`);
-          mutate(`/procurement`);
+          mutate(`/vehicle/vehicle-record/${vehicleId}`);
+          mutate(`/vehicle/vehicle-record`);
         }}
         title={
-          submitStatus?.data?.message ||
-          "Procurement request updated successfully"
+          submitStatus?.data?.message || "Vehicle details updated successfully"
         }
         description={
           <>
-            Procurement Request for vendor {formData?.vendorName}, have been
+            Vehicle with model: {formData?.vehicle_model}, have been
             successfully updated
           </>
         }
@@ -113,11 +110,11 @@ const EditProcurement = () => {
       <ErrorDialog
         open={submitStatus?.status === "error"}
         onOpenChange={() => setSubmitStatus(null)}
-        title={"Procurement request update failed"}
+        title={"Update failed"}
         description={submitStatus?.error}
       />
     </>
   );
 };
 
-export default EditProcurement;
+export default EditVehicle;

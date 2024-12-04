@@ -12,13 +12,11 @@ import SubHeader from "@/components/dashboard/sub-header";
 import { ErrorLoader, FullLoader } from "@/components/loader";
 
 const VehicleDetails = () => {
-  const { vehicleID } = useParams();
-  const {
-    data: response,
-    isLoading,
-    error,
-  } = useSWR("vehicle/vehicle-record", axiosInstance.get);
-  const router = useRouter();
+  const { id: vehicleId } = useParams();
+  const { data, isLoading, error } = useSWR(
+    `vehicle/vehicle-record/${vehicleId}`,
+    (url) => axiosInstance.get(url).then((response) => response.data.data)
+  );
 
   if (error) {
     return (
@@ -39,17 +37,13 @@ const VehicleDetails = () => {
     );
   }
 
-  const vehicle =
-    response?.data.data.find((vehicle) => vehicle._id == vehicleID) ?? {};
-
   return (
     <div>
       <SubHeader
-        title={vehicle.vehicle_model.toUpperCase()}
+        title={data.vehicle_model.toUpperCase()}
         description={
           <>
-            Viewing <strong>{vehicle?.vehicle_model.toUpperCase()}</strong>{" "}
-            details
+            Viewing <strong>{data?.vehicle_model.toUpperCase()}</strong> details
           </>
         }
       />
@@ -57,8 +51,8 @@ const VehicleDetails = () => {
       <div className="flex gap-4">
         <div className="image-area basis-0 grow">
           <img
-            src={vehicle.img ?? vehicle.procurement_img}
-            alt={"Image of  " + vehicle.vehicle_model}
+            src={data.img ?? data.procurement_img}
+            alt={"Image of  " + data.vehicle_model}
             className="w-full rounded-lg mb-4 min-h-40 object-cover object-left-top"
           />
           <InfoCard
@@ -75,7 +69,7 @@ const VehicleDetails = () => {
           />
         </div>
         <ul className="info-area basis-0 grow">
-          {Object.entries(vehicle)
+          {Object.entries(data)
             .filter(
               ([key, _]) =>
                 !(["__v", "image", "_id"].includes(key) || key.includes("img"))

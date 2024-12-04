@@ -1,13 +1,8 @@
-"use client";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { AllInput } from "@/components/ui/form-elements";
-import SuccessDialog from "@/components/success-dialog";
-import { createZodSchema, handleFormSubmitHelper } from "@/lib/form-utils";
-import ErrorDialog from "@/components/error-dialog";
 import { Loader2 } from "lucide-react";
 
-const inputs = [
+export const inputs = [
   // { label: "Vehicle ID", name: "vehicleID", placeholder: "Enter Vehicle ID" },
   {
     label: "Upload Vehicle Image",
@@ -93,20 +88,13 @@ const inputs = [
   },
 ].map((field) => ({ ...field, required: true }));
 
-const NewVehicleForm = () => {
-  const [formData, setFormData] = useState({});
-  const [submitStatus, setSubmitStatus] = useState(null);
-
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    const formStatus = await handleFormSubmitHelper({
-      formSchema: createZodSchema(inputs),
-      formData,
-      endPoint: "/vehicle/add-vehicle",
-      setSubmitStatus,
-    });
-  };
-
+const VehicleForm = ({
+  formData,
+  setFormData,
+  submitStatus,
+  handleFormSubmit,
+  control,
+}) => {
   return (
     <form className="flex flex-col gap-4" onSubmit={handleFormSubmit}>
       <AllInput
@@ -117,38 +105,18 @@ const NewVehicleForm = () => {
         inputProps={{ disabled: submitStatus?.status == "submitting" }}
       />
 
-      <Button type="submit" disabled={submitStatus?.status == "submitting"}>
-        Add Vehicle
-        {submitStatus?.status == "submitting" && (
-          <Loader2 className="animate-spin size-4" />
-        )}
-      </Button>
-
-      <SuccessDialog
-        open={submitStatus?.status == "success"}
-        onOpenChange={(open) => {
-          setFormData({});
-          if (!open) setSubmitStatus(null);
-        }}
-        title={
-          submitStatus?.data?.message ??
-          "Vehicle Successfully added to Fleet inventory"
-        }
-        description={
-          <>
-            Fleet Inventory of Vehicle{" "}
-            <strong>[Plate Number: {formData.plate_number}]</strong> have been
-            saved and updated
-          </>
-        }
-      ></SuccessDialog>
-      <ErrorDialog
-        open={submitStatus?.status == "error"}
-        onOpenChange={(open) => !open && setSubmitStatus(null)}
-        description={submitStatus?.error}
-      ></ErrorDialog>
+      {control ? (
+        control
+      ) : (
+        <Button type="submit" disabled={submitStatus?.status == "submitting"}>
+          Add Vehicle
+          {submitStatus?.status == "submitting" && (
+            <Loader2 className="animate-spin size-4" />
+          )}
+        </Button>
+      )}
     </form>
   );
 };
 
-export default NewVehicleForm;
+export default VehicleForm;

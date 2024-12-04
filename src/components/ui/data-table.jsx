@@ -3,13 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Loader2, EllipsisVertical } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import Link from "next/link";
+import TableAction from "../dashboard/table-action";
 
 const DataTable = ({
   data = [],
@@ -177,47 +171,47 @@ const DataTable = ({
   );
 };
 
-export const TableAction = ({ row, trigger, actions = [] }) => {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger className="flex">{trigger}</DropdownMenuTrigger>
-      <DropdownMenuContent>
-        {actions.map((action) => {
-          const ActionComponent = action.ActionComponent || "button";
-          return (
-            <DropdownMenuItem
-              key={action.label}
-              className="flex w-full"
-              asChild
-            >
-              {action.href ? (
-                <Link
-                  href={
-                    typeof action.href === "function"
-                      ? action.href(row)
-                      : action.href
-                  }
-                >
-                  {action.icon} {action.label}
-                </Link>
-              ) : action.ActionComponent ? (
-                <ActionComponent className="flex items-center gap-2" row={row}>
-                  {action.icon} {action.label}
-                </ActionComponent>
-              ) : (
-                <button
-                  className="flex items-center gap-2"
-                  onClick={() => action.onClick?.(row)}
-                >
-                  {action.icon} {action.label}
-                </button>
-              )}
-            </DropdownMenuItem>
-          );
-        })}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-};
+// export const TableAction = ({ row, trigger, actions = [] }) => {
+//   return (
+//     <DropdownMenu>
+//       <DropdownMenuTrigger className="flex">{trigger}</DropdownMenuTrigger>
+//       <DropdownMenuContent>
+//         {actions.map((action) => {
+//           const ActionComponent = action.ActionComponent || "button";
+//           return (
+//             <DropdownMenuItem
+//               key={action.label}
+//               className="flex w-full"
+//               asChild
+//             >
+//               {action.href ? (
+//                 <Link
+//                   href={
+//                     typeof action.href === "function"
+//                       ? action.href(row)
+//                       : action.href
+//                   }
+//                 >
+//                   {action.icon} {action.label}
+//                 </Link>
+//               ) : action.ActionComponent ? (
+//                 <ActionComponent className="flex items-center gap-2" row={row}>
+//                   {action.icon} {action.label}
+//                 </ActionComponent>
+//               ) : (
+//                 <button
+//                   className="flex items-center gap-2"
+//                   onClick={() => action.onClick?.(row)}
+//                 >
+//                   {action.icon} {action.label}
+//                 </button>
+//               )}
+//             </DropdownMenuItem>
+//           );
+//         })}
+//       </DropdownMenuContent>
+//     </DropdownMenu>
+//   );
+// };
 
 export default DataTable;

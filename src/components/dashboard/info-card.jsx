@@ -1,12 +1,13 @@
 import { cn } from "@/lib/utils";
 import React from "react";
+import TableAction from "./table-action";
 
 const InfoCard = ({
   title,
   details = {},
   include = [],
   className,
-  action,
+  actions,
   image,
 }) => {
   let infoList = Array.isArray(details)
@@ -18,9 +19,13 @@ const InfoCard = ({
   }
 
   return (
-    <div className={cn("card ", className)}>
+    <div className={cn("card grow", className)}>
       <div className="img-area group relative h-44 bg-background border-[1.3rem] border-b-0 border-input overflow-hidden">
-        {action && <div className="absolute top-2 right-2">{action}</div>}
+        {actions && (
+          <div className="absolute top-2 right-2">
+            {actions && <TableAction row={details} actions={actions} />}
+          </div>
+        )}
         <div className="flex flex-col justify-center items-center h-full w-48 mx-auto">
           {image ? (
             image
