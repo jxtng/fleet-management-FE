@@ -72,6 +72,19 @@ const validators = {
     return schema;
   },
 
+  tel({ label, name, required }) {
+    let schema = z
+      .string({
+        required_error: `${name} is required`,
+        invalid_type_error: "You need to enter an amount/number",
+      })
+      .length(11, {
+        message: "Phone number should be 11 characters long",
+      });
+
+    return schema;
+  },
+
   select({ label, name, required, options }) {
     label = label ?? name;
     let validValues = Array.isArray(options)
@@ -152,6 +165,7 @@ export const handleFormSubmitHelper = async ({
     onFormError?.(formStatus);
     return formStatus;
   }
+  console.log(validatedFormData);
 
   formStatus = { status: "submitting", data: validatedFormData.data };
   setSubmitStatus?.(formStatus);
@@ -174,8 +188,11 @@ export const handleFormSubmitHelper = async ({
     formStatus = {
       status: "error",
       error:
-        err.response?.data?.message ?? err.response?.data?.error ?? err.message,
-      data: err?.response?.data,
+        (typeof err.response?.data?.error == "string"
+          ? err.response?.data?.error
+          : err.response?.data?.message) ??
+        err.response?.data?.error ??
+        err.message,
       err,
     };
     setSubmitStatus?.(formStatus);

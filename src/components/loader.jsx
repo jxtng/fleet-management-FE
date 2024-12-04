@@ -38,7 +38,7 @@ export const ErrorLoader = ({ title = "", label, className }) => {
   return (
     <div
       className={cn(
-        "flex flex-col justify-center items-center absolute inset-0 bg-muted animate-pulse",
+        "flex flex-col justify-center items-center absolute inset-0 text-red-500 shadow shadow-red-500 rounded bg-muted animate-out fade-out-50 repeat-infinite duration-1000 direction-alternate",
         className
       )}
     >
