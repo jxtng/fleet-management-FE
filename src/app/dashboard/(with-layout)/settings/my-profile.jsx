@@ -15,7 +15,6 @@ const MyProfile = () => {
   const [profileData, setprofileData] = useState({});
   const { authState } = useAuth();
 
-  console.log(authState);
   return (
     <Card className="">
       <CardHeader>
@@ -29,23 +28,35 @@ const MyProfile = () => {
               {
                 label: "Name",
                 name: "name",
-                value: authState.fullname ?? "None",
-                inputProps: { readOnly: true },
+                value: authState.fullname ?? "",
+                inputProps: {
+                  readOnly: true,
+                  placeholder: authState.fullname ?? "None",
+                },
               },
               {
                 label: "Email",
                 type: "email",
                 name: "email",
-                value: authState.email ?? "None",
-                inputProps: { readOnly: true },
+                value: authState.email ?? "",
+                inputProps: {
+                  readOnly: true,
+                  placeholder: authState.email ?? "None",
+                },
               },
               {
                 label: "Role",
                 name: "role",
-                value: authState.role ?? "None",
-                inputProps: { readOnly: true },
+                value: authState.role ?? "",
+                inputProps: {
+                  readOnly: true,
+                  placeholder: authState.role ?? "None",
+                },
               },
-            ]}
+            ].map((input) => ({
+              ...input,
+              classes: { input: "placeholder:italic" },
+            }))}
           />
         </div>
       </CardContent>

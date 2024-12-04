@@ -159,7 +159,7 @@ const CreateOrg = ({}) => {
   const [submitStatus, setSubmitStatus] = useState(null);
   const [step, setStep] = useState(1);
   const [transitioningTo, setTransitioningTo] = useState(false);
-  const { authState } = useAuth();
+  const { authState, refreshAuthState } = useAuth();
 
   if (authState === null) {
     redirect("/auth/login");
@@ -190,6 +190,9 @@ const CreateOrg = ({}) => {
         setSubmitStatus,
         setFormData,
         endPoint: "/organizations/create-org",
+        onSuccess() {
+          refreshAuthState();
+        },
         onError(formStatus) {
           // The below block was meant to be handled on the server side
           if (formStatus?.error.includes("duplicate key")) {
@@ -345,7 +348,7 @@ const CreateOrg = ({}) => {
             </h2>
             <p>
               Your organization <strong>{formData.name}</strong> has been
-              created
+              created successfully
             </p>
             <Link href="/dashboard">
               <Button>Go to dashboard</Button>
