@@ -15,6 +15,7 @@ const MyProfile = () => {
   const [profileData, setprofileData] = useState({});
   const { authState } = useAuth();
 
+  console.log(authState);
   return (
     <Card className="">
       <CardHeader>

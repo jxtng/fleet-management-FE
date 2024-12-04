@@ -165,7 +165,6 @@ export const handleFormSubmitHelper = async ({
     onFormError?.(formStatus);
     return formStatus;
   }
-  console.log(validatedFormData);
 
   formStatus = { status: "submitting", data: validatedFormData.data };
   setSubmitStatus?.(formStatus);

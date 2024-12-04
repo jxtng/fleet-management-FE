@@ -92,8 +92,6 @@ const ManageAccess = () => {
     return <AddUserCard setUserMode={setUserMode} mutate={mutate} />;
   }
 
-  console.log(data);
-
   return (
     <Card>
       <CardHeader className="text-secondary">Manage Access</CardHeader>

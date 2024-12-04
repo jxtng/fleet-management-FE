@@ -48,7 +48,6 @@ const AddUserCard = ({ setUserMode, mutate }) => {
       axiosConfig: { headers: {} },
       onError(formStatus) {
         // The below block was meant to be handled on the server side
-        console.log(formStatus);
         if (formStatus?.error.includes("duplicate key")) {
           setSubmitStatus({
             ...formStatus,
@@ -57,8 +56,6 @@ const AddUserCard = ({ setUserMode, mutate }) => {
         }
       },
     });
-
-    console.log(formStatus);
   };
 
   return (

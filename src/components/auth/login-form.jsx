@@ -49,7 +49,7 @@ const LoginForm = () => {
       },
       onSuccess(formStatus) {
         localStorage.setItem("_auth", JSON.stringify(formStatus.data.data[0]));
-        setTimeout(() => refreshAuthState(), 2000);
+        setTimeout(refreshAuthState, 2000);
       },
     });
   };

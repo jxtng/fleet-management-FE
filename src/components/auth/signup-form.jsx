@@ -11,6 +11,13 @@ import { z } from "zod";
 
 const inputs = [
   {
+    label: "Full Name",
+    name: "fullName",
+    placeholder: "John Doe",
+    icon: <Mail className="w-5 h-5" />,
+    // required: true,
+  },
+  {
     label: "Email",
     name: "email",
     type: "email",
@@ -107,6 +114,8 @@ const SignupForm = ({ setTransitioningTo }) => {
       },
     });
   };
+
+  console.log(submitStatus);
 
   return (
     <form

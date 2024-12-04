@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import ConfirmDialog from "../confirm-dialog";
 import { Button } from "../ui/button";
-import SuccessDialog from "../success-dialog";
 import { axiosInstance } from "@/lib/axios";
 import { useAuth } from "./auth";
 import { Loader2 } from "lucide-react";
@@ -14,12 +13,10 @@ const LogoutDialog = ({ children, ...props }) => {
     setLogoutStatus("loggingout");
     try {
       const response = await axiosInstance.post("/auth/logout");
-      setLogoutStatus("success");
-      setTimeout(() => {
-        localStorage.removeItem("_auth");
-        refreshAuthState();
-        setLogoutStatus(null);
-      }, 1000);
+      // setLogoutStatus("success");
+      localStorage.removeItem("_auth");
+      refreshAuthState();
+      setLogoutStatus(null);
     } catch (error) {
       setLogoutStatus("error");
     }
@@ -59,11 +56,11 @@ const LogoutDialog = ({ children, ...props }) => {
       >
         {children}
       </ConfirmDialog>
-      <SuccessDialog
+      {/* <SuccessDialog
         title="You have Successfully logged out"
         description="Redirecting back to login..."
         open={logoutStatus == "success"}
-      />
+      /> */}
     </>
   );
 };

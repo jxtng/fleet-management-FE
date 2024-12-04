@@ -16,7 +16,6 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useAuth } from "../auth/auth";
-import { Button } from "../ui/button";
 
 const links = [
   {
@@ -89,12 +88,18 @@ const SideNav = ({ className }) => {
 };
 
 const ProfileCard = () => {
+  const { authState } = useAuth();
   return (
     <div className="profile-card flex items-center gap-3 m-5 ml-0">
-      <UserCircle className="default-avatar  w-12 h-12 rounded-full border-2 border-foreground p-0.5" />
-      <div className="profile-text">
-        <p className="name">John Doe</p>
-        <p className="role opacity-70">Resident Transport Officer</p>
+      <UserCircle className="default-avatar  w-16 h-16 rounded-full border-2 border-foreground p-0.5" />
+      <div className="profile-text capitalize">
+        <p className="name">{authState.fullname ?? "fleet manager"}</p>
+        <p className="email normal-case text-xs opacity-90">
+          {authState.email}
+        </p>
+        <p className="role opacity-70 text-xs">
+          Role: <span className="font-bold">{authState.role ?? "userme"}</span>
+        </p>
       </div>
     </div>
   );
