@@ -42,7 +42,6 @@ const FleetMaintenance = () => {
           <Link href="/dashboard/fleet-maintenance/new">
             <Button>Add New Maintenance Record</Button>
           </Link>
-          <Button variant="outline">Export Logs (CSV, PDF)</Button>
         </div>
       </div>
 

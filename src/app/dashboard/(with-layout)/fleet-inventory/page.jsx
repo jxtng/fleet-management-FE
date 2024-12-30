@@ -80,7 +80,6 @@ const FleetInventory = () => {
               Add/Document New Vehicle
             </Link>
           </Button>
-          <Button variant="outline">Export Logs (CSV, PDF)</Button>
         </div>
       </div>
 

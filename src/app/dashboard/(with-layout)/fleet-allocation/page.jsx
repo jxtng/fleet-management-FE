@@ -43,7 +43,6 @@ const FleetAllocation = () => {
           >
             <Button>{allocateMode ? "Allocate" : "Assign"} Vehicle</Button>
           </Link>
-          <Button variant="outline">Export Logs (CSV, PDF)</Button>
         </div>
       </div>
 

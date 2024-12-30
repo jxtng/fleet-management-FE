@@ -29,6 +29,7 @@ import {
   ArrowDown,
   ArrowUp,
   ArrowUpDown,
+  Download,
   LayoutGrid,
   Loader2,
   MoreVertical,
@@ -134,7 +135,7 @@ export function DataTable({
         String(data.length).length - String(row.index + 1).length;
       return "0".repeat(lengthDiff) + (row.index + 1);
     },
-    accessorFn: (_, index) => index,
+    accessorFn: (_, index) => index + 1,
   });
 
   columnDefs.push({
@@ -212,7 +213,7 @@ export function DataTable({
 
   return (
     <div>
-      <div className="control flex gap-4 mb-8">
+      <div className="control flex gap-4 mb-4">
         <label htmlFor="search" className="search relative w-full">
           <Search className="absolute top-1/2 -translate-y-1/2 ml-2 w-4 h-4 text-muted-foreground" />
           <Input
@@ -247,34 +248,87 @@ export function DataTable({
           </SelectContent>
         </Select>
 
-        {true && (
-          <div className="radio-group flex items-center justify-around">
-            <Button
-              variant="outline"
-              size="icon"
-              className={`rounded-e-none ${
-                tabularMode
-                  ? "border-primary text-primary"
-                  : "border-input text-input-foreground "
-              }`}
-              onClick={() => setTabularMode(true)}
-            >
-              <Sheet />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              className={`rounded-s-none ${
-                !tabularMode
-                  ? "border-primary text-primary"
-                  : "border-input text-input-foreground"
-              }`}
-              onClick={() => setTabularMode(false)}
-            >
-              <LayoutGrid />
-            </Button>
-          </div>
-        )}
+        <div className="view-radio-group flex items-center justify-around">
+          <Button
+            variant="outline"
+            size="icon"
+            className={`rounded-e-none ${
+              tabularMode
+                ? "border-primary text-primary"
+                : "border-input text-input-foreground "
+            }`}
+            onClick={() => setTabularMode(true)}
+          >
+            <Sheet />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            className={`rounded-s-none ${
+              !tabularMode
+                ? "border-primary text-primary"
+                : "border-input text-input-foreground"
+            }`}
+            onClick={() => setTabularMode(false)}
+          >
+            <LayoutGrid />
+          </Button>
+        </div>
+
+        <Button
+          className="export-table"
+          onClick={() => {
+            let headersContent = "";
+            table.getHeaderGroups()[0].headers.forEach((header) => {
+              let value = header.column.columnDef.header;
+              value =
+                typeof value === "function"
+                  ? value(header.getContext())
+                  : value;
+              headersContent +=
+                value
+                  .split(" ")
+                  .map((word) => word[0].toUpperCase() + word.slice(1))
+                  .join("")
+                  .replaceAll(",", "-") + ",";
+            });
+
+            let bodyContent = "";
+            table.getRowModel().rows.forEach((row) => {
+              row
+                .getAllCells()
+                .forEach(
+                  (cell) =>
+                    (bodyContent +=
+                      String(cell.renderValue()).replaceAll(",", "-") + ",")
+                );
+              bodyContent += "\n";
+            });
+
+            let csvContent = headersContent + "\n" + bodyContent;
+
+            // let url = encodeURI(csvContent);
+            let blob = new Blob([csvContent], {
+              type: "data:text/csv;charset=utf-8;",
+            });
+            let url = URL.createObjectURL(blob);
+
+            let linkElement = document.createElement("a");
+            linkElement.setAttribute("href", url);
+            linkElement.setAttribute(
+              "download",
+              caption
+                ? `${caption.toLowerCase().replaceAll(" ", "-")}.csv`
+                : "fleet-manager-table.csv"
+            );
+            document.body.appendChild(linkElement);
+            linkElement.click();
+            linkElement.remove();
+          }}
+        >
+          Export Table
+          <Download />
+        </Button>
       </div>
 
       {caption && (
