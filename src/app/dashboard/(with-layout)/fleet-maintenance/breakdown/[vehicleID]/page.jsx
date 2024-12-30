@@ -1,17 +1,17 @@
+"use client";
 import SubHeader from "@/components/dashboard/sub-header";
-import TableFilter from "@/components/dashboard/table-filter";
 import { Button } from "@/components/ui/button";
 import maintenanceBreakdown from "@/data/maintenanceBreakdownMockData";
-import { Flag, Plus } from "lucide-react";
+import DataTable from "@/components/ui/data-table";
+import { AlertTriangle, CheckCircle, Edit, Flag, Trash2 } from "lucide-react";
 import Link from "next/link";
-import React from "react";
-import MaintenanceBreakdownTable from "./table";
+import { useParams } from "next/navigation";
 
-const MaintenanceBreakdown = async ({ params }) => {
-  const { vehicleID } = await params;
+const MaintenanceBreakdown = () => {
+  const { vehicleID } = useParams();
   const breakdown = maintenanceBreakdown.find(
     (s) => s.vehicleID === vehicleID
-  ).incidents;
+  )?.incidents;
 
   return (
     <>
@@ -24,8 +24,44 @@ const MaintenanceBreakdown = async ({ params }) => {
         </Button>
       </Link>
 
-      <TableFilter showDisplayToggle={false} />
-      <MaintenanceBreakdownTable data={breakdown} />
+      <DataTable
+        data={breakdown}
+        hiddenColumns={["id", "sn"]}
+        extendedColumns={[
+          {
+            header: "status",
+            accessorKey: "status",
+            cell: ({ getValue }) => (
+              <div className="flex items-center gap-2">
+                {getValue()}
+                {getValue()?.toLowerCase() === "resolved" ? (
+                  <CheckCircle className="text-green-400 shrink-0" size={18} />
+                ) : (
+                  <AlertTriangle
+                    className="text-amber-400 shrink-0"
+                    size={18}
+                  />
+                )}
+              </div>
+            ),
+          },
+        ]}
+        actions={[
+          {
+            label: "Report Breakdown",
+            icon: <Flag className="text-green-400" />,
+            href: "new/",
+          },
+          {
+            label: "Edit Record",
+            icon: <Edit />,
+          },
+          {
+            label: "Delete Record",
+            icon: <Trash2 className="text-red-400" />,
+          },
+        ]}
+      />
     </>
   );
 };

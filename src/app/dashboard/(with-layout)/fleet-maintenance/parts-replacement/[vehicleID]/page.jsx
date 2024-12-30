@@ -1,18 +1,19 @@
+"use client";
+import React from "react";
 import OverviewCard from "@/components/dashboard/overview-card";
 import SubHeader from "@/components/dashboard/sub-header";
-import TableFilter from "@/components/dashboard/table-filter";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import React from "react";
-import PartsReplacementTable from "./table";
+import { Plus, Edit, Eye, Share, Trash2 } from "lucide-react";
 import partsReplacement from "@/data/maintenancePartsReplacementMockData";
 import Link from "next/link";
+import { useParams } from "next/navigation";
+import DataTable from "@/components/ui/data-table";
 
-const PartsReplacement = async ({ params }) => {
-  const { vehicleID } = await params;
+const PartsReplacement = () => {
+  const { vehicleID } = useParams();
   const replacements = partsReplacement.find(
     (vehicle) => vehicle.vehicleID === vehicleID
-  ).replacements;
+  )?.replacements;
 
   return (
     <>
@@ -36,8 +37,22 @@ const PartsReplacement = async ({ params }) => {
         </Button>
       </Link>
 
-      <TableFilter showDisplayToggle={false} />
-      <PartsReplacementTable data={replacements} />
+      <DataTable
+        data={replacements}
+        hiddenColumns={["id"]}
+        actions={[
+          {
+            label: "View Report Details",
+            icon: <Eye className="text-green-400" />,
+          },
+          { label: "Edit Report Details", icon: <Edit /> },
+          { label: "Share Report Details", icon: <Share /> },
+          {
+            label: "Delete Report Info ",
+            icon: <Trash2 className="text-red-400" />,
+          },
+        ]}
+      />
     </>
   );
 };

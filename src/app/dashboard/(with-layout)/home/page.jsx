@@ -8,7 +8,6 @@ import VehicleSummary from "@/components/dashboard/vehicle-summary";
 import LastTrips from "@/components/dashboard/home/last-trips";
 import TripExpenses from "@/components/dashboard/home/trip-expenses";
 import TopLocations from "@/components/dashboard/home/top-locations";
-import TripTable from "@/components/dashboard/home/trip-table";
 import Link from "next/link";
 import { useAuth } from "@/components/auth/auth";
 
@@ -46,8 +45,6 @@ const DashboardHome = () => {
         <TripExpenses className="grow" />
         <TopLocations className="grow" />
       </div>
-
-      <TripTable />
     </div>
   );
 };

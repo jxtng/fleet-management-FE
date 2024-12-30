@@ -3,26 +3,12 @@ import { useState } from "react";
 import Greeting from "@/components/dashboard/greeting";
 import RealTimeInfo from "@/components/dashboard/real-time-info";
 import { Button } from "@/components/ui/button";
-import {
-  ChevronDown,
-  Edit,
-  Eye,
-  History,
-  Share,
-  Trash2,
-  UserCircle,
-} from "lucide-react";
+import { ChevronDown, Edit, Eye, History, Share, Trash2 } from "lucide-react";
 import VehicleSummary from "@/components/dashboard/vehicle-summary";
-import TableFilter from "@/components/dashboard/table-filter";
 import DataTable from "@/components/ui/data-table";
-import InfoCard from "@/components/dashboard/info-card";
 import Link from "next/link";
-import allocationMockData from "@/data/allocationMockData";
-import assignmentMockData from "@/data/assignmentMockData";
-import TableAction from "@/components/dashboard/table-action";
 import useSWR from "swr";
 import { axiosInstance } from "@/lib/axios";
-import Image from "next/image";
 
 const allocationActions = [
   { label: "View recipient full details", icon: <Eye /> },
@@ -37,73 +23,12 @@ const assignmentActions = allocationActions.map((action) => ({
   label: action.label.replace("recipient", "driver"),
 }));
 
-// const allocationColumnDef = [
-//   { th: "Recipient Name", key: "name_of_recipient" },
-//   { th: "Vehicle ID", key: "vehicle_id" },
-//   { th: "Type", key: "vehicle_type" },
-//   { th: "Color", key: "vehicle_color" },
-//   { th: "Make/Model", key: "vehicle_model" },
-//   { th: "Engine Number", key: "engine_number" },
-//   {
-//     th: "Action",
-//     td: ({ row }) => <TableAction row={row} actions={allocationActions} />,
-//   },
-// ];
-
-// const assignmentColumnDef = allocationColumnDef.map((col) => {
-//   if (col.key === "name_of_recipient") {
-//     return { th: "Driver Name", key: "name_of_driver" };
-//   }
-
-//   if (col.th === "Action") {
-//     return {
-//       th: "Action",
-//       td: ({ row }) => <TableAction row={row} actions={assignmentActions} />,
-//     };
-//   }
-//   return col;
-// });
-
 const FleetAllocation = () => {
   const [allocateMode, setAllocateMode] = useState(true);
-  const {
-    data: responseData,
-    isLoading,
-    error,
-  } = useSWR(
+  const { data, isLoading, error } = useSWR(
     allocateMode ? "/allocation/allocate" : "/assigned/assign-vehicle",
-    axiosInstance
+    (url) => axiosInstance.get(url).then((res) => res.data.data)
   );
-  const [filterData, setFilterData] = useState({});
-
-  let data = [];
-  let columnDefs;
-
-  if (responseData) {
-    data = responseData?.data.data;
-    columnDefs = Object.keys(data[0] ?? {})
-      .filter((key) => !key.startsWith("_"))
-      .map((key) => {
-        return {
-          th: (
-            <div className="capitalize">{key.replace(/_([a-z])/g, " $1")}</div>
-          ),
-          td: ({ row }) => (
-            <>
-              {key.includes("img") ? (
-                <img
-                  src={row[key]}
-                  alt="Image"
-                  className="mx-auto max-w-16 w-16"
-                />
-              ) : (
-                row[key]
-              )}
-            </>
-          ),
-        };
-      });
-  }
 
   return (
     <div>
@@ -146,47 +71,25 @@ const FleetAllocation = () => {
         </Button>
       </div>
 
-      <TableFilter onFilterChange={setFilterData} />
-
-      {filterData.displayMode == "cards" ? (
-        <div className="cards flex justify-center flex-wrap gap-4">
-          {data.map((record) => (
-            <InfoCard
-              key={record._id}
-              details={record}
-              include={
-                allocateMode
-                  ? ["vehicle_id", "vehicle_model", "engine_number"]
-                  : ["driver_position", "date_of_assignment"]
-              }
-              title={
-                allocateMode
-                  ? `Recipient Name: ${record.name_of_recipient}`
-                  : `Driver Name: ${record.name_of_driver}`
-              }
-              image={
-                allocateMode && record.recipient_img_id ? (
-                  <img src={record.recipient_img_id} className="max-w-4 w-4" />
-                ) : !allocateMode && record.driver_img_url ? (
-                  <img src={record.driver_img_url} className="max-w-4 w-4" />
-                ) : (
-                  <UserCircle className="w-full h-full p-2 text-muted-foreground" />
-                )
-              }
-            />
-          ))}
-        </div>
-      ) : (
-        <DataTable
-          data={data}
-          isLoading={isLoading}
-          error={error}
-          caption={`Recent ${allocateMode ? "Allocation" : "Assignment"}`}
-          // columnDefs={allocateMode ? allocationColumnDef : assignmentColumnDef}
-          columnDefs={columnDefs}
-          actions={allocationActions}
-        />
-      )}
+      <DataTable
+        data={data}
+        isLoading={isLoading}
+        error={error}
+        caption={`Recent ${allocateMode ? "Allocation" : "Assignment"}`}
+        hiddenColumns={["updatedAt", "createdAt"]}
+        actions={allocateMode ? allocationActions : assignmentActions}
+        cardFields={
+          allocateMode
+            ? [
+                "name_of_recipient",
+                "vehicle_id",
+                "vehicle_model",
+                "engine_number",
+              ]
+            : ["name_of_driver", "driver_position", "date_of_assignment"]
+        }
+        gridImage={allocateMode ? "recipient_img_id" : "driver_img_url"}
+      />
     </div>
   );
 };

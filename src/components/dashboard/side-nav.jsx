@@ -93,12 +93,12 @@ const ProfileCard = () => {
     <div className="profile-card flex items-center gap-3 m-5 ml-0">
       <UserCircle className="default-avatar  w-16 h-16 rounded-full border-2 border-foreground p-0.5" />
       <div className="profile-text capitalize">
-        <p className="name">{authState.fullname ?? "fleet manager"}</p>
+        <p className="name">{authState?.fullname ?? "fleet manager"}</p>
         <p className="email normal-case text-xs opacity-90">
-          {authState.email}
+          {authState?.email}
         </p>
         <p className="role opacity-70 text-xs">
-          Role: <span className="font-bold">{authState.role ?? "userme"}</span>
+          Role: <span className="font-bold">{authState?.role ?? "user"}</span>
         </p>
       </div>
     </div>

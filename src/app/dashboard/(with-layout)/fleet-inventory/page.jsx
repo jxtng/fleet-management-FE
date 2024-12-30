@@ -4,7 +4,6 @@ import Greeting from "@/components/dashboard/greeting";
 import RealTimeInfo from "@/components/dashboard/real-time-info";
 import { Button } from "@/components/ui/button";
 import VehicleSummary from "@/components/dashboard/vehicle-summary";
-import TableFilter from "@/components/dashboard/table-filter";
 import DataTable from "@/components/ui/data-table";
 import { Edit, Eye, History, Share, Trash2, UserCircle } from "lucide-react";
 
@@ -44,27 +43,31 @@ const FleetInventory = () => {
     axiosInstance.get(url).then((response) => response?.data?.data)
   );
 
-  let columnDefs;
-  if (data) {
-    columnDefs = Object.keys(data[0] ?? {})
-      .filter((key) => !key.startsWith("_"))
-      .map((key) => {
-        return {
-          th: (
-            <div className="capitalize">{key.replace(/_([a-z])/g, " $1")}</div>
-          ),
-          td: ({ row }) => (
-            <>
-              {key.includes("img") || key.includes("image") ? (
-                <img src={row[key]} alt="Image" className="mx-auto max-w-16" />
-              ) : (
-                row[key]
-              )}
-            </>
-          ),
-        };
-      });
-  }
+  let columns;
+  // if (data) {
+  // columns = Object.keys(data[0] ?? {})
+  //   .filter(
+  //     (key) =>
+  //       !(key.startsWith("_") || ["updatedAt", "createdAt"].includes(key))
+  //   )
+  //   .map((key) => {
+  //     return {
+  //       header: (
+  //         <div className="capitalize">{key.replace(/_([a-z])/g, " $1")}</div>
+  //       ),
+  //       accessorKey: key,
+  //       cell: ({ row }) => (
+  //         <>
+  //           {key.includes("img") || key.includes("image") ? (
+  //             <img src={row[key]} alt="Image" className="mx-auto max-w-16" />
+  //           ) : (
+  //             row.getValue(key)
+  //           )}
+  //         </>
+  //       ),
+  //     };
+  //   });
+  // }
 
   return (
     <div>
@@ -82,39 +85,15 @@ const FleetInventory = () => {
       </div>
 
       <VehicleSummary />
-      <TableFilter onFilterChange={setFilterData} />
 
-      {filterData.displayMode == "cards" ? (
-        <div className="cards flex justify-between flex-wrap gap-2">
-          {data.map((vehicle) => (
-            <InfoCard
-              key={vehicle._id}
-              details={vehicle}
-              include={["vehicle_model", "engine_number", "createdAt"]}
-              title={`Vehicle ID: ${vehicle.plate_number}`}
-              image={
-                vehicle.image ? (
-                  <img src={vehicle.image} />
-                ) : vehicle.procurement_img ? (
-                  <img src={vehicle.procurement_img} />
-                ) : (
-                  <UserCircle className="w-full h-full p-2 text-muted-foreground" />
-                )
-              }
-              actions={actions}
-            />
-          ))}
-        </div>
-      ) : (
-        <DataTable
-          caption="Vehicle Inventory"
-          data={data}
-          isLoading={isLoading}
-          error={error}
-          columnDefs={columnDefs}
-          actions={actions}
-        />
-      )}
+      <DataTable
+        caption="Vehicle Inventory"
+        data={data}
+        isLoading={isLoading}
+        error={error}
+        actions={actions}
+        cardFields={["vehicle_model", "engine_number", "createdAt"]}
+      />
     </div>
   );
 };

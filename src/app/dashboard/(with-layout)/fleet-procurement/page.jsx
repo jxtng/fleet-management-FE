@@ -35,9 +35,16 @@ const FleetProcurement = () => {
       <div className="flex justify-between items-center flex-wrap gap-2 my-4">
         <RealTimeInfo title="Fleet Inventory" />
         <div className="btn-group flex gap-2">
-          <Link href="/dashboard/fleet-procurement/new-request">
-            <Button>Create New Request</Button>
-          </Link>
+          {viewMode === "management" ? (
+            <Link href="/dashboard/fleet-procurement/new-vendor">
+              <Button>Add New Vendor</Button>
+            </Link>
+          ) : (
+            <Link href="/dashboard/fleet-procurement/new-request">
+              <Button>Create New Request</Button>
+            </Link>
+          )}
+
           <Link href="/dashboard/fleet-procurement/new-category">
             <Button variant="outline">Create Procurement Category</Button>
           </Link>

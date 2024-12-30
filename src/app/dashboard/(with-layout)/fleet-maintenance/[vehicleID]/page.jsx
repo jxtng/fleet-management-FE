@@ -12,11 +12,10 @@ import { axiosInstance } from "@/lib/axios";
 
 const VehicleMaintenanceView = () => {
   const { vehicleID } = useParams();
-  const {
-    data: response,
-    isLoading,
-    error,
-  } = useSWR("/maintainers/maintenance-record", axiosInstance.get);
+  const { data, isLoading, error } = useSWR(
+    "/maintainers/maintenance-record",
+    (url) => axiosInstance.get(url).then((res) => res.data.data)
+  );
 
   if (isLoading || error) {
     return (
@@ -30,9 +29,7 @@ const VehicleMaintenanceView = () => {
     );
   }
 
-  const vehicle = response?.data.data.find(
-    (vehicle) => vehicle.vehicle_id === vehicleID
-  );
+  const vehicle = data.find((vehicle) => vehicle.vehicle_id === vehicleID);
 
   if (!vehicle) notFound();
 
