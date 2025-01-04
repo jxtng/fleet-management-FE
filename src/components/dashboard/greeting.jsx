@@ -5,14 +5,13 @@ import LogoutDialog from "../auth/logout-dialog";
 import { useAuth } from "../auth/auth";
 
 const Greeting = () => {
-  // const auth = useAuth();
-  // console.log(auth);
+  const { authState } = useAuth();
 
   return (
     <div className="greeting flex justify-between text-secondary">
       <h2 className="text-2xl flex items-center gap-2 text">
         <LayoutDashboard className="fill-current" />
-        Good moring, <span className="italic">John Doe</span>
+        Good moring, <span className="italic">{authState?.name}</span>
         👋
       </h2>
       <LogoutDialog>

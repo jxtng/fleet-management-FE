@@ -106,8 +106,7 @@ const VehicleSummary = () => {
           className={cn(
             "grid grid-cols-6 items-center w-48 h-28 gap-4 p-4 rounded-md",
             bg,
-            fg,
-            !errors[key] && data[key] == undefined && "animate-pulse"
+            fg
           )}
         >
           {errors[key] ? (

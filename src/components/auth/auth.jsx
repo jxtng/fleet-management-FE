@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
 
   if (authState === "loading") {
     return (
-      <div className="flex justify-center items-center absolute inset-0 bg-muted animate-pulse">
+      <div className="flex justify-center items-center max-w-[100vw] max-h-[100vh] absolute inset-0 bg-muted animate-pulse">
         <Loader2 className="size-20 animate-spin text-primary" />
       </div>
     );
