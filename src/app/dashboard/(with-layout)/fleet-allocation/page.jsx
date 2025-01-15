@@ -1,17 +1,34 @@
 "use client";
 import { useState } from "react";
-import Greeting from "../_components/greeting";
-import RealTimeInfo from "../_components/real-time-info";
-import Button from "@/components/button";
-import { IconChevronDown } from "@tabler/icons-react";
-import VehicleSummary from "../_components/vehicle-summary";
-import TableFilter from "../_components/table-filter";
-import AllocationTable from "./allocation-table";
-import AllocationCards from "./allocation-cards";
+import Greeting from "@/components/dashboard/greeting";
+import RealTimeInfo from "@/components/dashboard/real-time-info";
+import { Button } from "@/components/ui/button";
+import { ChevronDown, Edit, Eye, History, Share, Trash2 } from "lucide-react";
+import VehicleSummary from "@/components/dashboard/vehicle-summary";
+import DataTable from "@/components/ui/data-table";
+import Link from "next/link";
+import useSWR from "swr";
+import { axiosInstance } from "@/lib/axios";
+
+const allocationActions = [
+  { label: "View recipient full details", icon: <Eye /> },
+  { label: "View recipient history", icon: <History /> },
+  { label: "Edit recipient details", icon: <Edit /> },
+  { label: "Share recipient details", icon: <Share /> },
+  { label: "Delete recipient", icon: <Trash2 className="text-red-400" /> },
+];
+
+const assignmentActions = allocationActions.map((action) => ({
+  ...action,
+  label: action.label.replace("recipient", "driver"),
+}));
 
 const FleetAllocation = () => {
-  const [filterData, setFilterData] = useState({});
   const [allocateMode, setAllocateMode] = useState(true);
+  const { data, isLoading, error } = useSWR(
+    allocateMode ? "/allocation/allocate" : "/assigned/assign-vehicle",
+    (url) => axiosInstance.get(url).then((res) => res.data.data)
+  );
 
   return (
     <div>
@@ -19,8 +36,13 @@ const FleetAllocation = () => {
       <div className="flex justify-between items-center flex-wrap gap-2 my-4">
         <RealTimeInfo title="Fleet Inventory" />
         <div className="btn-group flex gap-2">
-          <Button variant="primary">Allocate Vehicle</Button>
-          <Button variant="outline">Export Logs (CSV, PDF)</Button>
+          <Link
+            href={`/dashboard/fleet-allocation/new${
+              allocateMode ? "" : "-assignment"
+            }`}
+          >
+            <Button>{allocateMode ? "Allocate" : "Assign"} Vehicle</Button>
+          </Link>
         </div>
       </div>
 
@@ -34,7 +56,7 @@ const FleetAllocation = () => {
           } w-full flex justify-center gap-4`}
           onClick={() => setAllocateMode(true)}
         >
-          Allocate Vehicle <IconChevronDown />
+          Allocate Vehicle <ChevronDown />
         </Button>
 
         <Button
@@ -44,20 +66,29 @@ const FleetAllocation = () => {
           } w-full flex justify-center gap-4`}
           onClick={() => setAllocateMode(false)}
         >
-          Assign Vehicle <IconChevronDown />
+          Assign Vehicle <ChevronDown />
         </Button>
       </div>
 
-      <TableFilter onFilterChange={setFilterData} />
-
-      <h2 className="capitalize font-extrabold text-xl text-secondary whitespace-nowrap mb-6">
-        Recent Allocation
-      </h2>
-      {filterData.displayMode == "cards" ? (
-        <AllocationCards />
-      ) : (
-        <AllocationTable />
-      )}
+      <DataTable
+        data={data}
+        isLoading={isLoading}
+        error={error}
+        caption={`Recent ${allocateMode ? "Allocation" : "Assignment"}`}
+        hiddenColumns={["updatedAt", "createdAt"]}
+        actions={allocateMode ? allocationActions : assignmentActions}
+        cardFields={
+          allocateMode
+            ? [
+                "name_of_recipient",
+                "vehicle_id",
+                "vehicle_model",
+                "engine_number",
+              ]
+            : ["name_of_driver", "driver_position", "date_of_assignment"]
+        }
+        gridImage={allocateMode ? "recipient_img_id" : "driver_img_url"}
+      />
     </div>
   );
 };

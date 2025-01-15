@@ -1,27 +1,31 @@
-import Image from "next/image";
+"use client";
+import LoginForm from "@/components/auth/login-form";
 import Link from "next/link";
-import LoginForm from "../_components/login-form";
+import AuthPageTemplate from "@/components/auth/page-template";
+import { useIsAuthenticated } from "@/components/auth/auth";
+import { redirect } from "next/navigation";
 
 const Login = () => {
+  const isAuthenticated = useIsAuthenticated();
+
+  if (isAuthenticated) {
+    redirect("/dashboard");
+  }
+
   return (
-    <div className="flex min-h-screen">
-      <div className="img-area w-1/2 bg-[url(/images/login-bg.svg)] bg-[#11894E]/15 bg-cover"></div>
-      <main className="p-12 pb-8 w-1/2 flex flex-col items-center gap-4 font-light">
-        <Image
-          src="/images/esg-logo.png"
-          width={154}
-          height={154}
-          alt="Enugu State Government Logo"
-          className="w-24 h-24"
-        />
-        <h2 className="font-bold text-lg">Welcome to Enugu State Government</h2>
-        <h2 className="text-4xl">Fleet Management System</h2>
-        <h1 className="text-[#115931] text-2xl font-extrabold self-start">
-          Login
-        </h1>
-        <LoginForm />
-      </main>
-    </div>
+    <AuthPageTemplate
+      title="Login"
+      footer={
+        <p>
+          Dont have an account?{" "}
+          <Link href="/auth/signup" className="text-green-800 hover:underline">
+            Signup
+          </Link>
+        </p>
+      }
+    >
+      <LoginForm />
+    </AuthPageTemplate>
   );
 };
 
