@@ -4,7 +4,7 @@ import React from "react";
 const RootLoader = () => {
   return (
     <div className="flex justify-center items-center absolute inset-0 bg-muted animate-pulse">
-      <Loader2 className="size-20 animate-spin text-primary" />
+      <Loader2 size={48} className="animate-spin text-primary" />
     </div>
   );
 };

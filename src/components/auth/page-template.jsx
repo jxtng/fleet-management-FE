@@ -13,10 +13,10 @@ const AuthPageTemplate = ({
     <div className="min-h-screen">
       <div
         className={cn(
-          "duration-1000 img-wrapper overflow-hidden fixed top-0 left-0 bottom-0 right-1/2",
+          "duration-1000 img-wrapper overflow-hidden fixed inset-0 md:right-1/2",
           transitioningTo
-            ? "animate-out slide-out-to-left-10 fade-out fill-mode-forwards"
-            : "animate-in slide-in-from-left-10 fade-in fill-mode-forwards"
+            ? "animate-out fade-out fill-mode-forwards"
+            : "animate-in fade-in fill-mode-forwards"
         )}
         onAnimationEnd={onAnimationEnd}
       >
@@ -24,10 +24,11 @@ const AuthPageTemplate = ({
       </div>
       <main
         className={cn(
-          "animate-in slide-in-from-right-10 fade-in duration-1000 p-12 pb-8 flex flex-col items-center gap-4 absolute top-0 left-1/2 right-0 min-h-full",
+          "duration-1000 max-sm:px-4 p-12 pb-8 flex flex-col items-center gap-4 min-h-full",
+          "md:absolute top-0 left-1/2 right-0 bg-white/90",
           transitioningTo
-            ? "animate-out slide-out-to-right-10 fade-out fill-mode-forwards"
-            : "animate-in slide-in-from-right-10 fade-in fill-mode-forwards"
+            ? "animate-out fade-out fill-mode-forwards"
+            : "animate-in fade-in fill-mode-forwards"
         )}
         onAnimationEnd={onAnimationEnd}
       >

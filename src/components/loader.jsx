@@ -12,7 +12,7 @@ export const FullLoader = ({ label, className }) => {
       )}
     >
       <div className={cn("svg-wrapper", label && "animate-pulse")}>
-        <Loader2 className={cn("size-20 animate-spin text-primary")} />
+        <Loader2 size={48} className={cn("animate-spin text-primary")} />
       </div>
       {label && (
         <p className="text-center">

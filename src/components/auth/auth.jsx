@@ -2,6 +2,8 @@ import { axiosInstance } from "@/lib/axios";
 import { Loader2 } from "lucide-react";
 import { redirect } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
+import FleetManagementBg from "../fleet-management-bg";
+import { cn } from "@/lib/utils";
 
 const Auth = createContext();
 
@@ -44,8 +46,13 @@ export const AuthProvider = ({ children }) => {
 
   if (authState === "loading") {
     return (
-      <div className="flex justify-center items-center max-w-[100vw] max-h-[100vh] absolute inset-0 bg-muted animate-pulse">
-        <Loader2 className="size-20 animate-spin text-primary" />
+      <div className="overflow-hidden py-4 flex flex-col items-center justify-center text-center animate-in fade-in h-screen gap-4 bg-[#11894E]/15 duration-1000">
+        <h2 className="text-lg font-bold text-secondary">PineApp</h2>
+        <h1 className="text-3xl text-green-800">Fleet Management System</h1>
+        <div className="flex gap-2 text-secondary">
+          <Loader2 className="text-green-800 animate-spin" /> Initializing App
+        </div>
+        <FleetManagementBg className="bg-transparent h-full animate-pulse" />
       </div>
     );
   }
